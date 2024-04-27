@@ -10,7 +10,7 @@ const routes = [
 
   {
     path: '/', name: 'login', meta: { title: '登录页' }, component: () => import('../views/Login')
-  },
+  }, // path："/"，表示默认页面，打开项目的第一个页面
 
   {
     path: '/notPage', name: 'notPage', meta: { title: '无页面' }, component: () => import('../views/404')
@@ -152,7 +152,7 @@ const routes = [
 ]
 const router = new VueRouter({
   // mode: 'history',
-  mode: 'hash',
+  mode: 'hash',//路由选择方式两种：hash一般选择、history---后续了解一下！！！
   routes
 })
 
@@ -167,6 +167,19 @@ router.beforeEach((to, from, next) => {
     next();
   }
 })
+
+// 前置守卫 to: 要去的页面，  from：从哪个页面  next： 跳转操作函数
+// 主要是确保用户登录状态，登录过期及重新登录
+// router.beforeEach((to, from, next) => {
+//   if (to.path === '/') return next()
+//   const storedToken  = window.sessionStorage.getItem('token') // sessionStorage 存储的登录token
+//   if (!storedToken) {
+//     // 禁止访问页面
+//     next({ path: '/' });
+//   } else {
+//     next();
+//   }
+// })
 
 // 解决ElementUI导航栏中的vue-router在3.0版本以上重复点菜单报错问题
 const originalPush = VueRouter.prototype.push

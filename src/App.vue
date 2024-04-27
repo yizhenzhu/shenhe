@@ -48,7 +48,7 @@ export default {
           // this.$store.dispatch("/");
           this.$message("连接超时，重新登录");
           this.$router.push({ name: "login" });
-          sessionStorage.clear();
+          sessionStorage.clear();//浏览器的本地存储
           this.lastTime = new Date().getTime();
         } else {
           this.lastTime = new Date().getTime(); //如果在15分钟内点击，则把这次点击的时间记录覆盖掉之前存的最后一次点击的时间

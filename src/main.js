@@ -16,10 +16,10 @@ import dayjs from 'dayjs'
 Vue.prototype.$echarts = echarts
 // Vue.prototype.$=jquery
 
-Vue.prototype.$http = axios
-Vue.prototype.formatDate = formatDate
+Vue.prototype.$http = axios//调用this.$http
+Vue.prototype.formatDate = formatDate//格式化时间
 Vue.prototype.$times = dayjs
-Vue.use(Element)
+Vue.use(Element) //element ui--button组件实例、https://element.eleme.cn/#/en-US/component/button---现有样式学习
 Vue.use(preventClick)
 // Vue.use(store)
 Vue.config.productionTip = false

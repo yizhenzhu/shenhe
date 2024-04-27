@@ -13,7 +13,7 @@
       active-text-color="rgb(69 125 187)"
     >
       <NavItem
-        v-for="(v, index) in items"
+        v-for="(v, index) in items2"
         :key="index"
         :item="v"
         :path="v.name"
@@ -120,7 +120,7 @@ export default {
         },
         {
           menuName: "复审",
-          menuUrl: "/reviewcase",
+          menuUrl: "/reviewcase",//选中跳转！！！！了解
           name: "reviewcase",
           menuType: 1,
         },

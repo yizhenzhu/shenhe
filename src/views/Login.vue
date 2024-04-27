@@ -74,6 +74,7 @@ export default {
   },
   methods: {
     submitForm(param) {
+      // this.$router.push("/welcome"); // 跳转主页welcome
       // submit(param) {
         // console.log(1);
         this.loading = true
