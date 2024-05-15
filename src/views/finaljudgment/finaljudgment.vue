@@ -1193,6 +1193,8 @@ export default {
               this.disab=false
               
         this.xq(1); //再请求下一页数据
+      }else{
+        this.$message(res.message);
       }
     },
 
@@ -1324,6 +1326,8 @@ export default {
         ];
           this.disab=false
         this.xq(3); //再请求下一页数据
+      }else{
+        this.$message(res.message);
       }
     },
     //tab2提交
@@ -1457,6 +1461,8 @@ export default {
         ];
           this.disab=false
         this.xq(2); //再请求下一页数据
+      }else{
+        this.$message(res.message);
       }
     },
     // _________________________
