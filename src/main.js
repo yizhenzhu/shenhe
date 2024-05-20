@@ -13,7 +13,7 @@ import formatDate from './utils/formatDate'
 import * as echarts from 'echarts'
 import dayjs from 'dayjs'
 
-
+//原型链
 Vue.prototype.$echarts = echarts
 // Vue.prototype.$=jquery
 

@@ -175,6 +175,12 @@ export default {
             
           ],
         },
+        {
+          menuName: "域名判定查询",
+          menuUrl: "/domain_decide",
+          name: "domain_decide",
+          menuType: 1,
+        },
       ],
     };
   },

@@ -58,8 +58,8 @@ export default {
       loading:false,
       newarr: [],
       param: {
-        username: "",
-        password: "",
+        username: "admin",
+        password: "xyymyylyyfyy",
       },
       rules: {
         username: [
@@ -77,14 +77,15 @@ export default {
       // this.$router.push("/welcome"); // 跳转主页welcome
       // submit(param) {
         // console.log(1);
-        this.loading = true
+        this.loading = true//当前登陆界面--圆圈
         const token = uuidv4()
-      this.$refs[param].validate(async (valid) => {
+      this.$refs[param].validate(async (valid) => {//前端验证
         if (valid) {
           try {
             const formData = new FormData();
             formData.append("username", this.param.username);
             formData.append("password", this.param.password);
+            console.log(formData)
             const res = await this.$http.post("/user/login", formData);
             // const res = await this.$http.get("/covid");
             if (res.data.code == 200) {
@@ -107,10 +108,10 @@ export default {
               this.$router.push("/welcome");
             } else {
               this.$message("账号或密码错误！");
-              this.loading = false
+              this.loading = false//不转圆圈
             }
           } catch (e) {
-            this.$message.error(e);
+            this.$message.error(e);//e---error缩写，打印问题
             this.loading = false
           }
         } else {
@@ -142,7 +143,8 @@ export default {
   text-align: center;
   font-size: 20px;
   color: #fff;
-  border-bottom: 1px solid #ddd;
+  /* border-bottom: 1px solid #ddd; */
+  margin-bottom: 20px;
 }
 .ms-login {
   position: absolute;
@@ -153,7 +155,7 @@ export default {
   /* margin: -190px 0 0 -175px; */
   /* margin: -190px 0 0 -140px; */
   border-radius: 5%;
-  background: rgba(255, 255, 255, 0.2);
+  /* background: rgba(255, 255, 255, 0.2); */
   overflow: hidden;
   box-shadow: 2px 2px 1px #000;
 }

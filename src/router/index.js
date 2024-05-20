@@ -158,6 +158,7 @@ const router = new VueRouter({
 
 // 前置守卫
 router.beforeEach((to, from, next) => {
+  // console.log(to,from)
   if (to.path === '/') return next()
   const storedToken  = window.sessionStorage.getItem('token')
   if (!storedToken) {
