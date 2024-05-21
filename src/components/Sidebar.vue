@@ -118,7 +118,7 @@ export default {
           name: "Preliminaryexamination",
           menuType: 1,
         },
-        {
+        /* {
           menuName: "复审",
           menuUrl: "/reviewcase",//选中跳转！！！！了解
           name: "reviewcase",
@@ -180,7 +180,7 @@ export default {
           menuUrl: "/domain_decide",
           name: "domain_decide",
           menuType: 1,
-        },
+        }, */
       ],
     };
   },

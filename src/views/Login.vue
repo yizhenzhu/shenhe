@@ -1,7 +1,8 @@
 <template>
   <div class="login-wrap">
     <div class="ms-login">
-      <div class="ms-title">审核系统</div>
+      <div class="ms-title">机审平台</div>
+      <div class="ms-kuang">
       <el-form
         :model="param"
         :rules="rules"
@@ -16,14 +17,6 @@
               <el-button icon="el-icon-user"></el-button>
             </template>
           </el-input>
-
-          <!-- <el-button icon="el-icon-user" class="ic"></el-button>
-
-          <el-select v-model="param.username" placeholder="用户名" style="width:17.6875rem">
-            <el-option label="sadmin(超级)" value="sadmin"></el-option>
-            <el-option label="admin(管理员)" value="admin"></el-option>
-            <el-option label="bob(操作员)" value="bob）"></el-option>
-          </el-select> -->
         </el-form-item>
         <el-form-item prop="password">
           <el-input
@@ -47,6 +40,7 @@
         <!--                <p class="login-tips">Tips : 用户名和密码随便填。</p>-->
       </el-form>
     </div>
+    </div>
   </div>
 </template>
 
@@ -58,8 +52,8 @@ export default {
       loading:false,
       newarr: [],
       param: {
-        username: "admin",
-        password: "xyymyylyyfyy",
+        username: "",
+        password: "",
       },
       rules: {
         username: [
@@ -141,10 +135,16 @@ export default {
   width: 100%;
   line-height: 50px;
   text-align: center;
-  font-size: 20px;
+  font-size: 30px;
   color: #fff;
   /* border-bottom: 1px solid #ddd; */
   margin-bottom: 20px;
+}
+.ms-kuang{
+  background: #fff;
+  width: 400px; /* 设置宽度为100px */
+  height: 300px; /* 设置高度为100px */
+  border-radius: 10px;
 }
 .ms-login {
   position: absolute;
@@ -157,18 +157,20 @@ export default {
   border-radius: 5%;
   /* background: rgba(255, 255, 255, 0.2); */
   overflow: hidden;
-  box-shadow: 2px 2px 1px #000;
+  /* box-shadow: 2px 2px 1px #000; */
 }
 .ms-content {
-  padding: 30px 30px;
+  padding: 50px 50px;
 }
 .login-btn {
   text-align: center;
 }
 .login-btn button {
-  width: 100%;
+  width: 50%;
   height: 36px;
   margin-bottom: 10px;
+  border-radius: 18px;
+  margin-top: 20px;
 }
 .login-tips {
   font-size: 12px;
