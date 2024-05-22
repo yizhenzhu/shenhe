@@ -99,7 +99,7 @@ export default {
               // window.sessionStorage.setItem("isLogin", "true");
 
               this.loading = false
-              this.$router.push("/welcome");
+              this.$router.push("/Preliminaryexamination");
             } else {
               this.$message("账号或密码错误！");
               this.loading = false//不转圆圈
@@ -128,7 +128,7 @@ export default {
   height: 100%;
   /* background-image: url(../assets/img/login-bg.jpg); */
   /* background: #ffffff00 url(../assets/img/login-bg.jpg) no-repeat fixed top; */
-  background: #ffffff00 url(../assets/img/login-bg.jpg) center center no-repeat;
+  background: #ffffff00 url(../assets/img/change-bg.png) center center no-repeat;
   background-size: 100% 100%;
 }
 .ms-title {

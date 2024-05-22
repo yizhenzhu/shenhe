@@ -106,16 +106,69 @@ export default {
       ],
       // 新需求：测试
       items2: [
-        {
+        /* {
           menuName: "首页",
           menuUrl: "/welcome",
           name: "welcome",
           menuType: 1,
+        }, */
+        {
+          menuName: "警情",
+          menuUrl: "/jingqing",
+          name: "jingqing",
+          menuType: 0,
+          children:[
+        {
+          menuName: "警情上传",
+          menuUrl: "/domain_decide",
+          name: "domain_decide",
+          menuType: 1,
+          //menuType:0
         },
         {
-          menuName: "初审",
-          menuUrl: "/Preliminaryexamination",
-          name: "Preliminaryexamination",
+          menuName: "警情审核",
+          menuUrl: "/Role",
+          name: "Role",
+          menuType: 1,
+        },
+        {
+          menuName: "警情处置",
+          menuUrl: "/menu",
+          name: "menu",
+          menuType: 1,
+        },
+          ]
+        },
+        {
+          menuName: "审核",
+          menuUrl: "/jingqing",
+          name: "jingqing",
+          menuType: 0,
+          children:[
+          {
+            menuName: "初审",
+            menuUrl: "/Preliminaryexamination",
+            name: "Preliminaryexamination",
+            menuType: 1,
+          },
+          {
+            menuName: "复审",
+            menuUrl: "/reviewcase",//选中跳转！！！！了解
+            name: "reviewcase",
+            menuType: 1,
+          },
+          {
+            menuName: "审核日志",
+            menuUrl: "/technologicalprocess",
+            name: "technologicalprocess",
+            menuType: 1,
+          },
+          ]
+        },
+        {
+          menuName: "用户管理",
+          menuUrl: "/user",
+          name: "user",
           menuType: 1,
         },
         /* {
@@ -450,12 +503,6 @@ export default {
   height: 67px;
   line-height: 70px;
 }
-/deep/.el-submenu__title {
-}
-// .el-submenu{
-//   padding: 10px;
-//     box-sizing: border-box;
-// }
 .el-submenu /deep/ img {
   box-sizing: border-box;
   width: 100%;
@@ -464,6 +511,6 @@ export default {
 .el-menu-item /deep/ img {
   box-sizing: border-box;
   width: 100%;
-  height: 100%;
+  height: 100%; 
 }
 </style>

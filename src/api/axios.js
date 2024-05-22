@@ -2,6 +2,7 @@ import axios from 'axios'
 import https from 'https'
 import router from '@/router' // 引入路由对象实例
 const baseUrl = '/platform'
+
 const instance = axios.create({
   baseURL:baseUrl,
   headers: { 'Content-Type': 'application/json' },
@@ -10,17 +11,35 @@ const instance = axios.create({
     rejectUnauthorized: false
   })
   // timeout:10000
-})
+});
 
 instance.interceptors.response.use(function (response) {
   // 响应数据  返回得到的响应数据  第一层data是axios默认包data, 第二个data是接口返回里面的包的data
+// 请求拦截器
+// instance.interceptors.request.use(config => {
+//   // 如果请求包含特定的路径，修改 baseURL
+//   if (config.url.includes('/export/markdown')) {
+//     config.baseURL = 'http://rap2api.taobao.org';
+//   }
+//   return config;
+// }, error => {
+//   return Promise.reject(error);
+// });
+
+// // 响应拦截器
+// instance.interceptors.response.use(function (response) {
+//   // 响应数据  
+  
+  
   try {
     return response
     
   } catch (error) {
     return response
   }
-}, async function (error) {
+},
+
+ async function (error) {
   // 错误的时候 token容易失效  处理token失效的问题
   // 如何判断失效
   // error  => config (当前请求 的配置) request(请求) response(响应)

@@ -2,7 +2,7 @@
   <div class="header">
     <!-- 折叠按钮 -->
     <img src="@/assets/img/police.png" alt />
-    <div class="logo">审核系统</div>
+    <div class="logo">机审平台</div>
     <!-- <div class="collapse-btn" @click="collapseChage"></div> -->
     <div class="header-right">
       <div class="header-user-con">
