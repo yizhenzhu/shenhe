@@ -52,8 +52,8 @@ export default {
       loading:false,
       newarr: [],
       param: {
-        username: "",
-        password: "",
+        username: "admin",
+        password: "xyymyylyyfyy",
       },
       rules: {
         username: [
@@ -79,8 +79,14 @@ export default {
             const formData = new FormData();
             formData.append("username", this.param.username);
             formData.append("password", this.param.password);
+            let list={
+              username:this.param.username,
+              password: this.param.password
+            }
             console.log(formData)
-            const res = await this.$http.post("/user/login", formData);
+            // const res = await this.$http.post("/login", list);
+            const res = await this.$http.post("/login", formData);
+            // const res = await this.$http.post("/login", formData);
             // const res = await this.$http.get("/covid");
             if (res.data.code == 200) {
               this.$message("登录成功");

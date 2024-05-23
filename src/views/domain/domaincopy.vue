@@ -4,42 +4,7 @@
         <el-row :gutter="20">
           <el-col :span="18"
             ><div class="grid-content bg-purple">             
-               
-              <!-- 流程记录页面头部模块——域名 -->
-                           <el-form-item>
-                <el-select
-                  v-model="form.selectURL"
-                  placeholder="URL"
-                  clearable
-                  @clear="selectURL_clearFun(form.selectURL)"
-                >
-                  <el-option
-                    v-for="item in selectData.selectURL"
-                    :key="item.id"
-                    :label="item.name"
-                    :value="item.id"
-                  >
-                  </el-option>
-                </el-select>
-              </el-form-item>
-              <!-- 流程记录页面头部模块——初审 -->
-              <el-form-item>
-                <el-select
-                  v-model="form.laiyuan"
-                  placeholder="来源"
-                  clearable
-                  @clear="chushen_clearFun(form.laiyuan)"
-                >
-                  <el-option
-                    v-for="item in selectData.laiyuan"
-                    :key="item.id"
-                    :label="item.name"
-                    :value="item.id"
-                  >
-                  </el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item>
+                <el-form-item>
                   <el-date-picker
                     v-model="form.datetime"
                     type="daterange"
@@ -52,6 +17,60 @@
                   >
                   </el-date-picker>
                 </el-form-item>
+              <!-- 流程记录页面头部模块——域名 -->
+              <el-form-item>
+                <el-input v-model="form.domain" placeholder="请输入域名"></el-input>
+              </el-form-item>
+              <el-form-item>
+                <el-select
+                  v-model="form.chengshi"
+                  placeholder="城市"
+                  clearable
+                  @clear="chengshi_clearFun(form.chengshi)"
+                >
+                  <el-option
+                    v-for="item in selectData.chengshi"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id"
+                  >
+                  </el-option>
+                </el-select>
+              </el-form-item>
+              <!-- 流程记录页面头部模块——初审 -->
+              <el-form-item>
+                <el-select
+                  v-model="form.shenhe"
+                  placeholder="审核状态"
+                  clearable
+                  @clear="chushen_clearFun(form.shenhe)"
+                >
+                  <el-option
+                    v-for="item in selectData.shenhe"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  >
+                  </el-option>
+                </el-select>
+              </el-form-item>
+              <!-- 流程记录页面头部模块——复审 -->
+              <el-form-item>
+                <el-select
+                  v-model="form.chuzhi"
+                  placeholder="处置状态"
+                  clearable
+                  @clear="fushen_clearFun(form.chuzhi)"
+                >
+                  <el-option
+                    v-for="item in selectData.chuzhi"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  >
+                  </el-option>
+                </el-select>
+              </el-form-item>
               </div
           ></el-col>
           <el-col :span="6"
@@ -61,17 +80,17 @@
                 >查询</el-button
               >
               <el-button size="mini" type="success" plain @click="chongzhi"
-                >上传</el-button
+                >重置</el-button
               >
               <!-- 导出 -->
-             <!--  <el-button
+              <el-button
                 size="mini"
                 type="info"
                 plain
                 @click="put"
                 :loading="loadingbut"
                 >{{ loadingbuttext }}</el-button
-              > -->
+              >
             </div></el-col
           >
         </el-row>
@@ -89,7 +108,7 @@
         empty-text="暂无数据"
         v-loading="loading"
       >
-       <!--  <el-table-column prop="id" label="序号" type="index" min-width="5%">
+        <el-table-column prop="id" label="序号" type="index" min-width="5%">
           <template slot-scope="scope"
             ><span v-text="getIndex(scope.$index)"></span
           ></template>
@@ -98,16 +117,12 @@
           <template slot-scope="scope">
             {{ time(scope.row.createTime) }}
           </template>
-        </el-table-column> -->
-        <el-table-column prop="url" label="URL" show-overflow-tooltip min-width="15%">
         </el-table-column>
-        <el-table-column prop="leixing" label="类型" min-width="8%"> </el-table-column>
-        <el-table-column prop="source" label="来源" min-width="8%"> </el-table-column>
-        <el-table-column prop="shangchuanren" label="上传人" min-width="8%"> </el-table-column>
-        <el-table-column prop="shangchuanfangshi" label="上传方式" min-width="8%"> </el-table-column>
-        <el-table-column prop="shangchuanshijian" label="上传时间" min-width="8%"> </el-table-column>
+        <el-table-column prop="url" label="域名" show-overflow-tooltip min-width="15%">
+        </el-table-column>
+        <el-table-column prop="source" label="城市" min-width="8%"> </el-table-column>
         
-        <!-- <el-table-column prop="auditStatusName" label="审核状态" min-width="8%">
+        <el-table-column prop="auditStatusName" label="审核状态" min-width="8%">
           <template slot-scope="scope">
             {{ scope.row.auditStatusName }}
           </template>
@@ -126,7 +141,7 @@
           <template slot-scope="scope">
             {{ scope.row.auditResultName }}
           </template>
-        </el-table-column> -->
+        </el-table-column>
         <!-- <el-table-column prop="url9" label="备注"> </el-table-column> -->
       </el-table>
       <div class="bottom">
@@ -155,9 +170,9 @@
         loading: false,
         form: {
           domain: null,
-          laiyuan: null,
+          shenhe: null,
           chuzhi: null,
-          selectURL:null,
+          chengshi:null,
           datetime:[
             dayjs().subtract(1, 'week').format("YYYY-MM-DD") ,dayjs(new Date()).format("YYYY-MM-DD")
           ],
@@ -177,22 +192,22 @@
         totalPages: "",
         selectData: {
           type: [],
-          selectURL: [
+          chengshi: [
             
           ],
-          laiyuan: [
-            // {
-            //   value: '0',
-            //   label: "待审核",
-            // },
-            // {
-            //   value: '1',
-            //   label: "审核中",
-            // },
-            // {
-            //   value: '2',
-            //   label: "已审核",
-            // },
+          shenhe: [
+            {
+              value: '0',
+              label: "待审核",
+            },
+            {
+              value: '1',
+              label: "审核中",
+            },
+            {
+              value: '2',
+              label: "已审核",
+            },
           ],
           chuzhi: [
           {
@@ -213,8 +228,7 @@
     created() {
     //   this.form.username=JSON.parse(window.sessionStorage.getItem('one'))
     //   this.techlist();
-      this.suoshudi();
-      this.suoshudi2()
+      this.suoshudi()
     },
     methods: {
       // 城市下拉框数据
@@ -225,7 +239,7 @@
         // const [data1,data2] = await Promise.all([promise1,promise2])
         const { data:res } = await promise1
         if(res.code === 200){
-          this.selectData.selectURL = res.data
+          this.selectData.chengshi = res.data
         }
         // if(data1.data.code === 200 && data2.data.code === 200){
         //   this.selectData.fushen = data1.data.data
@@ -242,16 +256,6 @@
         // }
         this.techlist()
       },
-      //来源下拉框
-      async suoshudi2() {
-        this.loading = true
-        const promise1 =  this.$http.get("/dictionary/datasource");
-        const { data:res } = await promise1
-        if(res.code === 200){
-          this.selectData.laiyuan = res.data
-        }
-        this.techlist()
-      },
       //初始化列表
       async techlist() {
         this.loading = true
@@ -261,13 +265,8 @@
           url: this.form.domain,
           start: this.whiteSearchList.startCreateTime,
           end: this.whiteSearchList.endCreateTime,
-          source: this.form.selectURL,
-          shangchuanren:this.form.shangchuanren,
-          shangchuanfangshi:this.form.shangchuanfangshi,
-          shangchuanshijian:this.form.shangchuanshijian,
-          
-          leixing:this.form.leixing,
-          auditStatus: this.form.laiyuan,
+          source: this.form.chengshi,
+          auditStatus: this.form.shenhe,
           treatStatus: this.form.chuzhi,
         };
         const { data: res } = await this.$http.get("/originDomain/query", {params:list});
@@ -289,9 +288,9 @@
         this.form.chuzhi = null;
         this.mypageable.pageNum = 1;
         this.mypageable.pageSize = 50;
-        this.form.laiyuan = null;
+        this.form.shenhe = null;
         this.form.username = null;
-        this.form.selectURL = null
+        this.form.chengshi = null
         this.form.domain = null
         this.whiteSearchList.startCreateTime = dayjs().subtract(1, 'week').format("YYYY-MM-DD");
         this.whiteSearchList.endCreateTime = dayjs(new Date()).format("YYYY-MM-DD");
@@ -310,8 +309,8 @@
           url: this.form.domain,
           start: this.whiteSearchList.startCreateTime,
           end: this.whiteSearchList.endCreateTime,
-          source: this.form.selectURL,
-          auditStatus: this.form.laiyuan,
+          source: this.form.chengshi,
+          auditStatus: this.form.shenhe,
           treatStatus: this.form.chuzhi,
         };
         if(this.tableData.length==0){
@@ -360,7 +359,7 @@
       },
       chushen_clearFun(val) {
         if (val == "") {
-          this.form.laiyuan = null;
+          this.form.shenhe = null;
         }
       },
       fushen_clearFun(val) {

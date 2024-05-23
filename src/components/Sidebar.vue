@@ -11,6 +11,7 @@
       background-color="#545c64"
       text-color="#fff"
       active-text-color="rgb(69 125 187)"
+      active-background-color="#cf430c"
     >
       <NavItem
         v-for="(v, index) in items2"
@@ -141,8 +142,8 @@ export default {
         },
         {
           menuName: "审核",
-          menuUrl: "/jingqing",
-          name: "jingqing",
+          menuUrl: "/shenhe",
+          name: "shenhe",
           menuType: 0,
           children:[
           {
@@ -512,5 +513,8 @@ export default {
   box-sizing: border-box;
   width: 100%;
   height: 100%; 
+} 
+/deep/.el-menu-item /deep/ .is-active {
+    background-color: red;
 }
 </style>
