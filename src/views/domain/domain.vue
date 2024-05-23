@@ -106,6 +106,7 @@
         <el-table-column prop="shangchuanren" label="上传人" min-width="8%"> </el-table-column>
         <el-table-column prop="shangchuanfangshi" label="上传方式" min-width="8%"> </el-table-column>
         <el-table-column prop="shangchuanshijian" label="上传时间" min-width="8%"> </el-table-column>
+        <el-table-column prop="beizhu" label="备注" min-width="8%"> </el-table-column>
         
         <!-- <el-table-column prop="auditStatusName" label="审核状态" min-width="8%">
           <template slot-scope="scope">
@@ -265,6 +266,7 @@
           shangchuanren:this.form.shangchuanren,
           shangchuanfangshi:this.form.shangchuanfangshi,
           shangchuanshijian:this.form.shangchuanshijian,
+          beizhu:this.form.beizhu,
           
           leixing:this.form.leixing,
           auditStatus: this.form.laiyuan,

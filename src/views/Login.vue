@@ -52,8 +52,8 @@ export default {
       loading:false,
       newarr: [],
       param: {
-        username: "admin",
-        password: "xyymyylyyfyy",
+        username: "",
+        password: "",
       },
       rules: {
         username: [
@@ -85,7 +85,7 @@ export default {
             }
             console.log(formData)
             // const res = await this.$http.post("/login", list);
-            const res = await this.$http.post("/login", formData);
+            const res = await this.$http.post("/user/login", formData);
             // const res = await this.$http.post("/login", formData);
             // const res = await this.$http.get("/covid");
             if (res.data.code == 200) {

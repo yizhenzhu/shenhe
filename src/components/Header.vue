@@ -1,5 +1,5 @@
 <template>
-  <div class="header">
+  <div class="header" >
     <!-- 折叠按钮 -->
     <img src="@/assets/img/police.png" alt />
     <div class="logo">机审平台</div>
@@ -229,6 +229,7 @@ export default {
   height: 50px;
   font-size: 22px;
   color: #fff;
+  background-color: rgb(20, 124, 234);
   /* border-bottom: 1px solid #fff; */
 }
 .collapse-btn {

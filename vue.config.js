@@ -9,6 +9,7 @@ module.exports = {
         // target:'http://10.8.0.120:8803',   //新测试环境
         // target:'https://api.vvhan.com/api',
         target:'http://10.8.0.249:8804',
+        // target:'http://61.148.190.222:8000',
         ws: true,
         changeOrigin: true,
         secure: false, // 如果是https接口，需要配置这个参数  https:false

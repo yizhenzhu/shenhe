@@ -1,5 +1,5 @@
 <template>
-  <div class="sidebar" style="background-color: #545c64;">
+  <div class="sidebar" style="background-color: rgb(39 136 233);">
     <!-- 在每天下午4点显示弹窗 -->
     <el-dialog title="提醒" :visible="showPopup" @close="closePopup">
       <p>请您及时清空审核数据。</p>
@@ -8,8 +8,8 @@
       router
       :default-active="$route.path"
       class="sidebar-el-menu"
-      background-color="#545c64"
-      text-color="#fff"
+      background-color="#f0ecce"
+      text-color="#black"
       active-text-color="rgb(69 125 187)"
       active-background-color="#cf430c"
     >
@@ -119,25 +119,25 @@ export default {
           name: "jingqing",
           menuType: 0,
           children:[
-        {
-          menuName: "警情上传",
-          menuUrl: "/domain_decide",
-          name: "domain_decide",
-          menuType: 1,
-          //menuType:0
-        },
-        {
-          menuName: "警情审核",
-          menuUrl: "/Role",
-          name: "Role",
-          menuType: 1,
-        },
-        {
-          menuName: "警情处置",
-          menuUrl: "/menu",
-          name: "menu",
-          menuType: 1,
-        },
+            {
+              menuName: "警情上传",
+              menuUrl: "/domain_decide",
+              name: "domain_decide",
+              menuType: 1,
+              //menuType:0
+            },
+            {
+              menuName: "警情审核",
+              menuUrl: "/jingqingshenhe",
+              name: "jingqingshenhe",
+              menuType: 1,
+            },
+            {
+              menuName: "警情处置",
+              menuUrl: "/menu",
+              name: "menu",
+              menuType: 1,
+            },
           ]
         },
         {
@@ -148,8 +148,8 @@ export default {
           children:[
           {
             menuName: "初审",
-            menuUrl: "/Preliminaryexamination",
-            name: "Preliminaryexamination",
+            menuUrl: "/chushen",
+            name: "chushen",
             menuType: 1,
           },
           {
@@ -503,18 +503,19 @@ export default {
 /deep/.el-submenu__title {
   height: 67px;
   line-height: 70px;
+
 }
 .el-submenu /deep/ img {
   box-sizing: border-box;
   width: 100%;
   height: 100%;
+  
+
 }
 .el-menu-item /deep/ img {
   box-sizing: border-box;
   width: 100%;
   height: 100%; 
 } 
-/deep/.el-menu-item /deep/ .is-active {
-    background-color: red;
-}
+
 </style>
