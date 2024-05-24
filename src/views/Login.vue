@@ -105,7 +105,7 @@ export default {
               // window.sessionStorage.setItem("isLogin", "true");
 
               this.loading = false
-              this.$router.push("/Preliminaryexamination");
+              this.$router.push("/domain_decide");
             } else {
               this.$message("账号或密码错误！");
               this.loading = false//不转圆圈

@@ -154,8 +154,8 @@ export default {
           },
           {
             menuName: "复审",
-            menuUrl: "/reviewcase",//选中跳转！！！！了解
-            name: "reviewcase",
+            menuUrl: "/fushen",//选中跳转！！！！了解
+            name: "fushen",
             menuType: 1,
           },
           {
@@ -280,11 +280,11 @@ export default {
       if (res.code == 200) {
         if(res.data.role === 'ADMIN'){
           this.items.push(
-            {
+            /* {
               menuName:"首页",
               name:"welcome",
               menuType: 1,
-            },
+            }, */
         {
           menuName: "初审",
           name: "Preliminaryexamination",
