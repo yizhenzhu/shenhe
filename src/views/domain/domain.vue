@@ -61,7 +61,7 @@
             <el-button size="mini" type="primary" plain @click="chaxun"
               >查询</el-button
             >
-            <el-button size="mini" type="success" plain @click="chongzhi"
+            <el-button size="mini" type="success" plain @click="uploadwj"
               >上传</el-button
             >
           </div></el-col
@@ -137,6 +137,41 @@
         </el-pagination>
       </div>
     </div>
+
+    <!-- 上传 -->
+    <el-dialog
+      :close-on-click-modal="false"
+      title="文件上传"
+      :visible.sync="shangchuan"
+      height="40%"
+      :before-close="shangchuanclose"
+      class="dialogInfo"
+    >
+      <div style="width: 100%">
+        <el-upload
+          ref="upload"
+          class="upload-demo"
+          accept=".xlsx,.csv,.text"
+          action="/cases/upload"
+          :before-remove="beforeRemove"
+          :on-success="successSendFile"
+          :on-exceed="handleExceed"
+          multiple
+          :limit="3"
+        >
+          <el-button size="mini" type="primary">点击上传</el-button>
+          <div slot="tip" class="el-upload__tip">上传文件</div>
+        </el-upload>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="shangchuan = false" size="mini"
+          >取 消</el-button
+        >
+        <!-- <el-button type="primary" @click="wenjianshangchaun" size="mini"
+          >确 定</el-button
+        > -->
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -176,7 +211,7 @@ export default {
         ],
         laiyuan: [
           {
-            id: 0,
+            id: '深圳',
             name: '深圳'
           }
           // {
@@ -206,6 +241,7 @@ export default {
       },
       loadingbuttext: "导出",
       loadingbut: false,
+      shangchuan: false,
     };
   },
   
@@ -310,6 +346,41 @@ export default {
         ],
          this.form.username=JSON.parse(window.sessionStorage.getItem('one'))
       this.techlist();
+    },
+    uploadwj() {
+      // this.listTemplate.moban = null;
+      this.file = [];
+      this.shangchuan = true;
+    },
+    //文件上传关闭
+    shangchuanclose() {
+      this.shangchuan = false;
+      this.techlist()
+    },
+    //删除
+    beforeRemove(file, fileList) {
+      return this.$confirm(`确定移除 ${file.name}？`);
+    },
+    // 文件上传
+    successSendFile(res) {
+      // this.loading=true
+      if (res.code == 200) {
+        // setTimeout(() => {
+        this.$message.success("上传成功");
+        this.getTabData();
+        this.$refs.upload.clearFiles();
+        // }, 1000)
+      } else {
+        this.$message(res.message);
+      }
+    },
+    //上传
+    handleExceed(files, fileList) {
+      this.$message.warning(
+        `当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${
+          files.length + fileList.length
+        } 个文件`
+      );
     },
     //精确导出
 
