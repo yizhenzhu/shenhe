@@ -7,7 +7,8 @@
              
             <!-- 流程记录页面头部模块——域名 -->
                          <el-form-item>
-              <el-select
+                          <el-input v-model="form.url" placeholder="url"></el-input>
+              <!-- <el-select
                 v-model="form.selectURL"
                 placeholder="URL"
                 clearable
@@ -20,7 +21,7 @@
                   :value="item.id"
                 >
                 </el-option>
-              </el-select>
+              </el-select> -->
             </el-form-item>
             <!-- 流程记录页面头部模块——初审 -->
             <el-form-item>
@@ -146,9 +147,9 @@ export default {
     return {
       loading: false,
       form: {
-        url:'',
+        url:'', // url
         domain: null,
-        laiyuan: null,
+        laiyuan: null, // laiyuan
         chuzhi: null,
         selectURL:null,
         datetime:[
@@ -264,9 +265,10 @@ export default {
         create_method:this.form.create_method,
         create_time:this.form.create_time,
         remark:this.form.remark,
-        auditStatus: this.form.laiyuan,
+        source: this.form.laiyuan,
         treatStatus: this.form.chuzhi,
       };
+      console.log('...params', list)
       const { data: res } = await this.$http.get("/cases", {params:list});
       // console.log('...res',res)
       if (res.code == 200) {
