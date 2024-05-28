@@ -5,9 +5,8 @@
           <el-col :span="18"
             ><div class="grid-content bg-purple">             
                
-              <!-- 流程记录页面头部模块——域名 -->
-                           <el-form-item>
-                <el-select
+              <el-form-item>
+                <el-input
                   v-model="form.selectURL"
                   placeholder="URL"
                   clearable
@@ -20,18 +19,18 @@
                     :value="item.id"
                   >
                   </el-option>
-                </el-select>
+                </el-input>
               </el-form-item>
               <!-- 流程记录页面头部模块——初审 -->
               <el-form-item>
                 <el-select
-                  v-model="form.laiyuan"
+                  v-model="form.source"
                   placeholder="来源"
                   clearable
-                  @clear="chushen_clearFun(form.laiyuan)"
+                  @clear="chushen_clearFun(form.source)"
                 >
                   <el-option
-                    v-for="item in selectData.laiyuan"
+                    v-for="item in selectData.source"
                     :key="item.id"
                     :label="item.name"
                     :value="item.id"
@@ -63,15 +62,6 @@
               <el-button size="mini" type="success" plain @click="chongzhi"
                 >上传</el-button
               >
-              <!-- 导出 -->
-             <!--  <el-button
-                size="mini"
-                type="info"
-                plain
-                @click="put"
-                :loading="loadingbut"
-                >{{ loadingbuttext }}</el-button
-              > -->
             </div></el-col
           >
         </el-row>
@@ -101,12 +91,12 @@
         </el-table-column> -->
         <el-table-column prop="url" label="URL" show-overflow-tooltip min-width="15%">
         </el-table-column>
-        <el-table-column prop="leixing" label="类型" min-width="8%"> </el-table-column>
+        <el-table-column prop="label" label="类型" min-width="8%"> </el-table-column>
         <el-table-column prop="source" label="来源" min-width="8%"> </el-table-column>
-        <el-table-column prop="shangchuanren" label="上传人" min-width="8%"> </el-table-column>
-        <el-table-column prop="shangchuanfangshi" label="上传方式" min-width="8%"> </el-table-column>
-        <el-table-column prop="shangchuanshijian" label="上传时间" min-width="8%"> </el-table-column>
-        <el-table-column prop="beizhu" label="备注" min-width="8%"> </el-table-column>
+        <el-table-column prop="create_person" label="上传人" min-width="8%"> </el-table-column>
+        <el-table-column prop="create_method" label="上传方式" min-width="8%"> </el-table-column>
+        <el-table-column prop="create_time" label="上传时间" min-width="8%"> </el-table-column>
+        <el-table-column prop="remark" label="备注" min-width="8%"> </el-table-column>
         
         <!-- <el-table-column prop="auditStatusName" label="审核状态" min-width="8%">
           <template slot-scope="scope">
@@ -148,15 +138,16 @@
     </div>
   </template>
   
-  <script>
+<script>
   import dayjs from "dayjs";
   export default {
     data() {
       return {
         loading: false,
         form: {
+          url:'',
           domain: null,
-          laiyuan: null,
+          source: null,//---只有一个数据可以
           chuzhi: null,
           selectURL:null,
           datetime:[
@@ -182,10 +173,10 @@
             
           ],
           laiyuan: [
-            // {
-            //   value: '0',
-            //   label: "待审核",
-            // },
+            {
+              value: '0',
+              label: "深圳",
+            },
             // {
             //   value: '1',
             //   label: "审核中",
@@ -211,6 +202,7 @@
         loadingbut: false,
       };
     },
+    
     created() {
     //   this.form.username=JSON.parse(window.sessionStorage.getItem('one'))
     //   this.techlist();
@@ -251,50 +243,57 @@
         // const promise1 =  this.$http.get("/cases");
         const { data:res } = await promise1
         if(res.code === 200){
-          this.selectData.laiyuan = res.data
+          // this.selectData.source = res.data
         }
         this.techlist()
       },
       //初始化列表
       async techlist() {
         this.loading = true
+        // console.log(this.form);
         let list = {
-          page: this.mypageable.pageNum,
-          pageSize: this.mypageable.pageSize,
-          url: this.form.domain,
-          start: this.whiteSearchList.startCreateTime,
-          end: this.whiteSearchList.endCreateTime,
+          url: this.form.url,
+          label:this.form.label,
           source: this.form.selectURL,
-          shangchuanren:this.form.shangchuanren,
-          shangchuanfangshi:this.form.shangchuanfangshi,
-          shangchuanshijian:this.form.shangchuanshijian,
-          beizhu:this.form.beizhu,
-          
-          leixing:this.form.leixing,
-          auditStatus: this.form.laiyuan,
+          create_person:this.form.create_person,
+          create_method:this.form.create_method,
+          create_time:this.form.create_time,
+          remark:this.form.remark,
+          auditStatus: this.form.source,
           treatStatus: this.form.chuzhi,
         };
-        // const { data: res } = await this.$http.get("/originDomain/query", {params:list});
         const { data: res } = await this.$http.get("/cases", {params:list});
+        // console.log('...res',res)
         if (res.code == 200) {
           // console.log(res.data);
-          this.tableData = res.dataList;
+          this.tableData = res.datas;
+          // console.log(this.tableData)
+          const map = {
+            1: '文件上传',
+            2: '接口上传'
+          }
+          this.tableData = res.datas.map((item) => {
+            return {
+              ...item,
+              'create_method': map[item['create_method']]
+            }
+          })
+          // console.log('...data',this.tableData)
           this.total = res.totalSum;
           this.loading = false
         }else{
           this.$message(res.message)
           this.loading = false
         }
+        
       },
       chaxun() {
         this.mypageable.pageNum = 1;
         this.techlist();
       },
       chongzhi() {
-        this.form.chuzhi = null;
-        this.mypageable.pageNum = 1;
-        this.mypageable.pageSize = 50;
-        this.form.laiyuan = null;
+        this.form.url = null;
+        this.form.label = null;
         this.form.username = null;
         this.form.selectURL = null
         this.form.domain = null
@@ -316,7 +315,7 @@
           start: this.whiteSearchList.startCreateTime,
           end: this.whiteSearchList.endCreateTime,
           source: this.form.selectURL,
-          auditStatus: this.form.laiyuan,
+          auditStatus: this.form.source,
           treatStatus: this.form.chuzhi,
         };
         if(this.tableData.length==0){
@@ -327,7 +326,8 @@
         }
         const res = await this.$http({
         methods:'get',
-        url:"/originDomain/export",
+        // url:"/originDomain/export",
+        url:"/cases",
         responseType: "blob",
         params:list
       })
@@ -409,7 +409,7 @@
     },
   };
   </script>
-  
+   -->
   <style scoped lang='less'>
   .right_main_under {
     //  margin: 20px 0 0 20px;
