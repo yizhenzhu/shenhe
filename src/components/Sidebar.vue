@@ -121,8 +121,8 @@ export default {
           children:[
             {
               menuName: "警情上传",
-              menuUrl: "/domain_decide",
-              name: "domain_decide",
+              menuUrl: "/cases",
+              name: "cases",
               menuType: 1,
               //menuType:0
             },

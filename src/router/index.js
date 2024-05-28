@@ -73,8 +73,8 @@ const routes = [
         component: () => import("../views/reslist/reslist")
       },
       {
-        path: '/domain_decide',
-        name: 'domain_decide',
+        path: '/cases',
+        name: 'cases',
         meta: {
           title: '域名判定查询'
         },
