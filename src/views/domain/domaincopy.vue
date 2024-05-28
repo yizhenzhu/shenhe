@@ -234,7 +234,7 @@
       // 城市下拉框数据
       async suoshudi() {
         this.loading = true
-        const promise1 =  this.$http.get("/dictionary/datasource");
+        const promise1 =  this.$http.get("/cases");
         // const promise2 =  this.$http.get("dictionary/fraudType",{isBig:true})
         // const [data1,data2] = await Promise.all([promise1,promise2])
         const { data:res } = await promise1

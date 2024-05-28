@@ -126,7 +126,7 @@ export default {
               menuType: 1,
               //menuType:0
             },
-            {
+            /* {
               menuName: "警情审核",
               menuUrl: "/jingqingshenhe",
               name: "jingqingshenhe",
@@ -137,10 +137,10 @@ export default {
               menuUrl: "/menu",
               name: "menu",
               menuType: 1,
-            },
+            }, */
           ]
         },
-        {
+       /*  {
           menuName: "审核",
           menuUrl: "/shenhe",
           name: "shenhe",
@@ -171,7 +171,7 @@ export default {
           menuUrl: "/user",
           name: "user",
           menuType: 1,
-        },
+        }, */
         /* {
           menuName: "复审",
           menuUrl: "/reviewcase",//选中跳转！！！！了解
@@ -252,7 +252,8 @@ export default {
   },
   methods: {
     async scheduleCheck() {
-      const { data: res } = await this.$http.get("/user/getInfo");
+      // const { data: res } = await this.$http.get("/user/getInfo");
+      const { data: res } = await this.$http.get("/cases");
       if(res.data.role === 'THIRD'){
         console.log('true');
         setInterval(() => {
@@ -275,7 +276,8 @@ export default {
 
     async qx() {
       const that = this;
-      const { data: res } = await this.$http.get("/user/getInfo");
+      // const { data: res } = await this.$http.get("/user/getInfo");
+      const { data: res } = await this.$http.get("/cases");
       // console.log(res);
       if (res.code == 200) {
         if(res.data.role === 'ADMIN'){
