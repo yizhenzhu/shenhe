@@ -1,5 +1,6 @@
 <template>
-  <div class="sidebar" style="background-color: rgb(39 136 233);">
+  <!-- <div class="sidebar" style="background-color: rgb(39 136 233);"> -->
+  <div class="sidebar">
     <!-- 在每天下午4点显示弹窗 -->
     <el-dialog title="提醒" :visible="showPopup" @close="closePopup">
       <p>请您及时清空审核数据。</p>

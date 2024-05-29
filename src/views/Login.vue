@@ -52,8 +52,8 @@ export default {
       loading:false,
       newarr: [],
       param: {
-        username: "sz",
-        password: "123456",
+        username: "",
+        password: "",
       },
       rules: {
         username: [

@@ -1,15 +1,16 @@
 <template>
   <div class="right_main_under">
-    <el-form size="mini" label-width="80px" :inline="true" >
+    <el-form size="mini" label-width="80px" :inline="true">
       <el-row :gutter="20">
         <el-col :span="18"
-          ><div class="grid-content bg-purple">             
-             
+          >
+          <div class="grid-content bg-purple">
             <!-- 流程记录页面头部模块——域名 -->
-                         <el-form-item>
-                          <el-input v-model="form.url" placeholder="url"></el-input>
+            <el-form-item>
+              <el-input v-model="form.url" placeholder="url"></el-input>
               <!-- <el-select
                 v-model="form.selectURL"
+
                 placeholder="URL"
                 clearable
                 @clear="selectURL_clearFun(form.selectURL)"
@@ -41,28 +42,25 @@
               </el-select>
             </el-form-item>
             <el-form-item>
-                <el-date-picker
-                  v-model="form.datetime"
-                  type="daterange"
-                  :change="dataCreate_change(form.datetime)"
-                  range-separator="至"
-                  start-placeholder="开始日期"
-                  end-placeholder="结束日期"
-                  value-format="yyyy-MM-dd"
-                  :clearable="false"
-                >
-                </el-date-picker>
-              </el-form-item>
+              <el-date-picker
+                v-model="form.datetime"
+                type="daterange"
+                :change="dataCreate_change(form.datetime)"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                value-format="yyyy-MM-dd"
+                :clearable="false"
+              >
+              </el-date-picker>
+            </el-form-item>
             </div
         ></el-col>
         <el-col :span="6"
-          ><div class="grid-content bg-purple" style="float:right">
+          ><div class="grid-content bg-purple" style="float: right">
             <!-- 流程记录页面头部模块——button -->
-            <el-button size="mini" type="primary" plain @click="chaxun"
-              >查询</el-button
-            >
-            <el-button size="mini" type="success" plain @click="uploadwj"
-              >上传</el-button
+            <el-button size="mini" type="primary" plain @click="chaxun"   class="custom-button">查询</el-button>
+            <el-button size="mini" type="success" plain @click="uploadwj" class="custom-button">上传</el-button
             >
           </div></el-col
         >
@@ -80,8 +78,9 @@
       class="tableStyle"
       empty-text="暂无数据"
       v-loading="loading"
+      header-align="center" 
     >
-     <!--  <el-table-column prop="id" label="序号" type="index" min-width="5%">
+      <!--  <el-table-column prop="id" label="序号" type="index" min-width="5%">
         <template slot-scope="scope"
           ><span v-text="getIndex(scope.$index)"></span
         ></template>
@@ -91,15 +90,26 @@
           {{ time(scope.row.createTime) }}
         </template>
       </el-table-column> -->
-      <el-table-column prop="url" label="URL" show-overflow-tooltip min-width="15%">
+      <el-table-column
+        prop="url"
+        label="URL"
+        show-overflow-tooltip
+        min-width="15%"
+        header-align="center"
+       >
+      <!--  align="center"
+      header-align="center"  -->
       </el-table-column>
-      <el-table-column prop="label" label="类型" min-width="8%"> </el-table-column>
-      <el-table-column prop="source" label="来源" min-width="8%"> </el-table-column>
-      <el-table-column prop="create_person" label="上传人" min-width="8%"> </el-table-column>
-      <el-table-column prop="create_method" label="上传方式" min-width="8%"> </el-table-column>
-      <el-table-column prop="create_time" label="上传时间" min-width="8%"> </el-table-column>
-      <el-table-column prop="remark" label="备注" min-width="8%"> </el-table-column>
-      
+      <el-table-column prop="label" label="类型" min-width="8%" header-align="center"></el-table-column>
+      <el-table-column prop="source" label="来源" min-width="10%" header-align="center"></el-table-column>
+      <el-table-column header-align="center" prop="create_person" label="上传人" min-width="10%" ></el-table-column>
+      <el-table-column header-align="center" prop="create_method" label="上传方式" min-width="10%" >
+      </el-table-column>
+      <el-table-column prop="create_time" label="上传时间" min-width="8%"  header-align="center">
+      </el-table-column>
+      <el-table-column  prop="remark" label="备注" min-width="8%"  header-align="center">
+      </el-table-column>
+
       <!-- <el-table-column prop="auditStatusName" label="审核状态" min-width="8%">
         <template slot-scope="scope">
           {{ scope.row.auditStatusName }}
@@ -122,6 +132,8 @@
       </el-table-column> -->
       <!-- <el-table-column prop="url9" label="备注"> </el-table-column> -->
     </el-table>
+
+    <!-- 页面页数 -->
     <div class="bottom">
       <div class="ss">
         <el-pagination
@@ -159,6 +171,7 @@
           multiple
           :limit="3"
         >
+        <el-button size="mini" type="primary">模板导出</el-button>
           <el-button size="mini" type="primary">点击上传</el-button>
           <div slot="tip" class="el-upload__tip">上传文件</div>
         </el-upload>
@@ -182,22 +195,22 @@ export default {
     return {
       loading: false,
       form: {
-        url:'', // url
+        url: "", // url
         domain: null,
         laiyuan: null, // laiyuan
         chuzhi: null,
-        selectURL:null,
-        datetime:[
-          dayjs().subtract(1, 'week').format("YYYY-MM-DD") ,dayjs(new Date()).format("YYYY-MM-DD")
+        selectURL: null,
+        datetime: [
+          dayjs().subtract(1, "week").format("YYYY-MM-DD"),
+          dayjs(new Date()).format("YYYY-MM-DD"),
         ],
         username: null,
       },
       whiteSearchList: {
-        startCreateTime:dayjs().subtract(1, 'week').format("YYYY-MM-DD") ,
-        endCreateTime: dayjs(new Date()).format("YYYY-MM-DD")
+        startCreateTime: dayjs().subtract(1, "week").format("YYYY-MM-DD"),
+        endCreateTime: dayjs(new Date()).format("YYYY-MM-DD"),
       },
-      tableData: [
-      ],
+      tableData: [],
       mypageable: {
         pageNum: 1,
         pageSize: 50,
@@ -206,14 +219,12 @@ export default {
       totalPages: "",
       selectData: {
         type: [],
-        selectURL: [
-          
-        ],
+        selectURL: [],
         laiyuan: [
           {
-            id: '深圳',
-            name: '深圳'
-          }
+            id: "深圳",
+            name: "深圳",
+          },
           // {
           //   value: '0',
           //   label: "待审核",
@@ -228,7 +239,7 @@ export default {
           // },
         ],
         chuzhi: [
-        {
+          {
             value: "0",
             label: "否",
           },
@@ -236,7 +247,6 @@ export default {
             value: "1",
             label: "是",
           },
-          
         ],
       },
       loadingbuttext: "导出",
@@ -244,24 +254,24 @@ export default {
       shangchuan: false,
     };
   },
-  
+
   created() {
-  //   this.form.username=JSON.parse(window.sessionStorage.getItem('one'))
-  //   this.techlist();
+    //   this.form.username=JSON.parse(window.sessionStorage.getItem('one'))
+    //   this.techlist();
     this.suoshudi();
-    this.suoshudi2()
+    this.suoshudi2();
   },
   methods: {
     // 城市下拉框数据
     async suoshudi() {
-      this.loading = true
+      this.loading = true;
       // const promise1 =  this.$http.get("/dictionary/datasource");
-      const promise1 =  this.$http.get("/cases");
+      const promise1 = this.$http.get("/cases");
       // const promise2 =  this.$http.get("dictionary/fraudType",{isBig:true})
       // const [data1,data2] = await Promise.all([promise1,promise2])
-      const { data:res } = await promise1
-      if(res.code === 200){
-        this.selectData.selectURL = res.data
+      const { data: res } = await promise1;
+      if (res.code === 200) {
+        this.selectData.selectURL = res.data;
       }
       // if(data1.data.code === 200 && data2.data.code === 200){
       //   this.selectData.fushen = data1.data.data
@@ -274,60 +284,64 @@ export default {
       //       this.newdomainSimpleVo.guishud = null
       //     }
       //   }
-        
+
       // }
-      this.techlist()
+      this.techlist();
     },
     //来源下拉框
     async suoshudi2() {
-      this.loading = true
+      this.loading = true;
       // const promise1 =  this.$http.get("/dictionary/datasource");
       // const promise1 =  this.$http.get("/cases");
-      const { data:res } = await promise1
-      if(res.code === 200){
-        this.selectData.laiyuan = res.data
+      const { data: res } = await promise1;
+      if (res.code === 200) {
+        this.selectData.laiyuan = res.data;
       }
-      this.techlist()
+      this.techlist();
     },
     //初始化列表
     async techlist() {
-      this.loading = true
-      console.log(this.form);
+      this.loading = true;
+      // console.log(this.form);
       let list = {
         url: this.form.url,
-        label:this.form.label,
-        source: this.form.selectURL,
-        create_person:this.form.create_person,
-        create_method:this.form.create_method,
-        create_time:this.form.create_time,
-        remark:this.form.remark,
+        label: this.form.label,
+        // source: this.form.selectURL,
+        create_person: this.form.create_person,
+        create_method: this.form.create_method,
+        create_time: this.form.create_time,
+        remark: this.form.remark,
         source: this.form.laiyuan,
         treatStatus: this.form.chuzhi,
       };
-      console.log('...params', list)
-      const { data: res } = await this.$http.get("/cases", {params:list});
+      // console.log("...params", list);
+      //请求接口时---传递参数
+      const { data: res } = await this.$http.get("/cases", { params: list });
       // console.log('...res',res)
       if (res.code == 200) {
         // console.log(res.data);
         this.tableData = res.datas;
         // console.log(this.tableData)
-        const map = {
-          1: '文件上传',
-          2: '接口上传'
-        }
+
+        //映射关系 const map---对象   datas.map---遍历方法用于数组---类似于v-for
+        const obj = {
+          1: "文件上传",
+          2: "接口上传",
+        };
+        // { ...item } === item
         this.tableData = res.datas.map((item) => {
           return {
             ...item,
-            'create_method': map[item['create_method']]
-          }
-        })
-        this.total = res.totalSum;
-        this.loading = false
-      }else{
-        this.$message(res.message)
-        this.loading = false
+            create_method: obj[item["create_method"]],
+          };
+        });
+        // console.log('ooores',res.datas)
+        this.total = res.total;
+        this.loading = false;
+      } else {
+        this.$message(res.message);
+        this.loading = false;
       }
-      
     },
     chaxun() {
       this.mypageable.pageNum = 1;
@@ -337,14 +351,19 @@ export default {
       this.form.url = null;
       this.form.label = null;
       this.form.username = null;
-      this.form.selectURL = null
-      this.form.domain = null
-      this.whiteSearchList.startCreateTime = dayjs().subtract(1, 'week').format("YYYY-MM-DD");
-      this.whiteSearchList.endCreateTime = dayjs(new Date()).format("YYYY-MM-DD");
-      this.form.datetime=[
-          dayjs().subtract(1, 'week').format("YYYY-MM-DD") ,dayjs(new Date()).format("YYYY-MM-DD")
-        ],
-         this.form.username=JSON.parse(window.sessionStorage.getItem('one'))
+      this.form.selectURL = null;
+      this.form.domain = null;
+      this.whiteSearchList.startCreateTime = dayjs()
+        .subtract(1, "week")
+        .format("YYYY-MM-DD");
+      this.whiteSearchList.endCreateTime = dayjs(new Date()).format(
+        "YYYY-MM-DD"
+      );
+      (this.form.datetime = [
+        dayjs().subtract(1, "week").format("YYYY-MM-DD"),
+        dayjs(new Date()).format("YYYY-MM-DD"),
+      ]),
+        (this.form.username = JSON.parse(window.sessionStorage.getItem("one")));
       this.techlist();
     },
     uploadwj() {
@@ -355,7 +374,7 @@ export default {
     //文件上传关闭
     shangchuanclose() {
       this.shangchuan = false;
-      this.techlist()
+      this.techlist();
     },
     //删除
     beforeRemove(file, fileList) {
@@ -395,37 +414,42 @@ export default {
         auditStatus: this.form.laiyuan,
         treatStatus: this.form.chuzhi,
       };
-      if(this.tableData.length==0){
-        this.$message("当前数据为空，无法导出！")
+      if (this.tableData.length == 0) {
+        this.$message("当前数据为空，无法导出！");
         this.loadingbuttext = "导出";
         this.loadingbut = false;
-        return false
+        return false;
       }
       const res = await this.$http({
-      methods:'get',
-      // url:"/originDomain/export",
-      url:"/cases",
-      responseType: "blob",
-      params:list
-    })
-    if (res) {
-      this.loadingbuttext = "导出";
-      this.loadingbut = false;
-      // console.log(res.data);
-         let binaryData = [];
-      binaryData.push(res.data);
-      var _url=window.URL.createObjectURL(new Blob(binaryData, {type: "application/vnd.ms-excel"}))
-      const a = document.createElement("a");
-      // a.download = name;
-      a.href = _url
-      a.setAttribute('download', decodeURI(res.headers['content-disposition'].split('=')[1]));
-      document.body.appendChild(a);
-      a.click()
-      a.remove()
-      this.$message('导出成功');
-    } else {
-      this.$message('导出失败');
-    }
+        methods: "get",
+        // url:"/originDomain/export",
+        url: "/cases",
+        responseType: "blob",
+        params: list,
+      });
+      if (res) {
+        this.loadingbuttext = "导出";
+        this.loadingbut = false;
+        // console.log(res.data);
+        let binaryData = [];
+        binaryData.push(res.data);
+        var _url = window.URL.createObjectURL(
+          new Blob(binaryData, { type: "application/vnd.ms-excel" })
+        );
+        const a = document.createElement("a");
+        // a.download = name;
+        a.href = _url;
+        a.setAttribute(
+          "download",
+          decodeURI(res.headers["content-disposition"].split("=")[1])
+        );
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        this.$message("导出成功");
+      } else {
+        this.$message("导出失败");
+      }
     },
 
     getIndex($index) {
@@ -486,11 +510,11 @@ export default {
   },
 };
 </script>
- -->
+
 <style scoped lang='less'>
 .right_main_under {
-  //  margin: 20px 0 0 20px;
-  //  box-sizing: border-box;
+   margin: 20px 0 0 20px;
+   box-sizing: border-box;
 }
 .el-row {
   margin-bottom: 20px;
@@ -505,14 +529,17 @@ export default {
 .grid-content {
   border-radius: 4px;
   min-height: 36px;
+
+
 }
-/deep/ .el-input--mini .el-input__inner {
+::v-deep .el-input--mini .el-input__inner {
   width: 210px;
 }
-/deep/ .el-form-item:first-child {
+::v-deep .el-form-item:first-child {
   // width: 300px;
   .el-form-item__content {
     width: 100%;
+    
     .el-input__inner {
       width: 100%;
     }
@@ -525,4 +552,22 @@ export default {
     float: right;
   }
 }
+.custom-button {
+    font-size: 16px; /* 调整文字大小 */
+    padding: 10px 20px; /* 调整按钮大小 */
+}
+// .custom-center .cell {
+//   text-align: center !important;
+// }
+// .aligned-column .cell {
+//   display: flex;
+//   align-items: center;
+// }
+
+// .aligned-column .cell:before {
+//   content: '';
+//   display: inline-block;
+//   width: 10px; /* 调整 ::before 元素的宽度，使其与内容对齐 */
+// }
+
 </style>
