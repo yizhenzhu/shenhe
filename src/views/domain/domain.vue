@@ -2,8 +2,7 @@
   <div class="right_main_under">
     <el-form size="mini" label-width="80px" :inline="true">
       <el-row :gutter="20">
-        <el-col :span="18"
-          >
+        <el-col :span="18">
           <div class="grid-content bg-purple">
             <!-- 流程记录页面头部模块——域名 -->
             <el-form-item>
@@ -53,24 +52,84 @@
                 :clearable="false"
               >
               </el-date-picker>
-            </el-form-item>
-            </div
+            </el-form-item></div
         ></el-col>
         <el-col :span="6"
           ><div class="grid-content bg-purple" style="float: right">
             <!-- 流程记录页面头部模块——button -->
-            <el-button size="mini" type="primary" plain @click="chaxun"   class="custom-button">查询</el-button>
-            <el-button size="mini" type="success" plain @click="uploadwj" class="custom-button">文件上传</el-button>
-            <el-button size="mini" type="success" plain @click="uploadjk" class="custom-button">接口上传</el-button>
+            <el-button
+              size="mini"
+              type="primary"
+              plain
+              @click="chaxun"
+              class="custom-button"
+              >查询</el-button
+            >
+            <el-button
+              size="mini"
+              type="success"
+              plain
+              @click="showUploadDialog"
+              class="custom-button"
+              >文件上传</el-button
+            >
+            <el-button
+              size="mini"
+              type="success"
+              plain
+              @click="uploadjk"
+              class="custom-button"
+              >接口上传</el-button
+            >
           </div>
-          <!-- 弹出框 -->
-          <el-dialog title="接口上传" :visible.sync="dialogVisible" width="70%" height="70%">
-            <div style="display: flex;">
+          <!-- 文件上传弹出框 -->
+          <el-dialog :visible.sync="uploadDialogVisible" title="文件上传">
+            <el-upload
+              ref="upload"
+              class="upload-demo"
+              accept=".xlsx,.csv,.text"
+              action="/cases/upload"
+              :before-remove="beforeRemove"
+              :on-success="successSendFile"
+              :on-exceed="handleExceed"
+              multiple
+              :limit="3"
+            >
+              <el-button size="mini" type="primary" @click="downloadTemplate"
+                >模板下载</el-button
+              >
+              <el-button size="mini" type="primary">点击上传</el-button>
+              <div slot="tip" class="el-upload__tip">上传文件</div>
+            </el-upload>
+            <span slot="footer" class="dialog-footer">
+              <el-button
+                type="primary"
+                @click="uploadDialogVisible = false"
+                size="mini"
+                >取 消</el-button
+              >
+            </span>
+          </el-dialog>
+          <!-- 接口上传弹出框 -->
+          <el-dialog
+            title="接口上传"
+            :visible.sync="dialogVisible"
+            width="50%"
+            height="60%"
+          >
+            <div style="display: flex">
               <!-- 左侧选择框 -->
-              <div style="margin-right: 20px;">
-                <el-radio-group v-model="selectedType" @change="fetchCode" style="display: flex; flex-direction: column;">
-                  <el-radio-button label="python" style="margin-bottom: 10px;">Python接口</el-radio-button>
-                  <el-radio-button label="java">Java代码</el-radio-button>
+              <div style="margin-right: 20px">
+                <el-radio-group
+                  v-model="selectedType"
+                  @change="fetchCode"
+                  style="display: flex; flex-direction: column"
+                >
+                  <el-radio-button label="python" style="margin-bottom: 10px"
+                    >Python接口</el-radio-button
+                  >
+                  <!-- java接口代码 -->
+                  <!-- <el-radio-button label="java">Java代码</el-radio-button> -->
                 </el-radio-group>
               </div>
               <!-- 右侧代码展示区域 超过最大高度400px时候就会出现---overflow-y: auto--支持滚动条-->
@@ -78,11 +137,11 @@
               <div v-if="code" class="code-display">
                 <pre>{{ code }}</pre>
               </div>
-              </div>
-              <span slot="footer" class="dialog-footer">
-                <el-button @click="dialogVisible = false">取消</el-button>
-              </span>
-              <!-- <div v-if="code" style="flex: 1; max-height: 400px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; background-color: #f9f9f9;">
+            </div>
+            <span slot="footer" class="dialog-footer">
+              <el-button @click="dialogVisible = false">取消</el-button>
+            </span>
+            <!-- <div v-if="code" style="flex: 1; max-height: 400px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; background-color: #f9f9f9;">
                 <pre>{{ code }}</pre>
               </div>
             </div>
@@ -90,9 +149,7 @@
               <el-button @click="dialogVisible = false">取消</el-button>
             </span> -->
           </el-dialog>
-
-          </el-col
-        >
+        </el-col>
       </el-row>
     </el-form>
 
@@ -123,16 +180,28 @@
         label="URL"
         show-overflow-tooltip
         min-width="12%"
-       >
+      >
       </el-table-column>
-      <el-table-column prop="label" label="类型" min-width="8%"></el-table-column>
-      <el-table-column prop="source" label="来源" min-width="8%"></el-table-column>
-      <el-table-column prop="create_person" label="上传人" min-width="8%" ></el-table-column>
-      <el-table-column  prop="create_method" label="上传方式" min-width="8%" >
+      <el-table-column
+        prop="label"
+        label="类型"
+        min-width="8%"
+      ></el-table-column>
+      <el-table-column
+        prop="source"
+        label="来源"
+        min-width="8%"
+      ></el-table-column>
+      <el-table-column
+        prop="create_person"
+        label="上传人"
+        min-width="8%"
+      ></el-table-column>
+      <el-table-column prop="create_method" label="上传方式" min-width="8%">
       </el-table-column>
       <el-table-column prop="create_time" label="上传时间" min-width="8%">
       </el-table-column>
-      <el-table-column  prop="remark" label="备注" min-width="5%">
+      <el-table-column prop="remark" label="备注" min-width="5%">
       </el-table-column>
 
       <!-- <el-table-column prop="auditStatusName" label="审核状态" min-width="8%">
@@ -196,7 +265,7 @@
           multiple
           :limit="3"
         >
-        <el-button size="mini" type="primary">模板上传</el-button>
+          <el-button size="mini" type="primary">模板下载</el-button>
           <el-button size="mini" type="primary">点击上传</el-button>
           <div slot="tip" class="el-upload__tip">上传文件</div>
         </el-upload>
@@ -214,7 +283,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 import dayjs from "dayjs";
 export default {
   data() {
@@ -275,14 +344,16 @@ export default {
           },
         ],
       },
-      loadingbuttext: "导出",
+
+      //文件上传
+      uploadDialogVisible: false,
       loadingbut: false,
-      shangchuan: false,
-      
+      loadingbuttext: "模板下载",
+
       //接口上传
       dialogVisible: false,
-      selectedType: '',
-      code: '',
+      selectedType: "",
+      code: "",
     };
   },
 
@@ -402,24 +473,69 @@ export default {
       this.file = [];
       this.shangchuan = true;
     },
+    //文件上传
+    showUploadDialog() {
+      this.uploadDialogVisible = true;
+    },
+    async downloadTemplate() {
+      this.loadingbuttext = "...下载中";
+      this.loadingbut = true;
+      try {
+        const res = await this.$http({
+          method: "GET",
+          url: "/cases/upload/sample",
+          responseType: "blob",
+        });
+        let blob = res.data;
+        if (blob.type === "application/json") {
+          const reader = new FileReader();
+          reader.onload = () => {
+            this.$message("下载文件失败");
+            this.loadingbuttext = "模板下载";
+            this.loadingbut = false;
+          };
+          reader.readAsText(blob);
+        } else {
+          let title = dayjs().format("YYYYMMDD") + "模板.xlsx";
+          let binaryData = [];
+          binaryData.push(blob);
+          let url = window.URL.createObjectURL(new Blob(binaryData), {
+            type: "application/vnd.ms-excel",
+          });
+          const aLink = document.createElement("a");
+          aLink.href = url;
+          aLink.setAttribute("download", title);
+          document.body.appendChild(aLink);
+          aLink.click();
+          this.loadingbuttext = "模板下载";
+          this.loadingbut = false;
+          document.body.removeChild(aLink);
+          this.$message.success("模板下载成功！");
+        }
+      } catch (err) {
+        this.$message.error("文件下载失败！", err);
+        this.loadingbuttext = "模板下载";
+        this.loadingbut = false;
+      }
+    },
     //接口文件
     uploadjk() {
       this.dialogVisible = true;
-      this.selectedType = '';  // 清空之前的选择
-      this.code = '';          // 清空之前的代码展示
+      this.selectedType = ""; // 清空之前的选择
+      this.code = ""; // 清空之前的代码展示
     },
-    //
+
     async fetchCode() {
       const endpoints = {
-        python: '/cases/upload/api/python',
-        java: '/cases/upload/api/java'
+        python: "/cases/upload/api/python",
+        java: "/cases/upload/api/java",
       };
 
       try {
         const response = await axios.get(endpoints[this.selectedType]);
-        this.code = response.data;
+        this.code = response.data.content; // 只获取 content 字段的内容
       } catch (error) {
-        this.$message.error('获取代码失败');
+        this.$message.error("获取代码失败");
         console.error(error);
       }
     },
@@ -467,7 +583,7 @@ export default {
     },
     //精确导出
 
-    async put() {
+    /*  async put() {
       this.loadingbuttext = "...加载中";
       this.loadingbut = true;
       let list = {
@@ -514,7 +630,7 @@ export default {
       } else {
         this.$message("导出失败");
       }
-    },
+    }, */
 
     getIndex($index) {
       //$index为数据下标,对英序号要加一
@@ -576,9 +692,10 @@ export default {
 </script>
 
 <style scoped lang='less'>
-.right_main_under {//main部分的上 右 下 左距离
-   margin: 15px 15px 10px 10px;
-   box-sizing: border-box;
+.right_main_under {
+  //main部分的上 右 下 左距离
+  margin: 15px 15px 10px 10px;
+  box-sizing: border-box;
 }
 .el-row {
   margin-bottom: 20px;
@@ -593,8 +710,6 @@ export default {
 .grid-content {
   border-radius: 4px;
   min-height: 24px;
-
-
 }
 ::v-deep .el-input--mini .el-input__inner {
   width: 210px;
@@ -603,7 +718,7 @@ export default {
   // width: 300px;
   .el-form-item__content {
     width: 100%;
-    
+
     .el-input__inner {
       width: 100%;
     }
@@ -617,8 +732,8 @@ export default {
   }
 }
 .custom-button {
-    font-size: 16px; /* 调整文字大小 */
-    padding: 10px 20px; /* 调整按钮大小 */
+  font-size: 16px; /* 调整文字大小 */
+  padding: 10px 20px; /* 调整按钮大小 */
 }
 //接口上传样式
 .custom-button {
@@ -628,14 +743,14 @@ export default {
 .code-display {
   flex: 1;
   max-height: 400px;
-  overflow-y: auto; /* Enable vertical scrolling */
-  overflow-x: auto; /* Disable horizontal scrolling */
+  overflow-y: auto;
+  overflow-x: auto;
   border: 1px solid #ddd;
   padding: 10px;
   background-color: #f9f9f9;
-  white-space: pre-wrap; /* Preserve whitespace and enable word wrap */
-  word-break: break-all; /* Break words to ensure wrapping */
-  word-wrap: break-word; /* Wrap long words */
+  white-space: pre-wrap;
+  word-break: break-all;
+  word-wrap: break-word;
 }
 
 // .custom-center .cell {
@@ -651,5 +766,4 @@ export default {
 //   display: inline-block;
 //   width: 10px; /* 调整 ::before 元素的宽度，使其与内容对齐 */
 // }
-
 </style>
