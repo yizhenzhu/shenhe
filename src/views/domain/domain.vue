@@ -60,9 +60,38 @@
           ><div class="grid-content bg-purple" style="float: right">
             <!-- 流程记录页面头部模块——button -->
             <el-button size="mini" type="primary" plain @click="chaxun"   class="custom-button">查询</el-button>
-            <el-button size="mini" type="success" plain @click="uploadwj" class="custom-button">上传</el-button
-            >
-          </div></el-col
+            <el-button size="mini" type="success" plain @click="uploadwj" class="custom-button">文件上传</el-button>
+            <el-button size="mini" type="success" plain @click="uploadjk" class="custom-button">接口上传</el-button>
+          </div>
+          <!-- 弹出框 -->
+          <el-dialog title="接口上传" :visible.sync="dialogVisible" width="70%" height="70%">
+            <div style="display: flex;">
+              <!-- 左侧选择框 -->
+              <div style="margin-right: 20px;">
+                <el-radio-group v-model="selectedType" @change="fetchCode" style="display: flex; flex-direction: column;">
+                  <el-radio-button label="python" style="margin-bottom: 10px;">Python接口</el-radio-button>
+                  <el-radio-button label="java">Java代码</el-radio-button>
+                </el-radio-group>
+              </div>
+              <!-- 右侧代码展示区域 超过最大高度400px时候就会出现---overflow-y: auto--支持滚动条-->
+              <!-- 右侧代码展示区域 -->
+              <div v-if="code" class="code-display">
+                <pre>{{ code }}</pre>
+              </div>
+              </div>
+              <span slot="footer" class="dialog-footer">
+                <el-button @click="dialogVisible = false">取消</el-button>
+              </span>
+              <!-- <div v-if="code" style="flex: 1; max-height: 400px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; background-color: #f9f9f9;">
+                <pre>{{ code }}</pre>
+              </div>
+            </div>
+            <span slot="footer" class="dialog-footer">
+              <el-button @click="dialogVisible = false">取消</el-button>
+            </span> -->
+          </el-dialog>
+
+          </el-col
         >
       </el-row>
     </el-form>
@@ -78,7 +107,6 @@
       class="tableStyle"
       empty-text="暂无数据"
       v-loading="loading"
-      header-align="center" 
     >
       <!--  <el-table-column prop="id" label="序号" type="index" min-width="5%">
         <template slot-scope="scope"
@@ -94,20 +122,17 @@
         prop="url"
         label="URL"
         show-overflow-tooltip
-        min-width="15%"
-        header-align="center"
+        min-width="12%"
        >
-      <!--  align="center"
-      header-align="center"  -->
       </el-table-column>
-      <el-table-column prop="label" label="类型" min-width="8%" header-align="center"></el-table-column>
-      <el-table-column prop="source" label="来源" min-width="10%" header-align="center"></el-table-column>
-      <el-table-column header-align="center" prop="create_person" label="上传人" min-width="10%" ></el-table-column>
-      <el-table-column header-align="center" prop="create_method" label="上传方式" min-width="10%" >
+      <el-table-column prop="label" label="类型" min-width="8%"></el-table-column>
+      <el-table-column prop="source" label="来源" min-width="8%"></el-table-column>
+      <el-table-column prop="create_person" label="上传人" min-width="8%" ></el-table-column>
+      <el-table-column  prop="create_method" label="上传方式" min-width="8%" >
       </el-table-column>
-      <el-table-column prop="create_time" label="上传时间" min-width="8%"  header-align="center">
+      <el-table-column prop="create_time" label="上传时间" min-width="8%">
       </el-table-column>
-      <el-table-column  prop="remark" label="备注" min-width="8%"  header-align="center">
+      <el-table-column  prop="remark" label="备注" min-width="5%">
       </el-table-column>
 
       <!-- <el-table-column prop="auditStatusName" label="审核状态" min-width="8%">
@@ -171,7 +196,7 @@
           multiple
           :limit="3"
         >
-        <el-button size="mini" type="primary">模板导出</el-button>
+        <el-button size="mini" type="primary">模板上传</el-button>
           <el-button size="mini" type="primary">点击上传</el-button>
           <div slot="tip" class="el-upload__tip">上传文件</div>
         </el-upload>
@@ -189,6 +214,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import dayjs from "dayjs";
 export default {
   data() {
@@ -252,6 +278,11 @@ export default {
       loadingbuttext: "导出",
       loadingbut: false,
       shangchuan: false,
+      
+      //接口上传
+      dialogVisible: false,
+      selectedType: '',
+      code: '',
     };
   },
 
@@ -371,6 +402,39 @@ export default {
       this.file = [];
       this.shangchuan = true;
     },
+    //接口文件
+    uploadjk() {
+      this.dialogVisible = true;
+      this.selectedType = '';  // 清空之前的选择
+      this.code = '';          // 清空之前的代码展示
+    },
+    //
+    async fetchCode() {
+      const endpoints = {
+        python: '/cases/upload/api/python',
+        java: '/cases/upload/api/java'
+      };
+
+      try {
+        const response = await axios.get(endpoints[this.selectedType]);
+        this.code = response.data;
+      } catch (error) {
+        this.$message.error('获取代码失败');
+        console.error(error);
+      }
+    },
+    /* fetchCode() {
+      // 模拟后端获取代码
+      const codeData = {
+        python: '/cases/upload/api/python',
+        java: ''
+        // python: 'def example_function():\n    print("Hello, Python!")',
+        // java: 'public class Example {\n    public static void main(String[] args) {\n        System.out.println("Hello, Java!");\n    }\n}',
+      };
+      
+      this.code = codeData[this.selectedType];
+    }, */
+
     //文件上传关闭
     shangchuanclose() {
       this.shangchuan = false;
@@ -512,8 +576,8 @@ export default {
 </script>
 
 <style scoped lang='less'>
-.right_main_under {
-   margin: 20px 0 0 20px;
+.right_main_under {//main部分的上 右 下 左距离
+   margin: 15px 15px 10px 10px;
    box-sizing: border-box;
 }
 .el-row {
@@ -528,7 +592,7 @@ export default {
 
 .grid-content {
   border-radius: 4px;
-  min-height: 36px;
+  min-height: 24px;
 
 
 }
@@ -556,6 +620,24 @@ export default {
     font-size: 16px; /* 调整文字大小 */
     padding: 10px 20px; /* 调整按钮大小 */
 }
+//接口上传样式
+.custom-button {
+  margin-right: 10px;
+}
+
+.code-display {
+  flex: 1;
+  max-height: 400px;
+  overflow-y: auto; /* Enable vertical scrolling */
+  overflow-x: auto; /* Disable horizontal scrolling */
+  border: 1px solid #ddd;
+  padding: 10px;
+  background-color: #f9f9f9;
+  white-space: pre-wrap; /* Preserve whitespace and enable word wrap */
+  word-break: break-all; /* Break words to ensure wrapping */
+  word-wrap: break-word; /* Wrap long words */
+}
+
 // .custom-center .cell {
 //   text-align: center !important;
 // }

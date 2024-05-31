@@ -1,10 +1,11 @@
 <template>
   <!-- <div class="sidebar" style="background-color: rgb(39 136 233);"> -->
-  <div class="sidebar">
+  <div class="sidebar" style="background-color: #f0ecce">
     <!-- 在每天下午4点显示弹窗 -->
     <el-dialog title="提醒" :visible="showPopup" @close="closePopup">
       <p>请您及时清空审核数据。</p>
     </el-dialog>
+    <!-- background-color="#f0ecce" -->
     <el-menu
       router
       :default-active="$route.path"
@@ -491,7 +492,8 @@ export default {
   bottom: 0;
   
   // height: 100%;
-  overflow-y: scroll;
+  // overflow-y: scroll;
+  // ---垂直方向上的滚动条（控制元素在垂直方向上的溢出内容的显示方式）
 }
 .sidebar::-webkit-scrollbar {
   width: 0;
