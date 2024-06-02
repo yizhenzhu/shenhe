@@ -694,7 +694,7 @@ export default {
 <style scoped lang='less'>
 .right_main_under {
   //main部分的上 右 下 左距离
-  margin: 15px 15px 10px 10px;
+  margin: 15px 0 10px 0;
   box-sizing: border-box;
 }
 .el-row {

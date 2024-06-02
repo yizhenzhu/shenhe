@@ -87,9 +87,9 @@
 .right_main_under .tableStyle .success-row {
   background: #01162d;
 }
-.right_main_under .tableStyle .el-table__body {
+/* .right_main_under .tableStyle .el-table__body {
   width: 100% !important;
-}
+} */
 .right_main_under .tableStyle .el-table__body-wrapper {
   overflow-y: scroll;
 }
