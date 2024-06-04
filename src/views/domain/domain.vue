@@ -40,6 +40,23 @@
                 </el-option>
               </el-select>
             </el-form-item>
+            <!-- 上传下拉菜单 -->
+            <el-form-item>
+              <el-select
+                v-model="form.schuan"
+                placeholder="上传"
+                clearable
+                @clear="chushen_clearFun(form.schuan)"
+              >
+                <el-option
+                  v-for="item in selectData.schuan"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id"
+                >
+                </el-option>
+              </el-select>
+            </el-form-item>
             <el-form-item>
               <el-date-picker
                 v-model="form.datetime"
@@ -187,16 +204,19 @@
         label="类型"
         min-width="8%"
       ></el-table-column>
+
       <el-table-column
         prop="source"
         label="来源"
         min-width="8%"
       ></el-table-column>
+
       <el-table-column
         prop="create_person"
         label="上传人"
         min-width="8%"
       ></el-table-column>
+
       <el-table-column prop="create_method" label="上传方式" min-width="8%">
       </el-table-column>
       <el-table-column prop="create_time" label="上传时间" min-width="8%">
@@ -293,6 +313,7 @@ export default {
         url: "", // url
         domain: null,
         laiyuan: null, // laiyuan
+        shangchuan:null,
         chuzhi: null,
         selectURL: null,
         datetime: [
@@ -320,6 +341,7 @@ export default {
             id: "深圳",
             name: "深圳",
           },
+        
           // {
           //   value: '0',
           //   label: "待审核",
@@ -332,6 +354,16 @@ export default {
           //   value: '2',
           //   label: "已审核",
           // },
+        ],
+        schuan:[
+        {
+            id: 1,
+            name: "文件上传",
+        },
+        {
+            id: 2,
+            name: "接口上传",
+        },
         ],
         chuzhi: [
           {
@@ -394,18 +426,19 @@ export default {
     async suoshudi2() {
       this.loading = true;
       // const promise1 =  this.$http.get("/dictionary/datasource");
-      // const promise1 =  this.$http.get("/cases");
+      // const promise1 =  this.$http.get("/cases/source");
       const { data: res } = await promise1;
       if (res.code === 200) {
         this.selectData.laiyuan = res.data;
       }
       this.techlist();
     },
-    //初始化列表
+    
     async techlist() {
       this.loading = true;
       // console.log(this.form);
       let list = {
+        //url、source
         url: this.form.url,
         label: this.form.label,
         // source: this.form.selectURL,
@@ -414,10 +447,12 @@ export default {
         create_time: this.form.create_time,
         remark: this.form.remark,
         source: this.form.laiyuan,
-        treatStatus: this.form.chuzhi,
+        upload_method:this.form.schuan,
+
+        // treatStatus: this.form.chuzhi,
       };
       // console.log("...params", list);
-      //请求接口时---传递参数
+      //请求接口时---传递参数---payload
       const { data: res } = await this.$http.get("/cases", { params: list });
       // console.log('...res',res)
       if (res.code == 200) {
@@ -448,6 +483,7 @@ export default {
     chaxun() {
       this.mypageable.pageNum = 1;
       this.techlist();
+      
     },
     chongzhi() {
       this.form.url = null;
@@ -468,11 +504,11 @@ export default {
         (this.form.username = JSON.parse(window.sessionStorage.getItem("one")));
       this.techlist();
     },
-    uploadwj() {
+   /*  uploadwj() {
       // this.listTemplate.moban = null;
       this.file = [];
       this.shangchuan = true;
-    },
+    }, */
     //文件上传
     showUploadDialog() {
       this.uploadDialogVisible = true;

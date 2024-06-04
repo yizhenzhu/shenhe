@@ -49,9 +49,9 @@
         class="demo-form-inline search_select_form"
         size="mini"
       >
-        <el-form-item label="原密码">
+       <!--  <el-form-item label="原密码">
           <el-input v-model="newdomainSimpleVo.oldpwd"></el-input>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="新密码">
           <el-input v-model="newdomainSimpleVo.xinpwd"></el-input>
         </el-form-item>
@@ -112,10 +112,10 @@ export default {
 
   methods: {
     async up() {
-      if(this.newdomainSimpleVo.oldpwd==""){
+      /* if(this.newdomainSimpleVo.oldpwd==""){
         this.$message('请输入原密码！')
         return false
-      }
+      } */
       if(this.newdomainSimpleVo.xinpwd==""||this.newdomainSimpleVo.xinpwd2==""){
         this.$message('请同时输入新密码和确认密码！')
         return false
@@ -134,16 +134,18 @@ export default {
       }
       
       let list = {
-        oldPwd: this.newdomainSimpleVo.oldpwd,
-        newPwd: this.newdomainSimpleVo.xinpwd,
+        // oldPwd: this.newdomainSimpleVo.oldpwd,
+        
+        password1: this.newdomainSimpleVo.xinpwd,
+        password2: this.newdomainSimpleVo.xinpwd2,
         // newPassword1: this.newdomainSimpleVo.xinpwd2,
       };
       // const url = "/user/modifyPwd?"+qs.stringify(list)
-      const { data: res } = await this.$http.post("/user/modifyPwd",list);
+      const { data: res } = await this.$http.post("/user/change",list);
       if (res.code == 200) {
         this.dialog = false;
         this.$message(res.message);
-        this.$router.push("/");
+        this.$router.push("/user/login");
       } else {
         this.$message(res.message);
         this.dialog = false;
@@ -154,16 +156,20 @@ export default {
     async handleCommand(command) {
       if (command == "loginout") {
         // localStorage.removeItem("ms_username");
-        const { data: res } = await this.$http.post("/user/logout");
+        const { data: res } = await this.$http.get("/user/logout");
         if(res.code==200){
           window.sessionStorage.clear();
-          this.$router.push("/");
+          this.$router.push("/user/login");
+          //显示登录成功信息
           this.$message(res.message)
+          console.log(res.message)
         }else{
+           //显示登录失败信息
           this.$message(res.message)
         }
         
       } else if (command == "upload") {
+        // 显示修改密码对话框
         this.dialog = true;
         this.newdomainSimpleVo.oldpwd = JSON.parse(
           window.sessionStorage.getItem("pwd")
