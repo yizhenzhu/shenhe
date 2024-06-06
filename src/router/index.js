@@ -30,7 +30,7 @@ const routes = [
         meta: {
           title: '警情上传'
         },
-        component: () => import("../views/domain/domain")
+        component: () => import("../views/jqsc/jqsc")
       },
       {
         path: '/audit',
@@ -38,7 +38,7 @@ const routes = [
         meta: {
           title: '初审'
         },
-        component: () => import("../views/audit/audit")
+        component: () => import("../views/cs/cs")
       },
     ],
     component: Home
