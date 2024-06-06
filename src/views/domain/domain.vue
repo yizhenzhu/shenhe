@@ -504,11 +504,6 @@ export default {
         (this.form.username = JSON.parse(window.sessionStorage.getItem("one")));
       this.techlist();
     },
-   /*  uploadwj() {
-      // this.listTemplate.moban = null;
-      this.file = [];
-      this.shangchuan = true;
-    }, */
     //文件上传
     showUploadDialog() {
       this.uploadDialogVisible = true;

@@ -84,10 +84,7 @@ export default {
               password: this.param.password
             }
             console.log(formData)
-            // const res = await this.$http.post("/login", list);
             const res = await this.$http.post("/user/login", formData);
-            // const res = await this.$http.post("/login", formData);
-            // const res = await this.$http.get("/covid");
             if (res.data.code == 200) {
               this.$message("登录成功");
               window.sessionStorage.setItem(

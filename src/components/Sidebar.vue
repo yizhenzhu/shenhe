@@ -142,6 +142,21 @@ export default {
             }, */
           ]
         },
+        {
+          menuName: "审核",
+          menuUrl: "/shenhe",
+          name: "shenhe",
+          menuType: 0,
+          children:[
+            {
+              menuName: "初审",
+              menuUrl: "/audit",
+              name: "audit",
+              menuType: 1,
+              //menuType:0
+            },
+          ]
+        },
        /*  {
           menuName: "审核",
           menuUrl: "/shenhe",

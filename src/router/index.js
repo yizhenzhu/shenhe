@@ -24,6 +24,44 @@ const routes = [
     name: 'Home',
 
     children: [
+      {
+        path: '/cases',
+        name: 'cases',
+        meta: {
+          title: '警情上传'
+        },
+        component: () => import("../views/domain/domain")
+      },
+      {
+        path: '/audit',
+        name: 'audit',
+        meta: {
+          title: '初审'
+        },
+        component: () => import("../views/audit/audit")
+      },
+    ],
+    component: Home
+  },
+]
+const router = new VueRouter({
+  // mode: 'history',
+  mode: 'hash',//路由选择方式两种：hash一般选择、history---后续了解一下！！！
+  routes
+})
+
+// 前置守卫
+router.beforeEach((to, from, next) => {
+  // console.log(to,from)
+  if (to.path === '/') return next()
+  const storedToken  = window.sessionStorage.getItem('token')
+  if (!storedToken) {
+    // 禁止访问页面
+    next({ path: '/' });
+  } else {
+    next();
+  }
+})
       // {
       //   path: '/reviewed',
       //   name: 'reviewed',
@@ -32,7 +70,7 @@ const routes = [
       //   },
       //   component: () => import("../views/reviewed/reviewed")
       // },
-      {
+     /*  {
         path: '/welcome',
         name: 'welcome',
         meta: {
@@ -71,16 +109,9 @@ const routes = [
           title: '审核结果列表'
         },
         component: () => import("../views/reslist/reslist")
-      },
-      {
-        path: '/cases',
-        name: 'cases',
-        meta: {
-          title: '域名判定查询'
-        },
-        component: () => import("../views/domain/domain")
-      },
-      {
+      }, */
+      
+      /* {
         path: '/data_push',
         name: 'data_push',
         meta: {
@@ -144,11 +175,9 @@ const routes = [
           title: '流程管理页面'
         },
         component: () => import("../views/treatment/treatment")
-      },
-    ],
-    component: Home
-  },
-
+      }, */
+    
+/* 
 ]
 const router = new VueRouter({
   // mode: 'history',
@@ -167,7 +196,7 @@ router.beforeEach((to, from, next) => {
   } else {
     next();
   }
-})
+}) */
 
 // 前置守卫 to: 要去的页面，  from：从哪个页面  next： 跳转操作函数
 // 主要是确保用户登录状态，登录过期及重新登录
