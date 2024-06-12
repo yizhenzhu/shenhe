@@ -7,21 +7,6 @@
             <!-- 流程记录页面头部模块——域名 -->
             <el-form-item>
               <el-input v-model="form.url" placeholder="url"></el-input>
-              <!-- <el-select
-                v-model="form.selectURL"
-
-                placeholder="URL"
-                clearable
-                @clear="selectURL_clearFun(form.selectURL)"
-              >
-                <el-option
-                  v-for="item in selectData.selectURL"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id"
-                >
-                </el-option>
-              </el-select> -->
             </el-form-item>
             <!-- 流程记录页面头部模块——初审 -->
             <el-form-item>
@@ -158,13 +143,6 @@
             <span slot="footer" class="dialog-footer">
               <el-button @click="dialogVisible = false">取消</el-button>
             </span>
-            <!-- <div v-if="code" style="flex: 1; max-height: 400px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; background-color: #f9f9f9;">
-                <pre>{{ code }}</pre>
-              </div>
-            </div>
-            <span slot="footer" class="dialog-footer">
-              <el-button @click="dialogVisible = false">取消</el-button>
-            </span> -->
           </el-dialog>
         </el-col>
       </el-row>
@@ -182,16 +160,6 @@
       empty-text="暂无数据"
       v-loading="loading"
     >
-      <!--  <el-table-column prop="id" label="序号" type="index" min-width="5%">
-        <template slot-scope="scope"
-          ><span v-text="getIndex(scope.$index)"></span
-        ></template>
-      </el-table-column>
-      <el-table-column prop="createTime" label="入库时间" show-overflow-tooltip sortable min-width="15%">
-        <template slot-scope="scope">
-          {{ time(scope.row.createTime) }}
-        </template>
-      </el-table-column> -->
       <el-table-column
         prop="url"
         label="URL"
@@ -224,27 +192,6 @@
       <el-table-column prop="remark" label="备注" min-width="5%">
       </el-table-column>
 
-      <!-- <el-table-column prop="auditStatusName" label="审核状态" min-width="8%">
-        <template slot-scope="scope">
-          {{ scope.row.auditStatusName }}
-        </template>
-      </el-table-column>
-      <el-table-column prop="treatStatusName" label="处置状态" min-width="5%">
-        <template slot-scope="scope">
-          {{ scope.row.treatStatusName }}
-        </template>
-      </el-table-column>
-      <el-table-column prop="reason" label="原因" min-width="15%">
-        <template slot-scope="scope">
-          {{ scope.row.reason }}
-        </template>
-      </el-table-column>
-      <el-table-column prop="auditResultName" label="审核结果" min-width="15%">
-        <template slot-scope="scope">
-          {{ scope.row.auditResultName }}
-        </template>
-      </el-table-column> -->
-      <!-- <el-table-column prop="url9" label="备注"> </el-table-column> -->
     </el-table>
 
     <!-- 页面页数 -->
@@ -294,9 +241,6 @@
         <el-button type="primary" @click="shangchuan = false" size="mini"
           >取 消</el-button
         >
-        <!-- <el-button type="primary" @click="wenjianshangchaun" size="mini"
-          >确 定</el-button
-        > -->
       </span>
     </el-dialog>
   </div>
@@ -342,18 +286,6 @@ export default {
             name: "深圳",
           },
         
-          // {
-          //   value: '0',
-          //   label: "待审核",
-          // },
-          // {
-          //   value: '1',
-          //   label: "审核中",
-          // },
-          // {
-          //   value: '2',
-          //   label: "已审核",
-          // },
         ],
         schuan:[
         {
@@ -390,8 +322,6 @@ export default {
   },
 
   created() {
-    //   this.form.username=JSON.parse(window.sessionStorage.getItem('one'))
-    //   this.techlist();
     this.suoshudi();
     this.suoshudi2();
   },
@@ -399,34 +329,16 @@ export default {
     // 城市下拉框数据
     async suoshudi() {
       this.loading = true;
-      // const promise1 =  this.$http.get("/dictionary/datasource");
       const promise1 = this.$http.get("/cases");
-      // const promise2 =  this.$http.get("dictionary/fraudType",{isBig:true})
-      // const [data1,data2] = await Promise.all([promise1,promise2])
       const { data: res } = await promise1;
       if (res.code === 200) {
         this.selectData.selectURL = res.data;
       }
-      // if(data1.data.code === 200 && data2.data.code === 200){
-      //   this.selectData.fushen = data1.data.data
-      //   this.selectData.shezha = data2.data.data
-      //   for(let i in data1.data.data){
-      //     if(data1.data.data[i].name==="上海"){
-      //       this.newdomainSimpleVo.guishud = data1.data.data[i]
-      //       break
-      //     }else{
-      //       this.newdomainSimpleVo.guishud = null
-      //     }
-      //   }
-
-      // }
       this.techlist();
     },
     //来源下拉框
     async suoshudi2() {
       this.loading = true;
-      // const promise1 =  this.$http.get("/dictionary/datasource");
-      // const promise1 =  this.$http.get("/cases/source");
       const { data: res } = await promise1;
       if (res.code === 200) {
         this.selectData.laiyuan = res.data;
@@ -612,56 +524,6 @@ export default {
         } 个文件`
       );
     },
-    //精确导出
-
-    /*  async put() {
-      this.loadingbuttext = "...加载中";
-      this.loadingbut = true;
-      let list = {
-        url: this.form.domain,
-        start: this.whiteSearchList.startCreateTime,
-        end: this.whiteSearchList.endCreateTime,
-        source: this.form.selectURL,
-        auditStatus: this.form.laiyuan,
-        treatStatus: this.form.chuzhi,
-      };
-      if (this.tableData.length == 0) {
-        this.$message("当前数据为空，无法导出！");
-        this.loadingbuttext = "导出";
-        this.loadingbut = false;
-        return false;
-      }
-      const res = await this.$http({
-        methods: "get",
-        // url:"/originDomain/export",
-        url: "/cases",
-        responseType: "blob",
-        params: list,
-      });
-      if (res) {
-        this.loadingbuttext = "导出";
-        this.loadingbut = false;
-        // console.log(res.data);
-        let binaryData = [];
-        binaryData.push(res.data);
-        var _url = window.URL.createObjectURL(
-          new Blob(binaryData, { type: "application/vnd.ms-excel" })
-        );
-        const a = document.createElement("a");
-        // a.download = name;
-        a.href = _url;
-        a.setAttribute(
-          "download",
-          decodeURI(res.headers["content-disposition"].split("=")[1])
-        );
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        this.$message("导出成功");
-      } else {
-        this.$message("导出失败");
-      }
-    }, */
 
     getIndex($index) {
       //$index为数据下标,对英序号要加一
@@ -784,17 +646,4 @@ export default {
   word-wrap: break-word;
 }
 
-// .custom-center .cell {
-//   text-align: center !important;
-// }
-// .aligned-column .cell {
-//   display: flex;
-//   align-items: center;
-// }
-
-// .aligned-column .cell:before {
-//   content: '';
-//   display: inline-block;
-//   width: 10px; /* 调整 ::before 元素的宽度，使其与内容对齐 */
-// }
 </style>
