@@ -60,8 +60,6 @@
                     <el-input v-model="box.label" placeholder="类型" :disabled="true"></el-input>
                   </div>
                   <div class="box-item images">
-                    <!-- :src="decodeURL(box.minio_url)"
-                     :preview-src-list="[decodeURL(box.minio_url)]" -->
                     <el-image
                     :src="box.minio_url"
                     :preview-src-list="[box.minio_url]"
@@ -73,14 +71,6 @@
                       </div>
                     </el-image>
                   </div>
-                  <!-- <div class="box-item">
-                    
-                    <img
-                      :src="decodeURL(box.minio_url)"
-                      alt="image"
-                      class="box-image"
-                    />
-                  </div> -->
                   <div class="box-item">
                     <span class="box-label">判定</span>
                     <el-select v-model="box.judgement" placeholder="类型">
@@ -92,13 +82,7 @@
                       ></el-option>
                     </el-select>
                   </div>
-                  <!-- <div class="box-item">
-                    <span class="box-label">判定</span>
-                    <el-select v-model="box.judgement" placeholder="判定">
-                      <el-option label="非诈骗" value="non_fraud"></el-option>
-                      <el-option label="诈骗" value="fraud"></el-option>
-                    </el-select>
-                  </div> -->
+
                 </div>
               </el-col>
             </el-row>
@@ -264,11 +248,6 @@ export default {
         (this.mypageable.pageNum - 1) * this.mypageable.pageSize + $index + 1
       );
     },
-
-   /*  handleSizeChange(val) {
-      this.mypageable.pageSize = val;
-      this.techlist();
-    }, */
     handleCurrentChange(val) {
       this.mypageable.pageNum = val;
       this.techlist();
@@ -287,14 +266,6 @@ export default {
         this.techlist(); // 调用获取数据的方法
       }
     },
-    /* jumpToPage() {
-      if (this.jumpPage > 0 && this.jumpPage <= this.totalPages) {
-        this.mypageable.pageNum = this.jumpPage;
-        this.techlist();
-      } else {
-        this.$message.error("请输入有效的页码");
-      }
-    }, */
     async submitResults() {
       try {
         const results = this.form.boxes.map(box => ({
@@ -316,19 +287,7 @@ export default {
         this.$message.error("提交失败");
       }
     },
-    /* dataCreate_change(val) {
-      if (val && val != "") {Crea
-        this.whiteSearchList.startCreateTime = val[0];
-        this.whiteSearchList.endCreateTime = val[1];
-      } else {
-        this.whiteSearchList.startCreateTime = null;
-        this.whiteSearchList.endCreateTime = null;
-      }
-    }, */
-    // 解码URL---vue自带对url解码器
-   /*  decodeURL(url) {
-      return decodeURIComponent(url);
-    }, */
+   
   },
 };
 </script>
