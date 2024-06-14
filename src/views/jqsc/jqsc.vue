@@ -258,7 +258,6 @@ export default {
         domain: null,
         laiyuan: null, // laiyuan
         shangchuan:null,
-        chuzhi: null,
         selectURL: null,
         datetime: [
           dayjs().subtract(1, "week").format("YYYY-MM-DD"),
@@ -488,7 +487,8 @@ export default {
         python: '/cases/upload/api/python',
         java: ''
         // python: 'def example_function():\n    print("Hello, Python!")',
-        // java: 'public class Example {\n    public static void main(String[] args) {\n        System.out.println("Hello, Java!");\n    }\n}',
+        // java: 'public class Example {\n    public static void main(String[] args) 
+        {\n        System.out.println("Hello, Java!");\n    }\n}',
       };
       
       this.code = codeData[this.selectedType];
@@ -560,15 +560,6 @@ export default {
         return "无";
       } else {
         return dayjs(val).format("YYYY-MM-DD  HH:mm:ss");
-      }
-    },
-    status(val) {
-      if (val == "1") {
-        return "是";
-      } else if (val == "2") {
-        return "否";
-      } else if (val == "3") {
-        return "不确定";
       }
     },
     dataCreate_change(val) {

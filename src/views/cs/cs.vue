@@ -221,7 +221,7 @@ export default {
       };
       try {
         const { data: res } = await this.$http.get("/audit/first", { params });
-        console.log("后端返回的数据：", res); // 输出后端返回的全部数据
+        // console.log("后端返回的数据：", res); // 输出后端返回的全部数据
         if (res.code === 200) {
           this.form.boxes = res.datas.map((item) => ({
             url: item.url,
@@ -230,7 +230,7 @@ export default {
             judgement: "",
           }));
           this.total = res.total;
-          console.log("图片数据：", this.form.boxes); // 输出图片数据
+          // console.log("图片数据：", this.form.boxes); // 输出图片数据
         }
       } catch (error) {
         console.error("Error fetching data:", error);
