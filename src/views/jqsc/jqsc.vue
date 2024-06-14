@@ -84,8 +84,13 @@
               >接口上传</el-button
             >
           </div>
-          <!-- 文件上传弹出框 -->
+          <!-- 文件上传弹出框 -->    
           <el-dialog :visible.sync="uploadDialogVisible" title="文件上传">
+            <div class="button-group-vertical">
+            <el-button size="mini" type="primary" @click="downloadTemplate"
+              class="bottom-margin"
+                >模板下载</el-button
+              >
             <el-upload
               ref="upload"
               class="upload-demo"
@@ -97,12 +102,11 @@
               multiple
               :limit="3"
             >
-              <el-button size="mini" type="primary" @click="downloadTemplate"
-                >模板下载</el-button
-              >
+              
               <el-button size="mini" type="primary">点击上传</el-button>
               <div slot="tip" class="el-upload__tip">上传文件</div>
             </el-upload>
+          </div>
             <span slot="footer" class="dialog-footer">
               <el-button
                 type="primary"
@@ -210,40 +214,8 @@
         </el-pagination>
       </div>
     </div>
-
-    <!-- 上传 -->
-    <el-dialog
-      :close-on-click-modal="false"
-      title="文件上传"
-      :visible.sync="shangchuan"
-      height="40%"
-      :before-close="shangchuanclose"
-      class="dialogInfo"
-    >
-      <div style="width: 100%">
-        <el-upload
-          ref="upload"
-          class="upload-demo"
-          accept=".xlsx,.csv,.text"
-          action="/cases/upload"
-          :before-remove="beforeRemove"
-          :on-success="successSendFile"
-          :on-exceed="handleExceed"
-          multiple
-          :limit="3"
-        >
-          <el-button size="mini" type="primary">模板下载</el-button>
-          <el-button size="mini" type="primary">点击上传</el-button>
-          <div slot="tip" class="el-upload__tip">上传文件</div>
-        </el-upload>
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="shangchuan = false" size="mini"
-          >取 消</el-button
-        >
-      </span>
-    </el-dialog>
-  </div>
+</div>
+  
 </template>
 
 <script>
@@ -255,15 +227,14 @@ export default {
       loading: false,
       form: {
         url: "", // url
-        domain: null,
         laiyuan: null, // laiyuan
-        shangchuan:null,
+        schuan: null,
         selectURL: null,
         datetime: [
           dayjs().subtract(1, "week").format("YYYY-MM-DD"),
           dayjs(new Date()).format("YYYY-MM-DD"),
         ],
-        username: null,
+        // username: null,
       },
       whiteSearchList: {
         startCreateTime: dayjs().subtract(1, "week").format("YYYY-MM-DD"),
@@ -279,35 +250,13 @@ export default {
       selectData: {
         type: [],
         selectURL: [],
-        laiyuan: [
-          {
-            id: "深圳",
-            name: "深圳",
-          },
-        
-        ],
+        laiyuan: [{id: "深圳",name: "深圳"}],
         schuan:[
-        {
-            id: 1,
-            name: "文件上传",
-        },
-        {
-            id: 2,
-            name: "接口上传",
-        },
+        {id: 1,name: "文件上传",},
+        {id: 2,name: "接口上传",},
         ],
-        chuzhi: [
-          {
-            value: "0",
-            label: "否",
-          },
-          {
-            value: "1",
-            label: "是",
-          },
-        ],
+        
       },
-
       //文件上传
       uploadDialogVisible: false,
       loadingbut: false,
@@ -321,8 +270,9 @@ export default {
   },
 
   created() {
-    this.suoshudi();
-    this.suoshudi2();
+    /* this.suoshudi();
+    this.suoshudi2(); */
+    this.techlist();
   },
   methods: {
     // 城市下拉框数据
@@ -351,16 +301,15 @@ export default {
       let list = {
         //url、source
         url: this.form.url,
-        label: this.form.label,
-        // source: this.form.selectURL,
-        create_person: this.form.create_person,
-        create_method: this.form.create_method,
-        create_time: this.form.create_time,
-        remark: this.form.remark,
+        // label: this.form.label,
+        // // source: this.form.selectURL,
+        // create_person: this.form.create_person,
+        // create_method: this.form.create_method,
+        // create_time: this.form.create_time,
+        // remark: this.form.remark,
         source: this.form.laiyuan,
         upload_method:this.form.schuan,
 
-        // treatStatus: this.form.chuzhi,
       };
       // console.log("...params", list);
       //请求接口时---传递参数---payload
@@ -368,7 +317,7 @@ export default {
       // console.log('...res',res)
       if (res.code == 200) {
         // console.log(res.data);
-        this.tableData = res.datas;
+        // this.tableData = res.datas;
         // console.log(this.tableData)
 
         //映射关系 const map---对象   datas.map---遍历方法用于数组---类似于v-for
@@ -377,12 +326,11 @@ export default {
           2: "接口上传",
         };
         // { ...item } === item
-        this.tableData = res.datas.map((item) => {
-          return {
+        this.tableData = res.datas.map((item) => ({
             ...item,
             create_method: obj[item["create_method"]],
-          };
-        });
+          
+        }));
         // console.log('ooores',res.datas)
         this.total = res.total;
         this.loading = false;
@@ -396,25 +344,7 @@ export default {
       this.techlist();
       
     },
-    chongzhi() {
-      this.form.url = null;
-      this.form.label = null;
-      this.form.username = null;
-      this.form.selectURL = null;
-      this.form.domain = null;
-      this.whiteSearchList.startCreateTime = dayjs()
-        .subtract(1, "week")
-        .format("YYYY-MM-DD");
-      this.whiteSearchList.endCreateTime = dayjs(new Date()).format(
-        "YYYY-MM-DD"
-      );
-      (this.form.datetime = [
-        dayjs().subtract(1, "week").format("YYYY-MM-DD"),
-        dayjs(new Date()).format("YYYY-MM-DD"),
-      ]),
-        (this.form.username = JSON.parse(window.sessionStorage.getItem("one")));
-      this.techlist();
-    },
+    
     //文件上传
     showUploadDialog() {
       this.uploadDialogVisible = true;
@@ -453,11 +383,14 @@ export default {
           this.loadingbut = false;
           document.body.removeChild(aLink);
           this.$message.success("模板下载成功！");
+           // 关闭文件上传弹出框
+          this.uploadDialogVisible = false;
         }
       } catch (err) {
         this.$message.error("文件下载失败！", err);
         this.loadingbuttext = "模板下载";
         this.loadingbut = false;
+        this.uploadDialogVisible = false;
       }
     },
     //接口文件
@@ -531,21 +464,6 @@ export default {
       return (
         (this.mypageable.pageNum - 1) * this.mypageable.pageSize + $index + 1
       );
-    },
-    type_clearFun(val) {
-      if (val == "") {
-        this.form.username = null;
-      }
-    },
-    chushen_clearFun(val) {
-      if (val == "") {
-        this.form.laiyuan = null;
-      }
-    },
-    fushen_clearFun(val) {
-      if (val == "") {
-        this.form.chuzhi = null;
-      }
     },
     handleSizeChange(val) {
       this.mypageable.pageSize = val;
@@ -629,12 +547,22 @@ export default {
   max-height: 400px;
   overflow-y: auto;
   overflow-x: auto;
-  border: 1px solid #ddd;
+
   padding: 10px;
   background-color: #f9f9f9;
   white-space: pre-wrap;
   word-break: break-all;
   word-wrap: break-word;
 }
+//模板下载和点击上传
+.button-group-vertical {
+  // display: flex;
+  flex-direction: column;
+}
+
+.bottom-margin {
+  margin-bottom: 10px; /* Adjust the margin as needed */
+}
 
 </style>
+<!-- 两个按钮上下布局距离调整 -->
