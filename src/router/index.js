@@ -40,6 +40,14 @@ const routes = [
         },
         component: () => import("../views/cs/cs")
       },
+      {
+        path: '/fushen',
+        name: 'fushen',
+        meta: {
+          title: '复审'
+        },
+        component: () => import("../views/fushen/fushen")
+      },
     ],
     component: Home
   },

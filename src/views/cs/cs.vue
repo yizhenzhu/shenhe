@@ -1,7 +1,7 @@
 <template>
   <div class="right_main_under">
     <el-form size="mini" label-width="80px" :inline="true">
-      <el-row :gutter="20">
+      <el-row :gutter="24">
         <el-col :span="18">
           <div class="grid-content bg-purple">
             <el-form-item>
@@ -150,7 +150,6 @@ export default {
       },
       total: 1,
       selectData: {
-        selectURL: [],
         laiyuan: [
           {
             id: "深圳",

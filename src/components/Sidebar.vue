@@ -155,6 +155,12 @@ export default {
               menuType: 1,
               //menuType:0
             },
+            {
+              menuName: "复审",
+              menuUrl: "/fushen",
+              name: "fushen",
+              menuType: 1,
+            },
           ]
         },
        /*  {
