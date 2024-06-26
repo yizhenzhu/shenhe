@@ -242,10 +242,10 @@ export default {
       },
       tableData: [],
       mypageable: {
-        pageNum: 1,
-        pageSize: 50,
+        pageNum: 1,//当前页码
+        pageSize: 50,//每页显示的条目数
       },
-      total: 1,
+      total: 1,//总条目数
       totalPages: "",
       selectData: {
         type: [],
@@ -297,24 +297,13 @@ export default {
     
     async techlist() {
       this.loading = true;
-      // console.log(this.form);
       let list = {
-        //url、source
         url: this.form.url,
-        // label: this.form.label,
-        // // source: this.form.selectURL,
-        // create_person: this.form.create_person,
-        // create_method: this.form.create_method,
-        // create_time: this.form.create_time,
-        // remark: this.form.remark,
         source: this.form.laiyuan,
         upload_method:this.form.schuan,
 
       };
-      // console.log("...params", list);
-      //请求接口时---传递参数---payload
       const { data: res } = await this.$http.get("/cases", { params: list });
-      // console.log('...res',res)
       if (res.code == 200) {
         // console.log(res.data);
         // this.tableData = res.datas;
@@ -338,6 +327,9 @@ export default {
         this.$message(res.message);
         this.loading = false;
       }
+    },
+    mounted() {
+    this.techlist(); // 组件挂载时获取初始数据
     },
     chaxun() {
       this.mypageable.pageNum = 1;
@@ -466,11 +458,13 @@ export default {
       );
     },
     handleSizeChange(val) {
-      this.mypageable.pageSize = val;
+      this.mypageable.pageSize = val;// 更新每页显示的条目数
+      this.mypageable.pageNum = 1;  // 重置为第一页
       this.techlist();
     },
     handleCurrentChange(val) {
-      this.mypageable.pageNum = val;
+      // 当用户改变当前页码时触发
+      this.mypageable.pageNum = val; // 更新当前页码
       this.techlist();
     },
     time(val) {
