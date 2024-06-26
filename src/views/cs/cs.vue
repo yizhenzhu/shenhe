@@ -182,6 +182,10 @@ export default {
             id: item.source,
             name: item.source,
             count: item.count,
+            start: this.form.datetime[0],
+            end: this.form.datetime[1],
+            page: this.mypageable.pageNum,
+            page_size: this.mypageable.pageSize,
           }));
         }
       } catch (error) {

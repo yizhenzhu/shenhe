@@ -36,78 +36,7 @@ export default {
       pid: [],
       Newname: [],
       Newname1: [],
-      items: [
-        // {
-        //   menuName: "待审核列表",
-        //   menuUrl: "/reviewed",
-        //   name: "reviewed",
-        //   menuType: 1,
-        // },
-        // {
-        //   menuName: "初审",
-        //   menuUrl: "/Preliminaryexamination",
-        //   name: "Preliminaryexamination",
-        //   menuType: 1,
-        // },
-        // {
-        //   menuName: "复审",
-        //   menuUrl: "/reviewcase",
-        //   name: "reviewcase",
-        //   menuType: 1,
-        // },
-        // {
-        //   menuName: "终审",
-        //   menuUrl: "/finaljudgment",
-        //   name: "finaljudgment",
-        //   menuType: 1,
-        // },
-        // {
-        //   menuName: "审核结果列表",
-        //   menuUrl: "/reslist",
-        //   name: "reslist",
-        //   menuType: 1,
-        // },
-        // {
-        //   menuName: "审核日志页面",
-        //   menuUrl: "/technologicalprocess",
-        //   name: "technologicalprocess",
-        //   menuType: 1,
-        // },
-        // {
-        //   menuName: "系统管理",
-        //   menuUrl: "/xitong",
-        //   name: "xitong",
-        //   menuType: 0,
-        //   children: [
-        //      {
-        //       menuName: "用户管理",
-        //       menuUrl: "/user",
-        //       name: "user",
-        //       menuType: 1,
-        //     },
-        //     {
-        //       menuName: "角色管理",
-        //       menuUrl: "/Role",
-        //       name: "Role",
-        //       menuType: 1,
-        //     },
-        //       {
-        //       menuName: "菜单管理",
-        //       menuUrl: "/menu",
-        //       name: "menu",
-        //       menuType: 1,
-        //     },
-        //     {
-        //       menuName: "人数配置页面",
-        //       menuUrl: "/Numberallocation",
-        //       name: "Numberallocation",
-        //       menuType: 1,
-        //     },
-            
-        //   ],
-        // },
-      ],
-      // 新需求：测试
+      items: [],        
       items2: [
         /* {
           menuName: "首页",
@@ -128,18 +57,6 @@ export default {
               menuType: 1,
               //menuType:0
             },
-            /* {
-              menuName: "警情审核",
-              menuUrl: "/jingqingshenhe",
-              name: "jingqingshenhe",
-              menuType: 1,
-            },
-            {
-              menuName: "警情处置",
-              menuUrl: "/menu",
-              name: "menu",
-              menuType: 1,
-            }, */
           ]
         },
         {

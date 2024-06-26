@@ -298,9 +298,14 @@ export default {
     async techlist() {
       this.loading = true;
       let list = {
+        page:this.mypageable.pageNum,
+        page_size:this.mypageable.pageSize,
         url: this.form.url,
         source: this.form.laiyuan,
+        start:this.form.datetime[0],
+        end:this.form.datetime[1],
         upload_method:this.form.schuan,
+
 
       };
       const { data: res } = await this.$http.get("/cases", { params: list });
