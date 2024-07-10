@@ -184,14 +184,14 @@ export default {
   mounted() {
     // let href = window.location.href;
     // this.defaultUrl = href.split("/#")[1];
-    this.qx();
-    this.scheduleCheck();
+    // this.qx();
+    // this.scheduleCheck();
   },
   watch: {
     $route: "getPath",
   },
   methods: {
-    async scheduleCheck() {
+    /* async scheduleCheck() {
       // const { data: res } = await this.$http.get("/user/getInfo");
       const { data: res } = await this.$http.get("/cases");
       if(res.data.role === 'THIRD'){
@@ -206,7 +206,7 @@ export default {
         }, 60000); // 每分钟检查一次
       }
       
-    },
+    }, */
     closePopup() {
       this.showPopup = false;
     },
@@ -214,160 +214,160 @@ export default {
       this.defaultUrl = this.$route.path;
     },
 
-    async qx() {
-      const that = this;
-      // const { data: res } = await this.$http.get("/user/getInfo");
-      const { data: res } = await this.$http.get("/cases");
-      // console.log(res);
-      if (res.code == 200) {
-        if(res.data.role === 'ADMIN'){
-          this.items.push(
-            /* {
-              menuName:"首页",
-              name:"welcome",
-              menuType: 1,
-            }, */
-        {
-          menuName: "初审",
-          name: "Preliminaryexamination",
-          menuType: 1,
-        },
-        {
-          menuName: "复审",
-          name: "reviewcase",
-          menuType: 1,
-        },
-        {
-          menuName: "终审",
-          name: "finaljudgment",
-          menuType: 1,
-        },{
-          menuName: "审核结果列表",
-          name: "reslist",
-          menuType: 1,
-        },
-        {
-          menuName: "审核日志",
-          name: "technologicalprocess",
-          menuType: 1,
-        },
-        {
-          menuName: "处置库",
-          name: "treatment",
-          menuType: 1,
-        },
-        {              
-          menuName:"域名判定查询",
-          name:"domain_decide",
-          menuType: 1,
-        },    
-        {              
-          menuName:"数据推送",
-          name:"data_push",
-          menuType: 1,
-        },  
-        {
-          menuName: "系统管理",
-          name: "xitong",
-          menuType: 0,
-          id:5,
-          // pid:-1,
-          children: [
-             {
-              menuName: "用户管理",
-              name: "user",
-              menuType: 1,
-            },        
-          ],
-        },
+    // async qx() {
+    //   const that = this;
+    //   // const { data: res } = await this.$http.get("/user/getInfo");
+    //   const { data: res } = await this.$http.get("/cases");
+    //   // console.log(res);
+    //   if (res.code == 200) {
+    //     if(res.data.role === 'ADMIN'){
+    //       this.items.push(
+    //         /* {
+    //           menuName:"首页",
+    //           name:"welcome",
+    //           menuType: 1,
+    //         }, */
+    //     {
+    //       menuName: "初审",
+    //       name: "Preliminaryexamination",
+    //       menuType: 1,
+    //     },
+    //     {
+    //       menuName: "复审",
+    //       name: "reviewcase",
+    //       menuType: 1,
+    //     },
+    //     {
+    //       menuName: "终审",
+    //       name: "finaljudgment",
+    //       menuType: 1,
+    //     },{
+    //       menuName: "审核结果列表",
+    //       name: "reslist",
+    //       menuType: 1,
+    //     },
+    //     {
+    //       menuName: "审核日志",
+    //       name: "technologicalprocess",
+    //       menuType: 1,
+    //     },
+    //     {
+    //       menuName: "处置库",
+    //       name: "treatment",
+    //       menuType: 1,
+    //     },
+    //     {              
+    //       menuName:"域名判定查询",
+    //       name:"domain_decide",
+    //       menuType: 1,
+    //     },    
+    //     {              
+    //       menuName:"数据推送",
+    //       name:"data_push",
+    //       menuType: 1,
+    //     },  
+    //     {
+    //       menuName: "系统管理",
+    //       name: "xitong",
+    //       menuType: 0,
+    //       id:5,
+    //       // pid:-1,
+    //       children: [
+    //          {
+    //           menuName: "用户管理",
+    //           name: "user",
+    //           menuType: 1,
+    //         },        
+    //       ],
+    //     },
             
-        )
-        }else if(res.data.role === 'FIRST'){
-          this.items.push({
-              menuName:"首页",
-              name:"welcome"
-            },
-        {
-          menuName: "初审",
-          name: "Preliminaryexamination",
-          menuType: 1,
-        },{
-          menuName: "审核日志",
-          name: "technologicalprocess",
-          menuType: 1,
-        },)
-        }else if(res.data.role === 'SECOND'){
-          this.items.push({
-              menuName:"首页",
-              name:"welcome"
-            },
-            {
-          menuName: "复审",
-          name: "reviewcase",
-          menuType: 1,
-        },{
-          menuName: "审核日志",
-          name: "technologicalprocess",
-          menuType: 1,
-        },)
-        }else if(res.data.role === 'THIRD'){
-          this.items.push({
-              menuName:"首页",
-              name:"welcome"
-            },
-            {
-          menuName: "终审",
-          name: "finaljudgment",
-          menuType: 1,
-        },{
-          menuName: "审核结果列表",
-          name: "reslist",
-          menuType: 1,
-        },
-        {
-          menuName: "审核日志",
-          name: "technologicalprocess",
-          menuType: 1,
-        },
-        {
-          menuName: "处置库",
-          name: "treatment",
-          menuType: 1,
-        },
-        {              
-          menuName:"域名判定查询",
-          name:"domain_decide",
-          menuType: 1,
-        },    
-        // {              
-        //   menuName:"数据推送",
-        //   name:"data_push",
-        //   menuType: 1,
-        // }
-        )
-        }
+    //     )
+    //     }else if(res.data.role === 'FIRST'){
+    //       this.items.push({
+    //           menuName:"首页",
+    //           name:"welcome"
+    //         },
+    //     {
+    //       menuName: "初审",
+    //       name: "Preliminaryexamination",
+    //       menuType: 1,
+    //     },{
+    //       menuName: "审核日志",
+    //       name: "technologicalprocess",
+    //       menuType: 1,
+    //     },)
+    //     }else if(res.data.role === 'SECOND'){
+    //       this.items.push({
+    //           menuName:"首页",
+    //           name:"welcome"
+    //         },
+    //         {
+    //       menuName: "复审",
+    //       name: "reviewcase",
+    //       menuType: 1,
+    //     },{
+    //       menuName: "审核日志",
+    //       name: "technologicalprocess",
+    //       menuType: 1,
+    //     },)
+    //     }else if(res.data.role === 'THIRD'){
+    //       this.items.push({
+    //           menuName:"首页",
+    //           name:"welcome"
+    //         },
+    //         {
+    //       menuName: "终审",
+    //       name: "finaljudgment",
+    //       menuType: 1,
+    //     },{
+    //       menuName: "审核结果列表",
+    //       name: "reslist",
+    //       menuType: 1,
+    //     },
+    //     {
+    //       menuName: "审核日志",
+    //       name: "technologicalprocess",
+    //       menuType: 1,
+    //     },
+    //     {
+    //       menuName: "处置库",
+    //       name: "treatment",
+    //       menuType: 1,
+    //     },
+    //     {              
+    //       menuName:"域名判定查询",
+    //       name:"domain_decide",
+    //       menuType: 1,
+    //     },    
+    //     // {              
+    //     //   menuName:"数据推送",
+    //     //   name:"data_push",
+    //     //   menuType: 1,
+    //     // }
+    //     )
+    //     }
         
-        // this.items = res.data;
-        // =========================
-        this.items.forEach((item) => {
-          that.menuFir(item);
-        });
-        this.pid = this.getSetArr(this.pid);
-        //   if (!window.sessionStorage.getItem("btn")) {
-        //   window.sessionStorage.setItem("btn", this.Newname1);
-        // }
-        // console.log(this.pid);
-        this.items.forEach((item) => {
-          that.menuSec(item);
-        });
-        // console.log(res.data);
-      }else if(res.code == 403){
-        this.$router.push("/")
-      }
+    //     // this.items = res.data;
+    //     // =========================
+    //     this.items.forEach((item) => {
+    //       that.menuFir(item);
+    //     });
+    //     this.pid = this.getSetArr(this.pid);
+    //     //   if (!window.sessionStorage.getItem("btn")) {
+    //     //   window.sessionStorage.setItem("btn", this.Newname1);
+    //     // }
+    //     // console.log(this.pid);
+    //     this.items.forEach((item) => {
+    //       that.menuSec(item);
+    //     });
+    //     // console.log(res.data);
+    //   }else if(res.code == 403){
+    //     this.$router.push("/")
+    //   }
 
-      // console.log(res.data);
-      // this.items = res.data;
-    },
+    //   // console.log(res.data);
+    //   // this.items = res.data;
+    // },
     getSetArr(arr) {
       return [...new Set(arr)];
     },

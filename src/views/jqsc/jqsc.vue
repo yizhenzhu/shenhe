@@ -273,6 +273,7 @@ export default {
     /* this.suoshudi();
     this.suoshudi2(); */
     this.techlist();
+    console.log('jqsc');
   },
   methods: {
     // 城市下拉框数据
@@ -308,6 +309,7 @@ export default {
 
 
       };
+      console.log('cases');
       const { data: res } = await this.$http.get("/cases", { params: list });
       if (res.code == 200) {
         // console.log(res.data);

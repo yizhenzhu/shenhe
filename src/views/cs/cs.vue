@@ -166,6 +166,7 @@ export default {
     this.suoshudi2();
     this.getLaiyuanCount();
     this.getJudgementOptions();
+    console.log('cs');
   },
   computed: {
     totalPages() {
@@ -222,6 +223,7 @@ export default {
         page_size: this.mypageable.pageSize,
         source: this.form.laiyuan,
       };
+      console.log('first');
       try {
         const { data: res } = await this.$http.get("/audit/first", { params });
         // console.log("后端返回的数据：", res); // 输出后端返回的全部数据
@@ -315,8 +317,8 @@ export default {
   }
 }
 .img1 {
-  max-width: 200px; /* 设置图片最大宽度 */
-  max-height: 200px; /* 设置图片最大高度 */
+  width: 130px; /* 设置图片最大宽度 */
+ height: 130px; /* 设置图片最大高度 */
   display: block; /* 设置为块级元素，使其可以水平居中 */
   margin: 0 auto; /* 设置左右边距为 auto，实现水平居中 */
 }
@@ -334,11 +336,13 @@ export default {
 }
 /* 盒子上传格式 */
 .box {
-  width: 100%;
+  width: 300px;
+  height:300px;
   padding: 10px;
   background-color: #f9f9f9;
   border: 1px solid #ddd;
   box-sizing: border-box;
+  margin-top: 10px;
 }
 
 .box-item {
