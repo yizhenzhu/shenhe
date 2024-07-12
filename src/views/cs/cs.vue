@@ -45,7 +45,7 @@
           </div>
         </el-col>
         <!-- 八个小盒子 -->
-        <el-col :span="24">
+        <el-col :span="24"  v-if="!loading && form.boxes.length">
           <div class="grid-content boxes-container">
             <el-row :gutter="20">
               <el-col v-for="(box, index) in form.boxes" :key="index" :span="5">
@@ -123,7 +123,7 @@ import dayjs from "dayjs";
 export default {
   data() {
     return {
-      loading: false,
+      loading: true,
       form: {
         laiyuan: null, // laiyuan
         datetime: [
@@ -148,7 +148,7 @@ export default {
         pageNum: 1,
         pageSize: 8,
       },
-      total: 1,
+      total: 0,
       selectData: {
         laiyuan: [
           {
@@ -163,6 +163,7 @@ export default {
   },
 
   created() {
+    // redirect('audit');
     this.suoshudi2();
     this.getLaiyuanCount();
     this.getJudgementOptions();
@@ -295,7 +296,7 @@ export default {
    
   },
 };
-</script>
+</script> 
   
   <style scoped lang='less'>
 .right_main_under {
