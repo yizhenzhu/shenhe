@@ -175,11 +175,24 @@ export default {
     };
   },
   created() {
+    this.loading = true;
     console.log("Component created");
     this.techlist();
     this.loadSelectOptions();
     this. getconfirmedLabelOptions();
   },
+  watch: {
+  reviewStatus(newVal) {
+    if (newVal !== "") {
+      this.confirmedLabel = "";
+    }
+  },
+  confirmedLabel(newVal) {
+    if (newVal !== "") {
+      this.reviewStatus = "";
+    }
+  },
+},
 
   methods: {
     async loadSelectOptions() {
@@ -195,7 +208,6 @@ export default {
 
     async techlist() {
       console.log("ok");
-      this.loading = true;
       let params = {
         //   page: this.mypageable.pageNum,
         // page_size: this.mypageable.pageSize,
@@ -207,6 +219,7 @@ export default {
       // console.log('second');
       try {
         const { data } = await this.$http.get("/audit/second", { params });
+        
         console.log("...ooo", data);
         if (data.code === 200) {
           console.log('oooooo12',data.total_page);
@@ -228,11 +241,13 @@ export default {
             ];
             this.form.boxes = boxes;
             console.log("Processed boxes:", this.form.boxes);
+            this.loading = false;
           } else {
             console.log("No data found");
             this.form.boxes = [];
           }
           this.total = data.total || 0;
+          this.confirmedLabel = ""; // 清空修改类型
         } else {
           console.error("Failed to fetch audit data:", data.message);
           // this.form.boxes = [];
@@ -274,6 +289,8 @@ export default {
         const { data: res } = await axios.post("/audit/second/result", results);
         if (res.code === 200) {
           this.$message.success("提交成功");
+          this.confirmedLabel = ""; // 清空修改类型
+          this.techlist();
         } else {
           this.$message.error("提交失败");
         }

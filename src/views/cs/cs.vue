@@ -242,7 +242,8 @@ export default {
         console.error("Error fetching data:", error);
       } finally {
         this.loading = false;
-      }
+      };
+      // this.total = res.total;
     },
     // console.log("...params", list);
     chaxun() {
@@ -276,6 +277,7 @@ export default {
       try {
         const results = this.form.boxes.map(box => ({
           url: box.url,
+          // box.minio_url,
           confirmed_label: box.judgement,
         }));
         
@@ -285,6 +287,16 @@ export default {
         } */
         if (res.code === 200) {
           this.$message.success("提交成功");
+            // 清除当前表单数据
+          // this.form.boxes = this.form.boxes.map(() => ({
+          //   url: "",
+          //   label: "",
+          //   minio_url: "",
+          //   judgement: "",
+          // }));
+
+        // 重新加载数据
+        this.techlist();
         } else {
           this.$message.error("提交失败");
         }

@@ -57,6 +57,12 @@ export default {
               menuType: 1,
               //menuType:0
             },
+            /* {
+              menuName: "警情审核",
+              menuUrl: "/jqsh",
+              name: "jqsh",
+              menuType: 1,
+            }, */
           ]
         },
         {

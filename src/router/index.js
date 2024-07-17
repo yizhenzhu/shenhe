@@ -35,6 +35,14 @@ const routes = [
         component: () => import("../views/jqsc/jqsc")
       },
       {
+        path: '/jqsh',
+        name: 'jqsh',
+        meta: {
+          title: '警情审核'
+        },
+        component: () => import("../views/jqsh/jqsh")
+      },
+      {
         path: '/audit',
         name: 'audit',
         meta: {
