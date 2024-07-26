@@ -109,9 +109,13 @@
       <el-table-column label="任务结果" min-width="8%">
         <!-- 1.a标签 2.query.selector   @click事件  DOM元素-->
         <template slot-scope="scope">
-          <el-link type="primary" @click="downloadResult(scope.row.task_id)"
-            >下载结果</el-link
+          <el-link
+            v-if="scope.row.status === '已结束'"
+            type="primary"
+            @click="downloadResult(scope.row.task_id)"
           >
+            下载结果
+          </el-link>
         </template>
       </el-table-column>
     </el-table>
@@ -376,7 +380,7 @@ export default {
       formData.append("task_type", this.taskForm.taskType);
       // formData.append("file", this.taskForm.fileList[0]);
       // 循环添加文件到 FormData 对象中
-       this.taskForm.fileList.forEach((file) => {
+      this.taskForm.fileList.forEach((file) => {
         formData.append("file", file); // "files[]" 是服务器端接收多个文件的字段名
       });
 
@@ -399,21 +403,92 @@ export default {
       }
     },
     async downloadResult(taskId) {
+      this.loadingbuttext = "...下载中";
+      this.loadingbut = true;
+
       try {
-        const response = await axios.get("/urls/task/result", {
+        const res = await axios({
+          method: "GET",
+          url: "/urls/task/result",
           params: { task_id: taskId },
+          responseType: "blob", // 确保以Blob类型接收响应
         });
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        const link = document.createElement("a");
-        link.href = url;
-        link.setAttribute("download", `task_result_${taskId}.xlsx`);
-        document.body.appendChild(link);
-        link.click();
-      } catch (error) {
-        console.error("Error downloading result", error);
-        this.$message.error("下载结果失败");
+
+        const blob = res.data;
+        const contentType =
+          res.headers["content-type"] || "application/octet-stream"; // 获取文件类型
+
+        if (contentType === "application/octet-stream") {
+          const title = `task_result_${taskId}.xlsx`;
+          const url = window.URL.createObjectURL(
+            new Blob([blob], { type: contentType })
+          );
+          const aLink = document.createElement("a");
+          aLink.href = url;
+          aLink.setAttribute("download", title);
+          document.body.appendChild(aLink);
+          aLink.click();
+          window.URL.revokeObjectURL(url); // 释放内存
+          document.body.removeChild(aLink);
+          this.$message.success("结果下载成功！");
+        } else {
+          this.$message.error("文件类型不匹配");
+        }
+
+        this.loadingbuttext = "下载结果";
+        this.loadingbut = false;
+      } catch (err) {
+        this.$message.error("文件下载失败！");
+        this.loadingbuttext = "下载结果";
+        this.loadingbut = false;
       }
     },
+
+    // async downloadResult(taskId) {
+    //   try {
+    //     const response = await axios.get("/urls/task/result", {
+    //       params: { task_id: taskId },
+    //       responseType: "blob", // 确保以Blob类型接收响应
+    //     });
+
+    //     const blob = new Blob([response.data], {
+    //       type: response.headers["content-type"],
+    //     });
+    //     const url = window.URL.createObjectURL(blob);
+    //     const link = document.createElement("a");
+    //     link.href = url;
+    //     link.setAttribute("download", `task_result_${taskId}.xlsx`);
+    //     document.body.appendChild(link);
+    //     link.click();
+
+    //     // 预览文件内容（例如在控制台中显示）
+    //     const reader = new FileReader();
+    //     reader.onload = function (e) {
+    //       console.log(e.target.result); // 在控制台中显示文件内容
+    //     };
+    //     reader.readAsText(blob);
+    //   } catch (error) {
+    //     console.error("Error downloading result", error);
+    //     this.$message.error("下载结果失败");
+    //   }
+    // },
+
+    // async downloadResult(taskId) {
+    //   try {
+    //     const response = await axios.get("/urls/task/result", {
+    //       params: { task_id: taskId },
+    //     });
+    //     const url = window.URL.createObjectURL(new Blob([response.data]));
+    //     const link = document.createElement("a");
+    //     link.href = url;
+    //     link.setAttribute("download", `task_result_${taskId}.xlsx`);
+    //     document.body.appendChild(link);
+    //     link.click();
+    //   } catch (error) {
+    //     console.error("Error downloading result", error);
+    //     this.$message.error("下载结果失败");
+    //   }
+    // },
   },
 };
 </script>
