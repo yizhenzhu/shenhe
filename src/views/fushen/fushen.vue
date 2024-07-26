@@ -119,7 +119,7 @@
                 <el-radio-button :label="0" class="radio-button">不通过</el-radio-button>
                 <el-radio-button :label="2" class="radio-button">不确定</el-radio-button>
               </el-radio-group>
-              <el-select v-model="confirmedLabel" placeholder="修改类型" class="small-select" filterable>
+              <el-select :label="3" v-model="confirmedLabel" placeholder="修改类型" class="small-select" filterable>
                 <el-option
                   v-for="option in selectData.confirmedLabelOptions"
                   :key="option"
@@ -247,6 +247,7 @@ export default {
             this.form.boxes = [];
           }
           this.total = data.total || 0;
+          this.reviewStatus = ""; // 清空状态选择
           this.confirmedLabel = ""; // 清空修改类型
         } else {
           console.error("Failed to fetch audit data:", data.message);
@@ -272,7 +273,7 @@ export default {
     },
     async submitResults() {
       console.log("Submitting results");
-      try {
+      // try {
         const results = {
           sample: this.form.boxes[0]?.sample,
           label: this.form.boxes[0]?.label,
@@ -281,11 +282,18 @@ export default {
             item.url,
             // png: item.png,
           ),
-          res: this.reviewStatus,
-          confirmed_label:this.confirmedLabel,
+          // res: this.reviewStatus,
+          // res: this.reviewStatus,
+          // confirmed_label:this.confirmedLabel,
 
         };
-        console.log("Results to be submitted:", results);
+        if (this.confirmedLabel !== "") {
+        results.res = 3; // 确认修改类型
+        results.confirmed_label = this.confirmedLabel;
+      } else {
+        results.res = this.reviewStatus;
+      }try{
+        // console.log("Results to be submitted:", results);
         const { data: res } = await axios.post("/audit/second/result", results);
         if (res.code === 200) {
           this.$message.success("提交成功");

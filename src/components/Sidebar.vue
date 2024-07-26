@@ -62,6 +62,12 @@ export default {
               menuUrl: "/jqsh",
               name: "jqsh",
               menuType: 1,
+            },
+            {
+              menuName: "警情处置",
+              menuUrl: "/jqcz",
+              name: "jqcz",
+              menuType: 1,
             }, */
           ]
         },
@@ -83,6 +89,21 @@ export default {
               menuUrl: "/fushen",
               name: "fushen",
               menuType: 1,
+            },
+          ]
+        },
+        {
+          menuName: "url任务",
+          menuUrl: "/urlrenwu",
+          name: "urlrenwu",
+          menuType: 0,
+          children:[
+            {
+              menuName: "任务",
+              menuUrl: "/renwu",
+              name: "renwu",
+              menuType: 1,
+              //menuType:0
             },
           ]
         },

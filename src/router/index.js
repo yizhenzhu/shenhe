@@ -43,6 +43,14 @@ const routes = [
         component: () => import("../views/jqsh/jqsh")
       },
       {
+        path: '/jqcz',
+        name: 'jqcz',
+        meta: {
+          title: '警情处置'
+        },
+        component: () => import("../views/jqcz/jqcz")
+      },
+      {
         path: '/audit',
         name: 'audit',
         meta: {
@@ -57,6 +65,14 @@ const routes = [
           title: '复审'
         },
         component: () => import("../views/fushen/fushen")
+      },
+      {
+        path: '/renwu',
+        name: 'renwu',
+        meta: {
+          title: '任务'
+        },
+        component: () => import("../views/renwu/renwu")
       },
     ],
     component: Home
