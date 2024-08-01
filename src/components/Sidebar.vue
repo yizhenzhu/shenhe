@@ -27,7 +27,7 @@
 
 <script>
 import NavItem from "./NavItem";
-import dayjs from 'dayjs';
+import dayjs from "dayjs";
 export default {
   data() {
     return {
@@ -36,7 +36,7 @@ export default {
       pid: [],
       Newname: [],
       Newname1: [],
-      items: [],        
+      items: [],
       items2: [
         /* {
           menuName: "首页",
@@ -49,7 +49,7 @@ export default {
           menuUrl: "/jingqing",
           name: "jingqing",
           menuType: 0,
-          children:[
+          children: [
             {
               menuName: "警情上传",
               menuUrl: "/cases",
@@ -69,14 +69,14 @@ export default {
               name: "jqcz",
               menuType: 1,
             }, */
-          ]
+          ],
         },
         {
           menuName: "审核",
           menuUrl: "/shenhe",
           name: "shenhe",
           menuType: 0,
-          children:[
+          children: [
             {
               menuName: "初审",
               menuUrl: "/audit",
@@ -90,14 +90,14 @@ export default {
               name: "fushen",
               menuType: 1,
             },
-          ]
+          ],
         },
         {
           menuName: "url任务",
           menuUrl: "/urlrenwu",
           name: "urlrenwu",
           menuType: 0,
-          children:[
+          children: [
             {
               menuName: "任务",
               menuUrl: "/renwu",
@@ -105,9 +105,24 @@ export default {
               menuType: 1,
               //menuType:0
             },
-          ]
+          ],
         },
-       /*  {
+        {
+          menuName: "钓鱼网站",
+          menuUrl: "/diaoyuweb",
+          name: "diaoyuweb",
+          menuType: 0,
+          children: [
+            {
+              menuName: "审核",
+              menuUrl: "/shenhe",
+              name: "shenhe",
+              menuType: 1,
+              //menuType:0
+            },
+          ],
+        },
+        /*  {
           menuName: "审核",
           menuUrl: "/shenhe",
           name: "shenhe",
@@ -283,16 +298,16 @@ export default {
     //       name: "treatment",
     //       menuType: 1,
     //     },
-    //     {              
+    //     {
     //       menuName:"域名判定查询",
     //       name:"domain_decide",
     //       menuType: 1,
-    //     },    
-    //     {              
+    //     },
+    //     {
     //       menuName:"数据推送",
     //       name:"data_push",
     //       menuType: 1,
-    //     },  
+    //     },
     //     {
     //       menuName: "系统管理",
     //       name: "xitong",
@@ -304,10 +319,10 @@ export default {
     //           menuName: "用户管理",
     //           name: "user",
     //           menuType: 1,
-    //         },        
+    //         },
     //       ],
     //     },
-            
+
     //     )
     //     }else if(res.data.role === 'FIRST'){
     //       this.items.push({
@@ -361,19 +376,19 @@ export default {
     //       name: "treatment",
     //       menuType: 1,
     //     },
-    //     {              
+    //     {
     //       menuName:"域名判定查询",
     //       name:"domain_decide",
     //       menuType: 1,
-    //     },    
-    //     // {              
+    //     },
+    //     // {
     //     //   menuName:"数据推送",
     //     //   name:"data_push",
     //     //   menuType: 1,
     //     // }
     //     )
     //     }
-        
+
     //     // this.items = res.data;
     //     // =========================
     //     this.items.forEach((item) => {
@@ -455,7 +470,7 @@ export default {
   left: 0;
   top: 50px;
   bottom: 0;
-  
+
   // height: 100%;
   // overflow-y: scroll;
   // ---垂直方向上的滚动条（控制元素在垂直方向上的溢出内容的显示方式）
@@ -473,19 +488,15 @@ export default {
 /deep/.el-submenu__title {
   height: 67px;
   line-height: 70px;
-
 }
 .el-submenu /deep/ img {
   box-sizing: border-box;
   width: 100%;
   height: 100%;
-  
-
 }
 .el-menu-item /deep/ img {
   box-sizing: border-box;
   width: 100%;
-  height: 100%; 
-} 
-
+  height: 100%;
+}
 </style>

@@ -45,45 +45,60 @@
           </div>
         </el-col>
         <!-- 八个小盒子 -->
-        <el-col :span="24"  v-if="!loading && form.boxes.length">
+        <el-col :span="24" v-if="!loading && form.boxes.length">
           <div class="grid-content boxes-container">
             <el-row :gutter="20">
-              <el-col v-for="(box, index) in form.boxes" :key="index" :span="5">
-                <div class="box">
-                  <div class="box-item">
-                    <span class="box-label">URL</span>
-                    <el-input v-model="box.url" placeholder="URL" :disabled="true"></el-input>
+              <el-col
+                v-for="(box, index) in form.boxes"
+                :key="index"
+                class="box-wrapper"
+              >
+                <el-row :span="4">
+                  <div class="box">
+                    <div class="box-item">
+                      <span class="box-label">URL</span>
+                      <el-input
+                        v-model="box.url"
+                        placeholder="URL"
+                        :disabled="true"
+                      ></el-input>
+                    </div>
+                    <div class="box-item">
+                      <span class="box-label">类型</span
+                      ><!--:disabled="true"  -->
+                      <el-input
+                        v-model="box.label"
+                        placeholder="类型"
+                        :disabled="true"
+                      ></el-input>
+                    </div>
+                    <div class="box-item images">
+                      <el-image
+                        :src="box.minio_url"
+                        :preview-src-list="[box.minio_url]"
+                        class="img1"
+                        title="图片"
+                      >
+                        <div slot="error" class="image-slot">
+                          <i class="el-icon-picture-outline" style="margin: 30%"
+                            >无图片</i
+                          >
+                        </div>
+                      </el-image>
+                    </div>
+                    <div class="box-item">
+                      <span class="box-label">判定</span>
+                      <el-select v-model="box.judgement" placeholder="类型">
+                        <el-option
+                          v-for="option in selectData.judgementOptions"
+                          :key="option"
+                          :label="option"
+                          :value="option"
+                        ></el-option>
+                      </el-select>
+                    </div>
                   </div>
-                  <div class="box-item">
-                    <span class="box-label">类型</span
-                    ><!--:disabled="true"  -->
-                    <el-input v-model="box.label" placeholder="类型" :disabled="true"></el-input>
-                  </div>
-                  <div class="box-item images">
-                    <el-image
-                    :src="box.minio_url"
-                    :preview-src-list="[box.minio_url]"
-                    class="img1"
-                    title="图片"
-                    >
-                      <div slot="error" class="image-slot">
-                        <i class="el-icon-picture-outline" style="margin: 30%">无图片</i>
-                      </div>
-                    </el-image>
-                  </div>
-                  <div class="box-item">
-                    <span class="box-label">判定</span>
-                    <el-select v-model="box.judgement" placeholder="类型">
-                      <el-option
-                        v-for="option in selectData.judgementOptions"
-                        :key="option"
-                        :label="option"
-                        :value="option"
-                      ></el-option>
-                    </el-select>
-                  </div>
-
-                </div>
+                </el-row>
               </el-col>
             </el-row>
           </div>
@@ -106,7 +121,10 @@
               </el-pagination>
             </div>
             <div class="pagination-right">
-              <el-button @click="submitResults" type="primary" class="jump-button"
+              <el-button
+                @click="submitResults"
+                type="primary"
+                class="jump-button"
                 >提交</el-button
               >
             </div>
@@ -130,7 +148,7 @@ export default {
           dayjs().subtract(1, "week").format("YYYY-MM-DD"),
           dayjs(new Date()).format("YYYY-MM-DD"),
         ],
-        boxes: Array(8)
+        boxes: Array(30)
           .fill()
           .map(() => ({
             url: "",
@@ -146,7 +164,7 @@ export default {
       tableData: [],
       mypageable: {
         pageNum: 1,
-        pageSize: 8,
+        pageSize: 30,
       },
       total: 0,
       selectData: {
@@ -167,7 +185,7 @@ export default {
     this.suoshudi2();
     this.getLaiyuanCount();
     this.getJudgementOptions();
-    console.log('cs');
+    console.log("cs");
   },
   computed: {
     totalPages() {
@@ -224,7 +242,7 @@ export default {
         page_size: this.mypageable.pageSize,
         source: this.form.laiyuan,
       };
-      console.log('first');
+      console.log("first");
       try {
         const { data: res } = await this.$http.get("/audit/first", { params });
         // console.log("后端返回的数据：", res); // 输出后端返回的全部数据
@@ -242,7 +260,7 @@ export default {
         console.error("Error fetching data:", error);
       } finally {
         this.loading = false;
-      };
+      }
       // this.total = res.total;
     },
     // console.log("...params", list);
@@ -275,19 +293,19 @@ export default {
     },
     async submitResults() {
       try {
-        const results = this.form.boxes.map(box => ({
+        const results = this.form.boxes.map((box) => ({
           url: box.url,
           // box.minio_url,
           confirmed_label: box.judgement,
         }));
-        
+
         const { data: res } = await axios.post("/audit/first/result", results);
         /* {
           params: results
         } */
         if (res.code === 200) {
           this.$message.success("提交成功");
-            // 清除当前表单数据
+          // 清除当前表单数据
           // this.form.boxes = this.form.boxes.map(() => ({
           //   url: "",
           //   label: "",
@@ -295,8 +313,8 @@ export default {
           //   judgement: "",
           // }));
 
-        // 重新加载数据
-        this.techlist();
+          // 重新加载数据
+          this.techlist();
         } else {
           this.$message.error("提交失败");
         }
@@ -305,7 +323,6 @@ export default {
         this.$message.error("提交失败");
       }
     },
-   
   },
 };
 </script> 
@@ -330,8 +347,8 @@ export default {
   }
 }
 .img1 {
-  width: 130px; /* 设置图片最大宽度 */
- height: 130px; /* 设置图片最大高度 */
+  width: 120px; /* 设置图片最大宽度 */
+  height: 120px; /* 设置图片最大高度 */
   display: block; /* 设置为块级元素，使其可以水平居中 */
   margin: 0 auto; /* 设置左右边距为 auto，实现水平居中 */
 }
@@ -349,22 +366,21 @@ export default {
 }
 /* 盒子上传格式 */
 .box {
-  width: 300px;
-  height:300px;
-  padding: 10px;
+  width: 262px;
+  height: 262px;
+  padding: 5px;
   background-color: #f9f9f9;
   border: 1px solid #ddd;
   box-sizing: border-box;
-  margin-top: 10px;
+  margin-top: 10px; /* 设置盒子之间的上边距 */
 }
 
 .box-item {
   display: flex;
   align-items: center;
   // color: #000000;
-  margin-bottom: 10px;
+  margin-bottom: 3px;
 }
-
 .box-label {
   width: 60px;
   text-align: right;
@@ -376,7 +392,11 @@ export default {
   width: 100px;
   height: 50px;
 }
-
+.box-wrapper {
+  width: 20%;
+  padding: 10px;
+  box-sizing: border-box;
+}
 .code-display {
   flex: 1;
   max-height: 400px;

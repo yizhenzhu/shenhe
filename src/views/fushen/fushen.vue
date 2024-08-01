@@ -107,19 +107,34 @@
               <el-pagination
                 background
                 layout="prev, pager, next,jumper"
-                :total="totalPage*10"
+                :total="totalPage * 10"
                 :current-page.sync="mypageable.pageNum"
                 @current-change="handleCurrentChange"
               >
               </el-pagination>
             </div>
             <div class="pagination-right1">
-              <el-radio-group v-model="reviewStatus" class="review-status-group" >
-                <el-radio-button :label="1" class="radio-button">通过</el-radio-button>
-                <el-radio-button :label="0" class="radio-button">不通过</el-radio-button>
-                <el-radio-button :label="2" class="radio-button">不确定</el-radio-button>
+              <el-radio-group
+                v-model="reviewStatus"
+                class="review-status-group"
+              >
+                <el-radio-button :label="1" class="radio-button"
+                  >通过</el-radio-button
+                >
+                <el-radio-button :label="0" class="radio-button"
+                  >不通过</el-radio-button
+                >
+                <el-radio-button :label="2" class="radio-button"
+                  >不确定</el-radio-button
+                >
               </el-radio-group>
-              <el-select :label="3" v-model="confirmedLabel" placeholder="修改类型" class="small-select" filterable>
+              <el-select
+                :label="3"
+                v-model="confirmedLabel"
+                placeholder="修改类型"
+                class="small-select"
+                filterable
+              >
                 <el-option
                   v-for="option in selectData.confirmedLabelOptions"
                   :key="option"
@@ -137,11 +152,8 @@
               >
             </div>
           </div>
-          
         </el-col>
-        <el-col>
-          
-        </el-col>
+        <el-col> </el-col>
       </el-row>
     </el-form>
   </div>
@@ -157,7 +169,6 @@ export default {
         source: null, // laiyuan
         label: null,
         boxes: [],
-        
       },
       mypageable: {
         pageNum: 1,
@@ -179,20 +190,20 @@ export default {
     console.log("Component created");
     this.techlist();
     this.loadSelectOptions();
-    this. getconfirmedLabelOptions();
+    this.getconfirmedLabelOptions();
   },
   watch: {
-  reviewStatus(newVal) {
-    if (newVal !== "") {
-      this.confirmedLabel = "";
-    }
+    reviewStatus(newVal) {
+      if (newVal !== "") {
+        this.confirmedLabel = "";
+      }
+    },
+    confirmedLabel(newVal) {
+      if (newVal !== "") {
+        this.reviewStatus = "";
+      }
+    },
   },
-  confirmedLabel(newVal) {
-    if (newVal !== "") {
-      this.reviewStatus = "";
-    }
-  },
-},
 
   methods: {
     async loadSelectOptions() {
@@ -219,10 +230,10 @@ export default {
       // console.log('second');
       try {
         const { data } = await this.$http.get("/audit/second", { params });
-        
+
         console.log("...ooo", data);
         if (data.code === 200) {
-          console.log('oooooo12',data.total_page);
+          console.log("oooooo12", data.total_page);
           this.totalPage = data.total_page || 1;
           console.log("Processing data", data.datas);
           if (data.datas && data.datas["matched_datas"].length) {
@@ -274,25 +285,25 @@ export default {
     async submitResults() {
       console.log("Submitting results");
       // try {
-        const results = {
-          sample: this.form.boxes[0]?.sample,
-          label: this.form.boxes[0]?.label,
-          source: this.form.boxes[0]?.source,
-          matched_datas: this.form.boxes.slice(1).map((item) => 
-            item.url,
-            // png: item.png,
-          ),
-          // res: this.reviewStatus,
-          // res: this.reviewStatus,
-          // confirmed_label:this.confirmedLabel,
-
-        };
-        if (this.confirmedLabel !== "") {
+      const results = {
+        sample: this.form.boxes[0]?.sample,
+        label: this.form.boxes[0]?.label,
+        source: this.form.boxes[0]?.source,
+        matched_datas: this.form.boxes.slice(1).map(
+          (item) => item.url
+          // png: item.png,
+        ),
+        // res: this.reviewStatus,
+        // res: this.reviewStatus,
+        // confirmed_label:this.confirmedLabel,
+      };
+      if (this.confirmedLabel !== "") {
         results.res = 3; // 确认修改类型
         results.confirmed_label = this.confirmedLabel;
       } else {
         results.res = this.reviewStatus;
-      }try{
+      }
+      try {
         // console.log("Results to be submitted:", results);
         const { data: res } = await axios.post("/audit/second/result", results);
         if (res.code === 200) {
@@ -375,10 +386,6 @@ export default {
   margin-top: 10px; /* 设置盒子之间的上边距 */
 }
 
-.box-blue {
-  margin-top: 0;
-  background-color: rgb(147, 192, 219);
-}
 .box-item {
   display: flex;
   align-items: center;
