@@ -82,6 +82,14 @@ const routes = [
         },
         component: () => import("../views/shenhe/shenhe")
       },
+      {
+        path: '/jieguo',
+        name: 'jieguo',
+        meta: {
+          title: '结果'
+        },
+        component: () => import("../views/jieguo/jieguo")
+      },
     ],
     component: Home
   },

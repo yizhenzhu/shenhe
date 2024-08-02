@@ -221,6 +221,13 @@ export default {
   margin-bottom: 10px;
 }
 
+.box-label {
+  width: 60px;
+  text-align: right;
+  // background-color: #000;
+  margin-right: 10px;
+}
+
 .box-item-image {
   width: 100px;
   height: 50px;

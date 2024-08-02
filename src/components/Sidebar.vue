@@ -120,6 +120,13 @@ export default {
               menuType: 1,
               //menuType:0
             },
+            {
+              menuName: "结果",
+              menuUrl: "/jieguo",
+              name: "jieguo",
+              menuType: 1,
+              //menuType:0
+            },
           ],
         },
         /*  {

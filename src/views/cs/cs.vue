@@ -416,10 +416,6 @@ export default {
   padding: 10px 0;
 }
 
-.pagination-left {
-  flex: 1;
-}
-
 .pagination-center {
   flex: 2;
   text-align: center;
