@@ -116,13 +116,13 @@ export default {
       loading: false,
       form: {
         datetime: [
-          dayjs().subtract(1, "week").format("YYYY-MM-DD"),
-          dayjs(new Date()).format("YYYY-MM-DD"),
+          dayjs().format("YYYY-MM-DD"), // 默认起始日期为今天
+          dayjs().format("YYYY-MM-DD"), // 默认结束日期为今天
         ],
       },
       whiteSearchList: {
-        startCreateTime: dayjs().subtract(1, "week").format("YYYY-MM-DD"),
-        endCreateTime: dayjs(new Date()).format("YYYY-MM-DD"),
+        startCreateTime: dayjs().format("YYYY-MM-DD"),
+        endCreateTime: dayjs().format("YYYY-MM-DD"),
       },
       tableData: [],
       mypageable: {
@@ -173,6 +173,16 @@ export default {
         this.whiteSearchList.endCreateTime = val[1];
         // this.techlist(); // 调用获取数据的方法
       }
+      /* if (val && val.length === 2) {
+        if (val[0] === val[1]) {
+          // 如果起始时间和结束时间相等，则都设置为今天的日期
+          const today = dayjs().format("YYYY-MM-DD");
+          this.form.datetime = [today, today];
+        } else {
+          this.whiteSearchList.startCreateTime = val[0];
+          this.whiteSearchList.endCreateTime = val[1];
+        }
+      } */
     },
     chaxun() {
       this.mypageable.pageNum = 1;

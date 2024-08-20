@@ -34,12 +34,19 @@
                       </div>
                     </el-image>
                   </div>
-                  <div class="box-item">
+                  <!-- <div class="box-item">
                     <span class="box-label">判定</span>
                     <el-select v-model="box.judgement" placeholder="类型">
                       <el-option label="是" value="是"></el-option>
                       <el-option label="否" value="否"></el-option>
                     </el-select>
+                  </div> -->
+                  <div class="box-item">
+                    <span class="box-label">判定</span>
+                    <el-radio-group v-model="box.judgement">
+                      <el-radio label="是">是</el-radio>
+                      <el-radio label="否">否</el-radio>
+                    </el-radio-group>
                   </div>
                 </div>
               </el-col>
@@ -64,6 +71,9 @@
               </el-pagination>
             </div>
             <div class="pagination-right">
+              <el-button @click="setAllToNo" type="warning" class="jump-button"
+                >全部否</el-button
+              >
               <el-button
                 @click="submitResults"
                 type="primary"
@@ -130,6 +140,7 @@ export default {
       }
       // this.total = res.total;
     },
+
     getIndex($index) {
       return (
         (this.mypageable.pageNum - 1) * this.mypageable.pageSize + $index + 1
@@ -138,6 +149,11 @@ export default {
     handleCurrentChange(val) {
       this.mypageable.pageNum = val;
       this.techlist();
+    },
+    setAllToNo() {
+      this.form.boxes.forEach((box) => {
+        box.judgement = "否";
+      });
     },
     async submitResults() {
       /* try {
@@ -196,6 +212,7 @@ export default {
   display: block; /* 设置为块级元素，使其可以水平居中 */
   margin: 0 auto; /* 设置左右边距为 auto，实现水平居中 */
 }
+
 .bottom {
   width: 100%;
   height: 3.75rem /* 60/16 */ /* 40/16 */;
@@ -207,7 +224,7 @@ export default {
 .box {
   width: 262px;
   height: 262px;
-  padding: 10px;
+  padding: 5px;
   background-color: #f9f9f9;
   border: 1px solid #ddd;
   box-sizing: border-box;
