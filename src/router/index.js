@@ -35,22 +35,6 @@ const routes = [
         component: () => import("../views/jqsc/jqsc")
       },
       {
-        path: '/jqsh',
-        name: 'jqsh',
-        meta: {
-          title: '警情审核'
-        },
-        component: () => import("../views/jqsh/jqsh")
-      },
-      {
-        path: '/jqcz',
-        name: 'jqcz',
-        meta: {
-          title: '警情处置'
-        },
-        component: () => import("../views/jqcz/jqcz")
-      },
-      {
         path: '/audit',
         name: 'audit',
         meta: {
@@ -89,6 +73,31 @@ const routes = [
           title: '结果'
         },
         component: () => import("../views/jieguo/jieguo")
+      },
+      {
+        path: '/dataaudit',
+        name: 'dataaudit',
+        meta: {
+          title: '数据上传'
+        },
+        component: () => import("../views/dataaudit/dataaudit")
+      },
+      {
+        path: '/datashenhe',
+        name: 'datashenhe',
+        meta: {
+          title: '审核'
+        },
+        component: () => import("../views/dataShenhe/dataShenhe")
+      },
+
+      {
+        path: '/result',
+        name: 'result',
+        meta: {
+          title: '结果'
+        },
+        component: () => import("../views/result/result")
       },
     ],
     component: Home

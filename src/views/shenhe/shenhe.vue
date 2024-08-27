@@ -71,7 +71,10 @@
               </el-pagination>
             </div>
             <div class="pagination-right">
-              <el-button @click="setAllToNo" type="warning" class="jump-button"
+              <el-button
+                @click="setAllToNo"
+                type="batchAction"
+                class="jump-button"
                 >全部否</el-button
               >
               <el-button
@@ -103,6 +106,7 @@ export default {
       },
       total: 0,
       jumpPage: 1,
+      batchAction: null,
     };
   },
 
@@ -122,8 +126,9 @@ export default {
         page_size: this.mypageable.pageSize,
       };
       try {
+        //
         const { data: res } = await this.$http.get("/diaoyu/audit", { params });
-        console.log("后端返回的数据：", res); // 输出后端返回的全部数据
+        console.log("后端返回的数据：", res.datas); // 输出后端返回的全部数据
         if (res.code === 200) {
           this.form.boxes = res.datas.map((item) => ({
             url: item.url,
@@ -151,10 +156,24 @@ export default {
       this.techlist();
     },
     setAllToNo() {
-      this.form.boxes.forEach((box) => {
-        box.judgement = "否";
-      });
+      // this.form.boxes.forEach((box) => {
+      //   box.judgement = "否";
+      // });
+      const allAreNo = this.form.boxes.every((box) => box.judgement === "否");
+
+      if (allAreNo) {
+        // 如果所有项已经是“否”，则清空所有判定
+        this.form.boxes.forEach((box) => {
+          box.judgement = "";
+        });
+      } else {
+        // 否则，将所有项的判定设置为“否”
+        this.form.boxes.forEach((box) => {
+          box.judgement = "否";
+        });
+      }
     },
+
     async submitResults() {
       /* try {
         const results = this.form.boxes.map((box) => ({

@@ -129,6 +129,35 @@ export default {
             },
           ],
         },
+        {
+          menuName: "数据审核",
+          menuUrl: "/data",
+          name: "data",
+          menuType: 0,
+          children: [
+            {
+              menuName: "数据上传",
+              menuUrl: "/dataaudit",
+              name: "dataaudit",
+              menuType: 1,
+              //menuType:0
+            },
+            {
+              menuName: "审核",
+              menuUrl: "/datashenhe",
+              name: "datashenhe",
+              menuType: 1,
+              //menuType:0
+            },
+            {
+              menuName: "结果",
+              menuUrl: "/result",
+              name: "result",
+              menuType: 1,
+              //menuType:0
+            },
+          ],
+        },
         /*  {
           menuName: "审核",
           menuUrl: "/shenhe",

@@ -5,19 +5,6 @@
         <el-col :span="18">
           <div class="grid-content bg-purple">
             <el-form-item>
-              <el-date-picker
-                v-model="form.datetime"
-                type="daterange"
-                :change="dataCreate_change"
-                range-separator="至"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-                value-format="yyyy-MM-dd"
-                :clearable="false"
-              >
-              </el-date-picker>
-            </el-form-item>
-            <el-form-item>
               <el-select v-model="form.laiyuan" placeholder="来源" clearable
                 ><!-- @clear="chushen_clearFun(form.laiyuan)" -->
                 <el-option
@@ -25,7 +12,7 @@
                   :key="item.id"
                   :label="`${item.name} ${item.count || 0}`"
                   :value="item.id"
-                  ><!-- :label="item.name" -->
+                >
                 </el-option>
               </el-select>
             </el-form-item>
@@ -63,15 +50,6 @@
                         :disabled="true"
                       ></el-input>
                     </div>
-                    <div class="box-item">
-                      <span class="box-label">类型</span
-                      ><!--:disabled="true"  -->
-                      <el-input
-                        v-model="box.label"
-                        placeholder="类型"
-                        :disabled="true"
-                      ></el-input>
-                    </div>
                     <div class="box-item images">
                       <el-image
                         :src="box.minio_url"
@@ -87,8 +65,32 @@
                       </el-image>
                     </div>
                     <div class="box-item">
-                      <span class="box-label">判定</span>
-                      <el-select v-model="box.judgement" placeholder="类型">
+                      <span class="box-label">类型</span
+                      ><!--:disabled="true"  -->
+                      <el-input
+                        v-model="box.label"
+                        placeholder="类型"
+                        :disabled="true"
+                      ></el-input>
+                    </div>
+                    <div class="box-actions">
+                      <el-button
+                        class="narrow-button"
+                        :type="box.isFraud === 1 ? 'success' : 'default'"
+                        @click="updateBoxStatus(box, 1)"
+                        >确认</el-button
+                      >
+                      <el-button
+                        class="narrow-button"
+                        :type="box.isFraud === 0 ? 'danger' : 'default'"
+                        @click="updateBoxStatus(box, 0)"
+                        >非诈骗</el-button
+                      >
+                      <el-select
+                        v-model="box.judgement"
+                        class="wide-select"
+                        placeholder="修改类型"
+                      >
                         <el-option
                           v-for="option in selectData.judgementOptions"
                           :key="option"
@@ -122,6 +124,16 @@
             </div>
             <div class="pagination-right">
               <el-button
+                :type="batchAction === 1 ? 'success' : 'default'"
+                @click="setBatchAction(1)"
+                >全部确认</el-button
+              >
+              <el-button
+                :type="batchAction === 0 ? 'danger' : 'default'"
+                @click="setBatchAction(0)"
+                >全部非诈骗</el-button
+              >
+              <el-button
                 @click="submitResults"
                 type="primary"
                 class="jump-button"
@@ -144,10 +156,10 @@ export default {
       loading: true,
       form: {
         laiyuan: null, // laiyuan
-        datetime: [
+        /* datetime: [
           dayjs().subtract(1, "week").format("YYYY-MM-DD"),
           dayjs(new Date()).format("YYYY-MM-DD"),
-        ],
+        ], */
         boxes: Array(30)
           .fill()
           .map(() => ({
@@ -155,8 +167,11 @@ export default {
             label: "",
             minio_url: "",
             judgement: "",
+            isFraud: null, // 新增属性，用于存储诈骗状态
+            modificationOptions: [], // 修改类型下拉框的选项
           })),
       },
+      batchAction: null, // 新增属性，用于批量操作
       whiteSearchList: {
         startCreateTime: dayjs().subtract(1, "week").format("YYYY-MM-DD"),
         endCreateTime: dayjs(new Date()).format("YYYY-MM-DD"),
@@ -202,10 +217,11 @@ export default {
             id: item.source,
             name: item.source,
             count: item.count,
-            start: this.form.datetime[0],
-            end: this.form.datetime[1],
+            // start: this.form.datetime[0],
+            // end: this.form.datetime[1],
             page: this.mypageable.pageNum,
             page_size: this.mypageable.pageSize,
+            // isFraud: null, // 新增属性，用于存储诈骗状态
           }));
         }
       } catch (error) {
@@ -236,8 +252,8 @@ export default {
     async techlist() {
       this.loading = true;
       let params = {
-        start: this.form.datetime[0],
-        end: this.form.datetime[1],
+        // start: this.form.datetime[0],
+        // end: this.form.datetime[1],
         page: this.mypageable.pageNum,
         page_size: this.mypageable.pageSize,
         source: this.form.laiyuan,
@@ -252,6 +268,7 @@ export default {
             label: item.label,
             minio_url: item.minio_url,
             judgement: "",
+            isFraud: null,
           }));
           this.total = res.total;
           // console.log("图片数据：", this.form.boxes); // 输出图片数据
@@ -265,7 +282,7 @@ export default {
     },
     // console.log("...params", list);
     chaxun() {
-      this.mypageable.pageNum = 1;
+      // this.mypageable.pageNum = 1;
       this.techlist();
     },
     getIndex($index) {
@@ -296,7 +313,9 @@ export default {
         const results = this.form.boxes.map((box) => ({
           url: box.url,
           // box.minio_url,
+
           confirmed_label: box.judgement,
+          res: box.isFraud,
         }));
 
         const { data: res } = await axios.post("/audit/first/result", results);
@@ -322,6 +341,40 @@ export default {
         console.error("Error submitting results:", error);
         this.$message.error("提交失败");
       }
+    },
+    /* setBatchAction(action) {
+      this.batchAction = action;
+      this.form.boxes.forEach((box) => {
+        box.isFraud = action;
+      });
+    }, */
+    // 批量操作设置
+    setBatchAction(action) {
+      // 记录当前批量操作状态
+      if (this.batchAction !== action) {
+        // 进行批量操作
+        this.batchAction = action;
+        this.form.boxes.forEach((box) => {
+          if (box.isFraud === null) {
+            box.isFraud = action;
+          }
+        });
+      } else {
+        // 取消批量操作
+        this.batchAction = null;
+        this.form.boxes.forEach((box) => {
+          if (box.isFraud === action) {
+            box.isFraud = null;
+          }
+        });
+      }
+    },
+
+    // 更新单个盒子的状态
+    updateBoxStatus(box, status) {
+      box.isFraud = status;
+      // 取消批量操作按钮的选择
+      this.batchAction = null;
     },
   },
 };
@@ -366,8 +419,10 @@ export default {
 }
 /* 盒子上传格式 */
 .box {
-  width: 262px;
-  height: 262px;
+  display: flex;
+  flex-direction: column;
+  width: 280px;
+  height: 280px;
   padding: 5px;
   background-color: #f9f9f9;
   border: 1px solid #ddd;
@@ -379,8 +434,43 @@ export default {
   display: flex;
   align-items: center;
   // color: #000000;
-  margin-bottom: 3px;
+  margin-bottom: 5px;
 }
+.box-actions {
+  padding: 5px 5px;
+  display: flex;
+  align-items: center;
+}
+
+// .box-actions .narrow-button {
+//   width: 70px; /* 调整宽度为窄一些 */
+// }
+.narrow-button {
+  margin-left: 8px;
+  margin-right: 8px; /* 设置确认按钮和非诈骗按钮之间的间距 */
+  text-align: center; /* 确保按钮文本居中 */
+  line-height: 1.5; /* 调整行高，以确保文本垂直居中 */
+  padding: 8px 10px; /* 设置内边距，确保内容不紧贴边缘 */
+  font-size: 14px; /* 可选，调整字体大小 */
+}
+
+// .box-actions .wide-select {
+//   flex: 1; /* 使下拉框占据剩余空间 */
+//   min-width: 100px; /* 设置最小宽度 */
+// }
+
+.wide-select {
+  margin-left: 8px; /* 设置下拉框与按钮之间的间距 */
+  text-align: left; /* 确保按钮文本居中 */
+}
+
+// .box-actions > * {
+//   margin-right: 5px;
+// }
+/* 取消最后一个元素的右边距 */
+// .box-actions > *:last-child {
+//   margin-right: 0;
+// }
 .box-label {
   width: 60px;
   text-align: right;

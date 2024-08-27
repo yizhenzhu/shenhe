@@ -116,13 +116,17 @@ export default {
       loading: false,
       form: {
         datetime: [
-          dayjs().format("YYYY-MM-DD"), // 默认起始日期为今天
-          dayjs().format("YYYY-MM-DD"), // 默认结束日期为今天
+          /* dayjs().format("YYYY-MM-DD"), // 默认起始日期为今天
+          dayjs().format("YYYY-MM-DD"), // 默认结束日期为今天 */
+          dayjs().subtract(1, "week").format("YYYY-MM-DD"),
+          dayjs(new Date()).format("YYYY-MM-DD"),
         ],
       },
       whiteSearchList: {
-        startCreateTime: dayjs().format("YYYY-MM-DD"),
-        endCreateTime: dayjs().format("YYYY-MM-DD"),
+        /* startCreateTime: dayjs().format("YYYY-MM-DD"),
+        endCreateTime: dayjs().format("YYYY-MM-DD"), */
+        startCreateTime: dayjs().subtract(1, "week").format("YYYY-MM-DD"),
+        endCreateTime: dayjs(new Date()).format("YYYY-MM-DD"),
       },
       tableData: [],
       mypageable: {
@@ -171,7 +175,7 @@ export default {
       if (val && val.length === 2) {
         this.whiteSearchList.startCreateTime = val[0];
         this.whiteSearchList.endCreateTime = val[1];
-        // this.techlist(); // 调用获取数据的方法
+        this.techlist(); // 调用获取数据的方法
       }
       /* if (val && val.length === 2) {
         if (val[0] === val[1]) {
@@ -189,15 +193,13 @@ export default {
       this.techlist();
     },
 
-    /* getIndex($index) {
-          //$index为数据下标,对英序号要加一
-          // console.log($index)
-          return (
-            (this.mypageable.pageNum - 1) * this.mypageable.pageSize +
-            $index +
-            1
-          );
-        }, */
+    getIndex($index) {
+      //$index为数据下标,对英序号要加一
+      // console.log($index)
+      return (
+        (this.mypageable.pageNum - 1) * this.mypageable.pageSize + $index + 1
+      );
+    },
     handleCurrentChange(val) {
       this.mypageable.pageNum = val;
       this.techlist();
@@ -219,6 +221,7 @@ export default {
   margin: 15px 0 10px 0;
   box-sizing: border-box;
 }
+
 .pagination-container {
   display: flex;
   justify-content: space-between;
