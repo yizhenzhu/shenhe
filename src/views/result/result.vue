@@ -170,7 +170,7 @@ export default {
         end: this.form.datetime[1],
       };
       try {
-        const { data: res } = await this.$http.get("/dataaudit/audit/log/", {
+        const { data: res } = await this.$http.get("/dataaudit/audit/log", {
           params: list,
         });
         if (res.code == 200) {

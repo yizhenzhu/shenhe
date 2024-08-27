@@ -84,7 +84,6 @@
       size="mini"
       class="tableStyle"
       empty-text="暂无数据"
-      v-loading="loading"
     >
       <el-table-column
         prop="src_url"

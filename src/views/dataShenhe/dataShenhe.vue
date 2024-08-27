@@ -42,11 +42,7 @@
                       @click="updateBoxStatus(box, 否)"
                       >否</el-button
                     > -->
-                    <el-input
-                      v-model="box.is_wild"
-                      placeholder="请输入是或否"
-                      :disabled="true"
-                    ></el-input>
+                    <el-input v-model="box.is_wild" :disabled="true"></el-input>
                   </div>
                   <div class="box-item images">
                     <el-image

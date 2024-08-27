@@ -90,6 +90,7 @@
                         v-model="box.judgement"
                         class="wide-select"
                         placeholder="修改类型"
+                        :disabled="box.isFraud !== 1"
                       >
                         <el-option
                           v-for="option in selectData.judgementOptions"
@@ -313,7 +314,7 @@ export default {
         const results = this.form.boxes.map((box) => ({
           url: box.url,
           // box.minio_url,
-
+          label: box.label,
           confirmed_label: box.judgement,
           res: box.isFraud,
         }));
@@ -331,7 +332,17 @@ export default {
           //   minio_url: "",
           //   judgement: "",
           // }));
+          /* // 计算提交后的总页数
+          const newTotal = this.total - results.length;
+          this.total = newTotal;
 
+          // 如果当前页为最后一页且数据量为零，则页码减一
+          if (
+            this.mypageable.pageNum >
+            Math.ceil(newTotal / this.mypageable.pageSize)
+          ) {
+            this.mypageable.pageNum -= 1;
+          } */
           // 重新加载数据
           this.techlist();
         } else {
