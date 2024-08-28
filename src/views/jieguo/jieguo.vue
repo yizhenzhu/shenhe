@@ -168,28 +168,16 @@ export default {
         this.loading = false;
       }
     },
-    /*   mounted() {
-          this.techlist(); // 组件挂载时获取初始数据
-        }, */
     handleDateChange(val) {
       if (val && val.length === 2) {
         this.whiteSearchList.startCreateTime = val[0];
         this.whiteSearchList.endCreateTime = val[1];
-        this.techlist(); // 调用获取数据的方法
       }
-      /* if (val && val.length === 2) {
-        if (val[0] === val[1]) {
-          // 如果起始时间和结束时间相等，则都设置为今天的日期
-          const today = dayjs().format("YYYY-MM-DD");
-          this.form.datetime = [today, today];
-        } else {
-          this.whiteSearchList.startCreateTime = val[0];
-          this.whiteSearchList.endCreateTime = val[1];
-        }
-      } */
     },
     chaxun() {
       this.mypageable.pageNum = 1;
+      this.whiteSearchList.startCreateTime = this.form.datetime[0];
+      this.whiteSearchList.endCreateTime = this.form.datetime[1];
       this.techlist();
     },
 
@@ -202,7 +190,7 @@ export default {
     },
     handleCurrentChange(val) {
       this.mypageable.pageNum = val;
-      this.techlist();
+      // this.techlist();
     },
     time(val) {
       if (val == null) {

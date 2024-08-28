@@ -56,6 +56,7 @@
                 multiple
                 :limit="3"
               >
+                <!-- datas.upload_method -->
                 <el-button size="mini" type="primary">点击上传</el-button>
                 <div slot="tip" class="el-upload__tip">上传文件</div>
               </el-upload>
@@ -89,7 +90,7 @@
         prop="src_url"
         label="原始URL"
         show-overflow-tooltip
-        min-width="12%"
+        min-width="8%"
       >
       </el-table-column>
       <el-table-column
@@ -104,11 +105,11 @@
         min-width="8%"
       ></el-table-column>
 
-      <el-table-column
-        prop="upload_method"
-        label="上传方式"
-        min-width="8%"
-      ></el-table-column>
+      <el-table-column prop="upload_method" label="上传方式" min-width="8%">
+        <template slot-scope="scope">
+          {{ scope.row.upload_method === 1 ? "文件上传" : "接口上传" }}
+        </template>
+      </el-table-column>
 
       <el-table-column prop="upload_time" label="上传时间" min-width="8%">
       </el-table-column>
@@ -162,16 +163,15 @@ export default {
         pageSize: 50, //每页显示的条目数
       },
       total: 0, //总条目数
-      selectData: {
-        type: [],
-        selectURL: [],
-      },
       //文件上传
       uploadDialogVisible: false,
       loadingbut: false,
     };
   },
-
+  /*   mounted() {
+    this.techlist(); // 确保组件挂载后获取数据
+  },
+ */
   created() {
     /* this.suoshudi();
     this.suoshudi2(); */
@@ -184,17 +184,6 @@ export default {
     },
   },
   methods: {
-    // 城市下拉框数据
-    async suoshudi() {
-      this.loading = true;
-      const promise1 = this.$http.get("/dataaudit/upload/list");
-      const { data: res } = await promise1;
-      if (res.code === 200) {
-        this.selectData.selectURL = res.data;
-      }
-      this.techlist();
-    },
-
     async techlist() {
       this.loading = true;
       let list = {
@@ -208,6 +197,7 @@ export default {
         params: list,
       });
       if (res.code == 200) {
+        this.tableData = res.datas;
         this.total = res.total;
         this.loading = false;
       } else {
