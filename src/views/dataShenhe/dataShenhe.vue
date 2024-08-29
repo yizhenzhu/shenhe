@@ -23,7 +23,7 @@
                   <div class="box-item">
                     <span class="box-label">原始URL</span>
                     <el-input
-                      v-model="box.srcurl"
+                      v-model="box.src_url"
                       placeholder="原始URL"
                       :disabled="true"
                     ></el-input>
@@ -158,7 +158,7 @@ export default {
         if (res.code === 200) {
           this.form.boxes = res.datas.map((item) => ({
             url: item.url,
-            src_url: item.srcurl,
+            src_url: item.src_url,
             is_wild: item.is_wild,
             minio_url: item.minio_url,
           }));
@@ -288,8 +288,8 @@ export default {
 }
 /* 盒子上传格式 */
 .box {
-  width: 262px;
-  height: 262px;
+  width: 295px;
+  height: 295px;
   padding: 5px;
   background-color: #f9f9f9;
   border: 1px solid #ddd;

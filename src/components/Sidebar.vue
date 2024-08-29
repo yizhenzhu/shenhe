@@ -90,6 +90,12 @@ export default {
               name: "fushen",
               menuType: 1,
             },
+            /*  {
+              menuName: "审核日志",
+              menuUrl: "/log",
+              name: "log",
+              menuType: 1,
+            }, */
           ],
         },
         {

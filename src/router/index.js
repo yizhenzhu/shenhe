@@ -51,6 +51,14 @@ const routes = [
         component: () => import("../views/fushen/fushen")
       },
       {
+        path: '/log',
+        name: 'log',
+        meta: {
+          title: '审核日志'
+        },
+        component: () => import("../views/log/log")
+      },
+      {
         path: '/renwu',
         name: 'renwu',
         meta: {
