@@ -17,6 +17,38 @@
                 :clearable="false"
               >
               </el-date-picker>
+            </el-form-item>
+            <el-form-item>
+              <el-input v-model="form.url" placeholder="URL"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-select
+                v-model="form.auditStatus"
+                placeholder="审核状态"
+                clearable
+              >
+                <el-option
+                  v-for="item in selectData.auditStatus"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+
+            <el-form-item>
+              <el-select
+                v-model="form.submitStatus"
+                placeholder="提交状态"
+                clearable
+              >
+                <el-option
+                  v-for="item in selectData.submitStatus"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
             </el-form-item></div
         ></el-col>
         <el-col :span="6"
@@ -121,7 +153,12 @@ export default {
           dayjs().subtract(1, "week").format("YYYY-MM-DD"),
           dayjs(new Date()).format("YYYY-MM-DD"),
         ],
+        url: "",
+        auditStatus: "",
+        submitStatus: "",
       },
+      auditStatusOptions: [],
+      submitStatusOptions: [],
       whiteSearchList: {
         /* startCreateTime: dayjs().format("YYYY-MM-DD"),
         endCreateTime: dayjs().format("YYYY-MM-DD"), */
@@ -134,9 +171,14 @@ export default {
         pageSize: 50, //每页显示的条目数
       },
       total: 0, //总条目数
+      selectData: {
+        audit_status: null,
+        submit_status: null,
+      },
     };
   },
   created() {
+    this.getStatusOptions();
     this.techlist();
     console.log("liebiao");
     this.loading = false;
@@ -155,6 +197,9 @@ export default {
         page_size: this.mypageable.pageSize,
         start: this.form.datetime[0],
         end: this.form.datetime[1],
+        url: this.form.url,
+        audit_status: this.form.auditStatus,
+        submit_status: this.form.submitStatus,
       };
       const { data: res } = await this.$http.get("/diaoyu/list", {
         params: list,
@@ -168,6 +213,33 @@ export default {
         this.loading = false;
       }
     },
+    async getStatusOptions() {
+      const { data: res } = await this.$http.get("/diaoyu/status/audit");
+      if (res && res.code === 200 && Array.isArray(res.datas)) {
+        // 假设接口返回的数据格式是 { id: ..., content: ... }
+        this.selectData.auditStatus = res.datas.map((item) => ({
+          value: item.id,
+          label: item.content,
+        }));
+      } else {
+        this.$message(res.message);
+      }
+      // 请求提交状态选项
+      const { data: resSubmit } = await this.$http.get("/diaoyu/status/submit");
+      if (resSubmit && resSubmit.code === 200) {
+        // 处理提交状态选项数据
+        const submitStatusOptions = Object.values(resSubmit.datas).map(
+          (item) => ({
+            value: item.id,
+            label: item.content,
+          })
+        );
+        this.selectData.submitStatus = submitStatusOptions;
+      } else {
+        this.$message(resSubmit.message);
+      }
+    },
+
     handleDateChange(val) {
       if (val && val.length === 2) {
         this.whiteSearchList.startCreateTime = val[0];
