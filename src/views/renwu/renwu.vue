@@ -550,7 +550,8 @@ export default {
 
 .pagination-center {
   flex: 2;
-  text-align: center;
+  // text-align: center;
+  margin-right: 100px;
 }
 
 .pagination-right {

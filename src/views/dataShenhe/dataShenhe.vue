@@ -30,18 +30,6 @@
                   </div>
                   <div class="box-item">
                     <span class="box-label">泛域名</span>
-                    <!-- <el-button
-                      class="narrow-button"
-                      :type="box.is_wild === 是 ? 'success' : 'default'"
-                      @click="updateBoxStatus(box, 是)"
-                      >是</el-button
-                    >
-                    <el-button
-                      class="narrow-button"
-                      :type="box.is_wild === 否 ? 'danger' : 'default'"
-                      @click="updateBoxStatus(box, 否)"
-                      >否</el-button
-                    > -->
                     <el-input v-model="box.is_wild" :disabled="true"></el-input>
                   </div>
                   <div class="box-item images">
@@ -58,13 +46,13 @@
                       </div>
                     </el-image>
                   </div>
-                  <!-- <div class="box-item">
-                    <span class="box-label">泛域名</span>
-                    <el-radio-group v-model="box.is_wild">
+                  <div class="box-item">
+                    <span class="box-label">判定</span>
+                    <el-radio-group v-model="box.judgement">
                       <el-radio label="是">是</el-radio>
                       <el-radio label="否">否</el-radio>
                     </el-radio-group>
-                  </div> -->
+                  </div>
                 </div>
               </el-col>
             </el-row>
@@ -88,6 +76,12 @@
               </el-pagination>
             </div>
             <div class="pagination-right">
+              <el-button
+                @click="setAllToYes"
+                type="batchAction"
+                class="jump-button"
+                >全部是</el-button
+              >
               <el-button
                 @click="setAllToNo"
                 type="batchAction"
@@ -159,8 +153,9 @@ export default {
           this.form.boxes = res.datas.map((item) => ({
             url: item.url,
             src_url: item.src_url,
-            is_wild: item.is_wild,
+            is_wild: item.is_wild ? "是" : "否", // 将 true/false 转换为 是/否,
             minio_url: item.minio_url,
+            judgement: "",
           }));
           this.total = res.total;
           // console.log("图片数据：", this.form.boxes); // 输出图片数据
@@ -182,35 +177,39 @@ export default {
       this.mypageable.pageNum = val;
       this.techlist();
     },
-    setAllToNo() {
-      const allAreNo = this.form.boxes.every((box) => box.is_wild === "否");
-      this.form.boxes.forEach((box) => {
-        box.is_wild = allAreNo ? "" : "否";
-      });
+    setAllToYes() {
+      const allAreYes = this.form.boxes.every((box) => box.judgement === "是");
+
+      if (allAreYes) {
+        // 如果所有项已经是“是”，则清空所有判定
+        this.form.boxes.forEach((box) => {
+          box.judgement = "";
+        });
+      } else {
+        // 否则，将所有项的判定设置为“是”
+        this.form.boxes.forEach((box) => {
+          box.judgement = "是";
+        });
+      }
     },
-    /*  setAllToNo() {
-      this.form.boxes.forEach((box) => {
-        box.is_wild = "否";
-      });
-    }, */
-    /*  setAllToNo() {
+    setAllToNo() {
       // this.form.boxes.forEach((box) => {
       //   box.judgement = "否";
       // });
-      const allAreNo = this.form.boxes.every((box) => box.is_wild === "否");
+      const allAreNo = this.form.boxes.every((box) => box.judgement === "否");
 
       if (allAreNo) {
         // 如果所有项已经是“否”，则清空所有判定
         this.form.boxes.forEach((box) => {
-          box.is_wild = "";
+          box.judgement = "";
         });
       } else {
         // 否则，将所有项的判定设置为“否”
         this.form.boxes.forEach((box) => {
-          box.is_wild = "否";
+          box.judgement = "否";
         });
       }
-    }, */
+    },
 
     async submitResults() {
       /* try {
@@ -225,7 +224,8 @@ export default {
           .filter((box) => box.judgement !== "") // 仅筛选出已作出判定的项
           .map((box) => ({
             url: box.url,
-            res: box.judgement === "是" ? 是 : 否, // 判定值为“是”时
+            src_url: box.src_url,
+            res: box.judgement, // 判定值为“是”时
           }));
         const { data: res } = await axios.post(
           "/dataaudit/audit/submit",
@@ -288,8 +288,8 @@ export default {
 }
 /* 盒子上传格式 */
 .box {
-  width: 295px;
-  height: 295px;
+  width: 310px;
+  height: 330px;
   padding: 5px;
   background-color: #f9f9f9;
   border: 1px solid #ddd;
@@ -326,6 +326,11 @@ export default {
 .box-item-image {
   width: 100px;
   height: 50px;
+}
+.box-item label {
+  height: 20px;
+  // margin-top: 10px;
+  width: 50px;
 }
 .box-wrapper {
   width: 20%;

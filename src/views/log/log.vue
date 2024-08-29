@@ -1,8 +1,8 @@
 <template>
   <div class="right_main_under">
     <el-form size="mini" label-width="80px" :inline="true">
-      <el-row :gutter="20">
-        <el-col :span="18">
+      <el-row :gutter="20" class="form-inline">
+        <el-col :span="24">
           <div class="grid-content bg-purple">
             <!-- 流程记录页面头部模块——域名 -->
             <el-form-item>
@@ -38,21 +38,69 @@
                 :clearable="false"
               >
               </el-date-picker>
-            </el-form-item></div
-        ></el-col>
-        <el-col :span="6"
-          ><div class="grid-content bg-purple" style="float: right">
-            <!-- 流程记录页面头部模块——button -->
-            <el-button
-              size="mini"
-              type="primary"
-              plain
-              @click="chaxun"
-              class="custom-button"
-              >查询</el-button
-            >
-          </div>
-        </el-col>
+            </el-form-item>
+            <el-form-item>
+              <!-- 机审状态下拉框 -->
+              <el-select
+                v-model="form.machine_audit_status"
+                placeholder="机审状态"
+                clearable
+              >
+                <el-option
+                  v-for="item in selectData.machine_audit_status"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id"
+                >
+                </el-option>
+              </el-select>
+            </el-form-item>
+
+            <!-- 初审状态下拉框 -->
+            <el-form-item>
+              <el-select
+                v-model="form.first_audit_status"
+                placeholder="初审状态"
+                clearable
+              >
+                <el-option
+                  v-for="item in selectData.first_audit_status"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id"
+                >
+                </el-option>
+              </el-select>
+            </el-form-item>
+
+            <!-- 复审状态下拉框 -->
+            <el-form-item>
+              <el-select
+                v-model="form.second_audit_status"
+                placeholder="复审状态"
+                clearable
+              >
+                <el-option
+                  v-for="item in selectData.second_audit_status"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id"
+                >
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item>
+              <el-button
+                size="mini"
+                type="primary"
+                plain
+                @click="chaxun"
+                class="custom-button"
+                >查询</el-button
+              >
+            </el-form-item>
+          </div></el-col
+        >
       </el-row>
     </el-form>
 
@@ -72,47 +120,112 @@
         prop="url"
         label="URL"
         show-overflow-tooltip
-        min-width="12%"
+        min-width="10%"
       >
       </el-table-column>
       <el-table-column
-        prop="label"
-        label="类型"
-        min-width="8%"
-      ></el-table-column>
-
-      <el-table-column
         prop="source"
         label="来源"
-        min-width="8%"
+        min-width="5%"
       ></el-table-column>
 
       <el-table-column
-        prop="create_person"
-        label="上传人"
-        min-width="8%"
+        prop="label"
+        label="类型"
+        min-width="6%"
+      ></el-table-column>
+      <el-table-column
+        prop="create_time"
+        label="创建时间"
+        min-width="6%"
+      ></el-table-column>
+      <el-table-column
+        prop="machine_audit_status"
+        label="机审状态"
+        min-width="5%"
       ></el-table-column>
 
-      <el-table-column prop="create_method" label="上传方式" min-width="8%">
+      <el-table-column
+        prop="machine_audit_time"
+        label="机审时间"
+        min-width="6%"
+      >
       </el-table-column>
-      <el-table-column prop="create_time" label="上传时间" min-width="8%">
+      <el-table-column
+        prop="machine_audit_reason"
+        label="机审未通过原因"
+        min-width="5%"
+      >
       </el-table-column>
-      <el-table-column prop="remark" label="备注" min-width="5%">
+      <el-table-column
+        prop="machine_audit_label"
+        label="模型命中类型"
+        min-width="5%"
+      >
+      </el-table-column>
+      <el-table-column
+        prop="machine_audit_num"
+        label="模型命中编号"
+        min-width="5%"
+      ></el-table-column>
+
+      <el-table-column
+        prop="first_audit_status"
+        label="初审状态"
+        min-width="5%"
+      ></el-table-column>
+
+      <el-table-column prop="first_audit_person" label="初审人" min-width="5%">
+      </el-table-column>
+      <el-table-column prop="first_audit_time" label="初审时间" min-width="5%">
+      </el-table-column>
+      <el-table-column prop="first_audit_label" label="初审类型" min-width="5%">
+      </el-table-column>
+      <el-table-column prop="first_audit_num" label="初审编号" min-width="5%">
+      </el-table-column>
+      <el-table-column
+        prop="first_audit_reason"
+        label="初审未通过编号"
+        min-width="5%"
+      >
+      </el-table-column>
+      <el-table-column
+        prop="second_audit_status"
+        label="复审状态"
+        min-width="5%"
+      ></el-table-column>
+
+      <el-table-column
+        prop="second_audit_person"
+        label="复审人"
+        min-width="5%"
+      ></el-table-column>
+
+      <el-table-column prop="second_audit_time" label="复审时间" min-width="5%">
+      </el-table-column>
+      <el-table-column
+        prop="second_audit_label"
+        label="复审类型"
+        min-width="5%"
+      >
+      </el-table-column>
+      <el-table-column prop="second_audit_num" label="复审编号" min-width="5%">
       </el-table-column>
     </el-table>
 
     <!-- 页面页数 -->
-    <div class="bottom">
-      <div class="ss">
+    <div class="pagination-container">
+      <div class="pagination-left">
+        共 {{ totalPages }} 页 / {{ total }} 条数据
+      </div>
+      <div class="pagination-center">
         <el-pagination
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="mypageable.pageNum"
-          :page-sizes="[10, 20, 30, 40, 50]"
-          :page-size="mypageable.pageSize"
-          layout="total, sizes, prev, pager, next, jumper"
+          background
+          layout="prev, pager, next,jumper"
           :total="total"
-          class="pagePagination pageRight"
+          :page-size="mypageable.pageSize"
+          :current-page.sync="mypageable.pageNum"
+          @current-change="handleCurrentChange"
         >
         </el-pagination>
       </div>
@@ -130,7 +243,6 @@ export default {
       form: {
         url: "", // url
         laiyuan: null, // laiyuan
-        selectURL: null,
         datetime: [
           dayjs().subtract(1, "week").format("YYYY-MM-DD"),
           dayjs(new Date()).format("YYYY-MM-DD"),
@@ -146,54 +258,33 @@ export default {
         pageNum: 1, //当前页码
         pageSize: 50, //每页显示的条目数
       },
-      total: 1, //总条目数
-      totalPages: "",
+      total: 0, //总条目数
       selectData: {
         type: [],
         selectURL: [],
         laiyuan: "",
+        machine_audit_status: null, // 机审状态
+        first_audit_status: null, // 初审状态
+        second_audit_status: null, // 复审状态
       },
-      //文件上传
-      uploadDialogVisible: false,
-      loadingbut: false,
-      loadingbuttext: "模板下载",
-
-      //接口上传
-      dialogVisible: false,
-      selectedType: "",
-      code: "",
     };
   },
 
   created() {
-    /* this.suoshudi();
-    this.suoshudi2(); */
-    this.suoshudi2(); // 获取来源数据
+    this.getStatusOptions(); // 获取审核状态选项
+    this.suoshudi2();
     this.techlist();
     console.log("jqsc");
   },
-  methods: {
-    // 城市下拉框数据
-    async suoshudi() {
-      this.loading = true;
-      const promise1 = this.$http.get("/cases");
-      const { data: res } = await promise1;
-      if (res.code === 200) {
-        this.selectData.selectURL = res.data;
-      }
-      this.techlist();
+
+  computed: {
+    totalPages() {
+      return Math.ceil(this.total / this.mypageable.pageSize);
     },
-    //来源下拉框
-    /*  async suoshudi2() {
-      this.loading = true;
-      const { data: res } = await promise1;
-      if (res.code === 200) {
-        this.selectData.laiyuan = res.data;
-      }
-      this.techlist();
-    }, */
+  },
+  methods: {
     async suoshudi2() {
-      this.loading = true;
+      // this.loading = true;
       try {
         const { data: res } = await this.$http.get("/cases/source");
         if (res.code === 200) {
@@ -209,44 +300,58 @@ export default {
         this.loading = false;
       }
     },
+    // 获取审核状态选项
+    async getStatusOptions() {
+      try {
+        const { data: res } = await this.$http.get("/audit/status");
+        console.log("API响应数据：", res); // 打印API响应数据，帮助调试
+
+        // 确认res和res.datas是否存在，然后再分配数据
+        if (res && res.code === 200 && Array.isArray(res.datas)) {
+          // 将数据转换为需要的格式
+          const formattedOptions = res.datas.map((item) => ({
+            id: item.id,
+            name: item.content,
+          }));
+
+          this.selectData.machine_audit_status = formattedOptions;
+          this.selectData.first_audit_status = formattedOptions;
+          this.selectData.second_audit_status = formattedOptions;
+        } else {
+          this.$message.error("获取审核状态选项失败：响应数据无效");
+          console.error("无效的响应数据:", res); // 打印无效的响应数据
+        }
+      } catch (error) {
+        this.$message.error("获取审核状态选项失败");
+        console.error("请求失败:", error); // 打印请求失败的错误信息
+      }
+    },
 
     async techlist() {
       this.loading = true;
       let list = {
-        page: this.mypageable.pageNum,
-        page_size: this.mypageable.pageSize,
-        url: this.form.url,
-        source: this.form.laiyuan,
         start: this.form.datetime[0],
         end: this.form.datetime[1],
+        source: this.form.laiyuan,
+        url: this.form.url,
+        machine_audit_status: this.form.machine_audit_status, // 机审状态
+        first_audit_status: this.form.first_audit_status, // 初审状态
+        second_audit_status: this.form.second_audit_status, // 复审状态
+        page: this.mypageable.pageNum,
+        page_size: this.mypageable.pageSize,
       };
-      console.log("cases");
-      const { data: res } = await this.$http.get("/cases", { params: list });
+      console.log("okk");
+      const { data: res } = await this.$http.get("/audit/log", {
+        params: list,
+      });
       if (res.code == 200) {
-        // console.log(res.data);
-        // this.tableData = res.datas;
-        // console.log(this.tableData)
-
-        //映射关系 const map---对象   datas.map---遍历方法用于数组---类似于v-for
-        const obj = {
-          1: "文件上传",
-          2: "接口上传",
-        };
-        // { ...item } === item
-        this.tableData = res.datas.map((item) => ({
-          ...item,
-          create_method: obj[item["create_method"]],
-        }));
-        // console.log('ooores',res.datas)
         this.total = res.total;
+        this.tableData = res.datas;
         this.loading = false;
       } else {
         this.$message(res.message);
         this.loading = false;
       }
-    },
-    mounted() {
-      this.techlist(); // 组件挂载时获取初始数据
     },
     chaxun() {
       this.mypageable.pageNum = 1;
@@ -260,14 +365,8 @@ export default {
         (this.mypageable.pageNum - 1) * this.mypageable.pageSize + $index + 1
       );
     },
-    handleSizeChange(val) {
-      this.mypageable.pageSize = val; // 更新每页显示的条目数
-      this.mypageable.pageNum = 1; // 重置为第一页
-      this.techlist();
-    },
     handleCurrentChange(val) {
-      // 当用户改变当前页码时触发
-      this.mypageable.pageNum = val; // 更新当前页码
+      this.mypageable.pageNum = val;
       this.techlist();
     },
     time(val) {
@@ -321,14 +420,15 @@ export default {
     }
   }
 }
-.bottom {
-  width: 100%;
-  height: 3.75rem /* 60/16 */ /* 40/16 */;
-  .ss {
-    float: right;
-  }
+.form-inline {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
 }
-
+.form-inline .el-form-item {
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
 .code-display {
   flex: 1;
   max-height: 400px;
@@ -346,7 +446,30 @@ export default {
   // display: flex;
   flex-direction: column;
 }
+.custom-button {
+  font-size: 16px; /* 调整文字大小 */
+  padding: 10px 20px; /* 调整按钮大小 */
+}
+.pagination-container {
+  display: flex;
+  justify-content: center; /* 居中对齐内容 */
+  align-items: center;
+  padding: 20px 0;
+}
 
+.pagination-left {
+  flex: 1;
+}
+
+.pagination-center {
+  flex: 2;
+  // text-align: center;
+  margin-right: 100px;
+}
+.pagination-right {
+  flex: 1;
+  text-align: center;
+}
 .bottom-margin {
   margin-bottom: 10px; /* Adjust the margin as needed */
 }
