@@ -84,29 +84,31 @@
               >接口上传</el-button
             >
           </div>
-          <!-- 文件上传弹出框 -->    
+          <!-- 文件上传弹出框 -->
           <el-dialog :visible.sync="uploadDialogVisible" title="文件上传">
             <div class="button-group-vertical">
-            <el-button size="mini" type="primary" @click="downloadTemplate"
-              class="bottom-margin"
+              <el-button
+                size="mini"
+                type="primary"
+                @click="downloadTemplate"
+                class="bottom-margin"
                 >模板下载</el-button
               >
-            <el-upload
-              ref="upload"
-              class="upload-demo"
-              accept=".xlsx,.csv,.text"
-              action="/cases/upload"
-              :before-remove="beforeRemove"
-              :on-success="successSendFile"
-              :on-exceed="handleExceed"
-              multiple
-              :limit="3"
-            >
-              
-              <el-button size="mini" type="primary">点击上传</el-button>
-              <div slot="tip" class="el-upload__tip">上传文件</div>
-            </el-upload>
-          </div>
+              <el-upload
+                ref="upload"
+                class="upload-demo"
+                accept=".xlsx,.csv,.text"
+                action="/cases/upload"
+                :before-remove="beforeRemove"
+                :on-success="successSendFile"
+                :on-exceed="handleExceed"
+                multiple
+                :limit="3"
+              >
+                <el-button size="mini" type="primary">点击上传</el-button>
+                <div slot="tip" class="el-upload__tip">上传文件</div>
+              </el-upload>
+            </div>
             <span slot="footer" class="dialog-footer">
               <el-button
                 type="primary"
@@ -195,7 +197,6 @@
       </el-table-column>
       <el-table-column prop="remark" label="备注" min-width="5%">
       </el-table-column>
-
     </el-table>
 
     <!-- 页面页数 -->
@@ -214,8 +215,7 @@
         </el-pagination>
       </div>
     </div>
-</div>
-  
+  </div>
 </template>
 
 <script>
@@ -242,20 +242,20 @@ export default {
       },
       tableData: [],
       mypageable: {
-        pageNum: 1,//当前页码
-        pageSize: 50,//每页显示的条目数
+        pageNum: 1, //当前页码
+        pageSize: 50, //每页显示的条目数
       },
-      total: 1,//总条目数
+      total: 1, //总条目数
       totalPages: "",
       selectData: {
         type: [],
         selectURL: [],
-        laiyuan: [{id: "深圳",name: "深圳"}],
-        schuan:[
-        {id: 1,name: "文件上传",},
-        {id: 2,name: "接口上传",},
+        // laiyuan: [{ id: "深圳", name: "深圳" }],
+        laiyuan: "",
+        schuan: [
+          { id: 1, name: "文件上传" },
+          { id: 2, name: "接口上传" },
         ],
-        
       },
       //文件上传
       uploadDialogVisible: false,
@@ -272,8 +272,9 @@ export default {
   created() {
     /* this.suoshudi();
     this.suoshudi2(); */
+    this.suoshudi2(); // 获取来源数据
     this.techlist();
-    console.log('jqsc');
+    console.log("jqsc");
   },
   methods: {
     // 城市下拉框数据
@@ -287,29 +288,44 @@ export default {
       this.techlist();
     },
     //来源下拉框
-    async suoshudi2() {
+    /*  async suoshudi2() {
       this.loading = true;
       const { data: res } = await promise1;
       if (res.code === 200) {
         this.selectData.laiyuan = res.data;
       }
       this.techlist();
+    }, */
+    async suoshudi2() {
+      this.loading = true;
+      try {
+        const { data: res } = await this.$http.get("/cases/source");
+        if (res.code === 200) {
+          // 将数据转换为 { id: item, name: item } 的格式
+          this.selectData.laiyuan = res.datas.map((item) => ({
+            id: item, // 使用字符串作为 id
+            name: item, // 使用字符串作为 name
+          }));
+        }
+      } catch (error) {
+        this.$message.error("获取来源数据失败");
+      } finally {
+        this.loading = false;
+      }
     },
-    
+
     async techlist() {
       this.loading = true;
       let list = {
-        page:this.mypageable.pageNum,
-        page_size:this.mypageable.pageSize,
+        page: this.mypageable.pageNum,
+        page_size: this.mypageable.pageSize,
         url: this.form.url,
         source: this.form.laiyuan,
-        start:this.form.datetime[0],
-        end:this.form.datetime[1],
-        upload_method:this.form.schuan,
-
-
+        start: this.form.datetime[0],
+        end: this.form.datetime[1],
+        upload_method: this.form.schuan,
       };
-      console.log('cases');
+      console.log("cases");
       const { data: res } = await this.$http.get("/cases", { params: list });
       if (res.code == 200) {
         // console.log(res.data);
@@ -323,9 +339,8 @@ export default {
         };
         // { ...item } === item
         this.tableData = res.datas.map((item) => ({
-            ...item,
-            create_method: obj[item["create_method"]],
-          
+          ...item,
+          create_method: obj[item["create_method"]],
         }));
         // console.log('ooores',res.datas)
         this.total = res.total;
@@ -336,14 +351,13 @@ export default {
       }
     },
     mounted() {
-    this.techlist(); // 组件挂载时获取初始数据
+      this.techlist(); // 组件挂载时获取初始数据
     },
     chaxun() {
       this.mypageable.pageNum = 1;
       this.techlist();
-      
     },
-    
+
     //文件上传
     showUploadDialog() {
       this.uploadDialogVisible = true;
@@ -382,7 +396,7 @@ export default {
           this.loadingbut = false;
           document.body.removeChild(aLink);
           this.$message.success("模板下载成功！");
-           // 关闭文件上传弹出框
+          // 关闭文件上传弹出框
           this.uploadDialogVisible = false;
         }
       } catch (err) {
@@ -465,8 +479,8 @@ export default {
       );
     },
     handleSizeChange(val) {
-      this.mypageable.pageSize = val;// 更新每页显示的条目数
-      this.mypageable.pageNum = 1;  // 重置为第一页
+      this.mypageable.pageSize = val; // 更新每页显示的条目数
+      this.mypageable.pageNum = 1; // 重置为第一页
       this.techlist();
     },
     handleCurrentChange(val) {
@@ -564,6 +578,5 @@ export default {
 .bottom-margin {
   margin-bottom: 10px; /* Adjust the margin as needed */
 }
-
 </style>
 <!-- 两个按钮上下布局距离调整 -->

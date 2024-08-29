@@ -54,13 +54,14 @@
         prop="src_url"
         label="原始URL"
         show-overflow-tooltip
-        min-width="5%"
+        min-width="8%"
       >
       </el-table-column>
       <el-table-column
         prop="reg_url"
         label="规范化URL"
-        min-width="5%"
+        show-overflow-tooltip
+        min-width="8%"
       ></el-table-column>
 
       <el-table-column
@@ -79,7 +80,13 @@
       </el-table-column>
       <el-table-column prop="redirect_method" label="跳转方式" min-width="5%">
       </el-table-column>
-      <el-table-column prop="redirect_url" label="跳转URL" min-width="5%">
+
+      <el-table-column
+        prop="redirect_url"
+        label="跳转URL"
+        show-overflow-tooltip
+        min-width="8%"
+      >
       </el-table-column>
       <el-table-column prop="wild" label="是否是泛域名" min-width="5%">
       </el-table-column>
@@ -169,36 +176,36 @@ export default {
         start: this.form.datetime[0],
         end: this.form.datetime[1],
       };
-      try {
-        const { data: res } = await this.$http.get("/dataaudit/audit/log", {
-          params: list,
-        });
-        if (res.code == 200) {
-          this.tableData = res.datas;
-          //this.mypageable.pageNum = res.page;
-          //this.mypageable.pageSize = res.per_page;
-          this.total = res.total;
-          this.loading = false;
-        } else {
-          this.$message.error(res.message);
-          this.loading = false;
-        }
-      } catch (error) {
+      //try {
+      const { data: res } = await this.$http.get("/dataaudit/audit/log", {
+        params: list,
+      });
+      if (res.code == 200) {
+        this.tableData = res.datas;
+        //this.mypageable.pageNum = res.page;
+        //this.mypageable.pageSize = res.per_page;
+        this.total = res.total;
+        this.loading = false;
+      } else {
+        // this.$message(res.message);
+        this.loading = false;
+      }
+      /* } catch (error) {
         this.$message.error("请求失败，请重试");
       } finally {
         this.loading = false;
-      }
+      } */
     },
-    mounted() {
-      // 确保元素存在
-      /*  const element = this.$refs.myElement;
+    // mounted() {
+    // 确保元素存在
+    /*  const element = this.$refs.myElement;
       if (element) {
         element.addEventListener("touchmove", this.handleTouchMove, {
           passive: true,
         });
       } */
-      this.techlist(); // 组件挂载时获取初始数据
-    },
+    /*   this.techlist(); // 组件挂载时获取初始数据
+    }, */
     handleDateChange(val) {
       if (val && val.length === 2) {
         this.whiteSearchList.startCreateTime = val[0];

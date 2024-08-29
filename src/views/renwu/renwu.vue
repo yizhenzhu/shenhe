@@ -76,6 +76,7 @@
       size="mini"
       class="tableStyle"
       empty-text="暂无数据"
+      v-loading="loading"
     >
       <el-table-column
         prop="task_id"
@@ -236,6 +237,7 @@ export default {
     this.techlist();
     this.fetchTaskTypes();
     this.fetchTaskStatuses();
+    this.loading = false;
   },
   computed: {
     totalPages() {

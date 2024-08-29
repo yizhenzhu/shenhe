@@ -16,8 +16,22 @@
                 </el-option>
               </el-select>
             </el-form-item>
+            <el-form-item>
+              <el-date-picker
+                v-model="form.datetime"
+                type="daterange"
+                :change="dataCreate_change(form.datetime)"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                value-format="yyyy-MM-dd"
+                :clearable="false"
+              >
+              </el-date-picker>
+            </el-form-item>
           </div>
         </el-col>
+
         <el-col :span="6">
           <div class="grid-content bg-purple">
             <!-- 流程记录页面头部模块——button -->
@@ -157,10 +171,10 @@ export default {
       loading: true,
       form: {
         laiyuan: null, // laiyuan
-        /* datetime: [
+        datetime: [
           dayjs().subtract(1, "week").format("YYYY-MM-DD"),
           dayjs(new Date()).format("YYYY-MM-DD"),
-        ], */
+        ],
         boxes: Array(30)
           .fill()
           .map(() => ({
@@ -202,7 +216,11 @@ export default {
     this.getLaiyuanCount();
     this.getJudgementOptions();
     console.log("cs");
+    this.techlist();
   },
+  /*  mounted() {
+    this.techlist();
+  }, */
   computed: {
     totalPages() {
       return Math.ceil(this.total / this.mypageable.pageSize);
@@ -218,8 +236,8 @@ export default {
             id: item.source,
             name: item.source,
             count: item.count,
-            // start: this.form.datetime[0],
-            // end: this.form.datetime[1],
+            start: this.form.datetime[0],
+            end: this.form.datetime[1],
             page: this.mypageable.pageNum,
             page_size: this.mypageable.pageSize,
             // isFraud: null, // 新增属性，用于存储诈骗状态
@@ -253,8 +271,8 @@ export default {
     async techlist() {
       this.loading = true;
       let params = {
-        // start: this.form.datetime[0],
-        // end: this.form.datetime[1],
+        start: this.form.datetime[0],
+        end: this.form.datetime[1],
         page: this.mypageable.pageNum,
         page_size: this.mypageable.pageSize,
         source: this.form.laiyuan,
@@ -283,7 +301,7 @@ export default {
     },
     // console.log("...params", list);
     chaxun() {
-      // this.mypageable.pageNum = 1;
+      this.mypageable.pageNum = 1;
       this.techlist();
     },
     getIndex($index) {
@@ -302,11 +320,20 @@ export default {
         return dayjs(val).format("YYYY-MM-DD  HH:mm:ss");
       }
     },
-    dataCreate_change(val) {
+    /* dataCreate_change(val) {
       if (val && val.length === 2) {
         this.whiteSearchList.startCreateTime = val[0];
         this.whiteSearchList.endCreateTime = val[1];
         this.techlist(); // 调用获取数据的方法
+      }
+    }, */
+    dataCreate_change(val) {
+      if (val && val != "") {
+        this.whiteSearchList.startCreateTime = val[0];
+        this.whiteSearchList.endCreateTime = val[1];
+      } else {
+        this.whiteSearchList.startCreateTime = null;
+        this.whiteSearchList.endCreateTime = null;
       }
     },
     async submitResults() {
