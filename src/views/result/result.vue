@@ -4,6 +4,9 @@
       <el-row :gutter="20">
         <el-col :span="18">
           <div class="grid-content bg-purple">
+            <el-form-item>
+              <el-input v-model="form.url" placeholder="url"></el-input>
+            </el-form-item>
             <!-- 时间 -->
             <el-form-item>
               <el-date-picker
@@ -17,9 +20,6 @@
                 :clearable="false"
               >
               </el-date-picker>
-            </el-form-item>
-            <el-form-item>
-              <el-input v-model="form.url" placeholder="url"></el-input>
             </el-form-item></div
         ></el-col>
         <el-col :span="6"
@@ -32,6 +32,14 @@
               @click="chaxun"
               class="custom-button"
               >查询</el-button
+            >
+            <el-button
+              size="mini"
+              type="warning"
+              plain
+              @click="chongzhi"
+              class="custom-button"
+              >重置</el-button
             >
           </div>
         </el-col>
@@ -170,67 +178,53 @@ export default {
     async techlist() {
       this.loading = true;
       let list = {
-        page: this.mypageable.pageNum,
-        page_size: this.mypageable.pageSize,
-        url: this.form.url,
+        url: this.form.url.trim(),
         start: this.form.datetime[0],
         end: this.form.datetime[1],
+        page: this.mypageable.pageNum,
+        page_size: this.mypageable.pageSize,
       };
+      console.log("请求参数:", list);
       //try {
       const { data: res } = await this.$http.get("/dataaudit/audit/log", {
         params: list,
       });
+      console.log("API 响应:", res);
+      console.log("查询参数:", list);
+
       if (res.code == 200) {
         this.tableData = res.datas;
-        //this.mypageable.pageNum = res.page;
-        //this.mypageable.pageSize = res.per_page;
         this.total = res.total;
         this.loading = false;
+      } else if (res.code == 204) {
+        this.tableData = [];
+        this.loading = false;
       } else {
-        // this.$message(res.message);
+        // this.$message.error(res.message || "请求失败");
         this.loading = false;
       }
-      /* } catch (error) {
-        this.$message.error("请求失败，请重试");
-      } finally {
-        this.loading = false;
-      } */
     },
-    // mounted() {
-    // 确保元素存在
-    /*  const element = this.$refs.myElement;
-      if (element) {
-        element.addEventListener("touchmove", this.handleTouchMove, {
-          passive: true,
-        });
-      } */
-    /*   this.techlist(); // 组件挂载时获取初始数据
-    }, */
     handleDateChange(val) {
       if (val && val.length === 2) {
         this.whiteSearchList.startCreateTime = val[0];
         this.whiteSearchList.endCreateTime = val[1];
         // this.techlist(); // 调用获取数据的方法
       }
-      /* if (val && val.length === 2) {
-        if (val[0] === val[1]) {
-          // 如果起始时间和结束时间相等，则都设置为今天的日期
-          const today = dayjs().format("YYYY-MM-DD");
-          this.form.datetime = [today, today];
-        } else {
-          this.whiteSearchList.startCreateTime = val[0];
-          this.whiteSearchList.endCreateTime = val[1];
-        }
-      } */
     },
     chaxun() {
       this.mypageable.pageNum = 1;
       this.techlist();
     },
+    chongzhi() {
+      this.form.url = "";
+      const today = dayjs().format("YYYY-MM-DD");
+      this.form.datetime = [today, today];
 
+      this.whiteSearchList.startCreateTime = today;
+      this.whiteSearchList.endCreateTime = today;
+      this.techlist();
+    },
     getIndex($index) {
-      //$index为数据下标,对英序号要加一
-      // console.log($index)
       return (
         (this.mypageable.pageNum - 1) * this.mypageable.pageSize + $index + 1
       );
@@ -309,7 +303,7 @@ export default {
 .custom-button {
   font-size: 16px; /* 调整文字大小 */
   padding: 10px 20px; /* 调整按钮大小 */
-  margin-right: 200px;
+  margin-right: 10px;
 }
 
 .code-display {

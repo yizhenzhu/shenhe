@@ -33,7 +33,7 @@
         </el-col>
 
         <el-col :span="6">
-          <div class="grid-content bg-purple">
+          <div class="grid-content bg-okk">
             <!-- 流程记录页面头部模块——button -->
             <el-button
               size="mini"
@@ -43,6 +43,14 @@
               class="custom-button"
               >查询
             </el-button>
+            <el-button
+              size="mini"
+              type="warning"
+              plain
+              @click="chongzhi"
+              class="custom-button"
+              >重置</el-button
+            >
           </div>
         </el-col>
         <!-- 八个小盒子 -->
@@ -291,6 +299,9 @@ export default {
           }));
           this.total = res.total;
           // console.log("图片数据：", this.form.boxes); // 输出图片数据
+        } else if (res.code == 204) {
+          this.form.boxes = []; // 将盒子数据设置为空
+          this.loading = false;
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -299,9 +310,21 @@ export default {
       }
       // this.total = res.total;
     },
+
     // console.log("...params", list);
     chaxun() {
       this.mypageable.pageNum = 1;
+      this.techlist();
+    },
+    chongzhi() {
+      // 清空 来源 下拉框
+      this.form.laiyuan = null;
+      // 恢复原来的时间区间
+      this.form.datetime = [
+        dayjs().subtract(1, "week").format("YYYY-MM-DD"),
+        dayjs(new Date()).format("YYYY-MM-DD"),
+      ];
+      // 重新加载数据
       this.techlist();
     },
     getIndex($index) {
@@ -455,7 +478,7 @@ export default {
 }
 .custom-button {
   font-size: 16px; /* 调整文字大小 */
-  padding: 10px 20px; /* 调整按钮大小 */
+  padding: 10px 10px; /* 调整按钮大小 */
   margin-right: 10px;
 }
 /* 盒子上传格式 */

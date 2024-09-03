@@ -98,6 +98,14 @@
                 class="custom-button"
                 >查询</el-button
               >
+              <el-button
+                size="mini"
+                type="warning"
+                plain
+                @click="chongzhi"
+                class="custom-button"
+                >重置</el-button
+              >
             </el-form-item>
           </div></el-col
         >
@@ -348,6 +356,9 @@ export default {
         this.total = res.total;
         this.tableData = res.datas;
         this.loading = false;
+      } else if (res.code === 204) {
+        this.selectData = [];
+        this.loading = false;
       } else {
         this.$message(res.message);
         this.loading = false;
@@ -357,7 +368,25 @@ export default {
       this.mypageable.pageNum = 1;
       this.techlist();
     },
+    chongzhi() {
+      // 清空 url 输入框
+      this.form.url = "";
 
+      // 清空 来源 下拉框
+      this.form.laiyuan = null;
+
+      // 恢复原来的时间区间
+      this.form.datetime = [
+        dayjs().subtract(1, "week").format("YYYY-MM-DD"),
+        dayjs(new Date()).format("YYYY-MM-DD"),
+      ];
+
+      this.form.machine_audit_status = null;
+      (this.form.first_audit_status = null),
+        (this.form.second_audit_status = null);
+      // 重新加载数据
+      this.techlist();
+    },
     getIndex($index) {
       //$index为数据下标,对英序号要加一
       // console.log($index)

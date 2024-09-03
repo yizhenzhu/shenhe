@@ -35,6 +35,14 @@
             >
             <el-button
               size="mini"
+              type="warning"
+              plain
+              @click="chongzhi"
+              class="custom-button"
+              >重置</el-button
+            >
+            <el-button
+              size="mini"
               type="success"
               plain
               @click="showUploadDialog"
@@ -200,6 +208,9 @@ export default {
         this.tableData = res.datas;
         this.total = res.total;
         this.loading = false;
+      } else if (res.code == 204) {
+        this.tableData = [];
+        this.loading = false;
       } else {
         this.$message(res.message);
         this.loading = false;
@@ -211,8 +222,21 @@ export default {
     chaxun() {
       this.mypageable.pageNum = 1;
       this.techlist();
+      // this.form.url = ""; // 查询结束后清空输入框内容
     },
+    chongzhi() {
+      // 清空 url 输入框
+      this.form.url = "";
 
+      // 恢复原来的时间区间
+      this.form.datetime = [
+        dayjs().subtract(1, "week").format("YYYY-MM-DD"),
+        dayjs(new Date()).format("YYYY-MM-DD"),
+      ];
+
+      // 重新加载数据
+      this.techlist();
+    },
     //文件上传
     showUploadDialog() {
       this.uploadDialogVisible = true;

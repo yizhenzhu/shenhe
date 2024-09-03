@@ -19,7 +19,7 @@
               </el-date-picker>
             </el-form-item>
             <el-form-item>
-              <el-input v-model="form.url" placeholder="URL"></el-input>
+              <el-input v-model="form.url" placeholder="url"></el-input>
             </el-form-item>
             <el-form-item>
               <el-select
@@ -61,6 +61,14 @@
               @click="chaxun"
               class="custom-button"
               >查询</el-button
+            >
+            <el-button
+              size="mini"
+              type="warning"
+              plain
+              @click="chongzhi"
+              class="custom-button"
+              >重置</el-button
             >
           </div>
         </el-col>
@@ -188,6 +196,12 @@ export default {
       return Math.ceil(this.total / this.mypageable.pageSize);
     },
   },
+  /*   watch: {
+    "form.url"(newValue) {
+      console.log("URL changed to:", newValue);
+    },
+  }, */
+
   methods: {
     async techlist() {
       this.loading = true;
@@ -197,16 +211,26 @@ export default {
         page_size: this.mypageable.pageSize,
         start: this.form.datetime[0],
         end: this.form.datetime[1],
-        url: this.form.url,
-        audit_status: this.form.auditStatus,
-        submit_status: this.form.submitStatus,
+        url: this.form.url.trim(),
+        audit_status: this.form.auditStatus || undefined,
+        submit_status: this.form.submitStatus || undefined,
       };
+      console.log("Request Params:", list);
       const { data: res } = await this.$http.get("/diaoyu/list", {
         params: list,
+        headers: {
+          "Cache-Control": "no-cache",
+        },
       });
+
+      console.log("Response:", res);
+
       if (res.code == 200) {
         this.tableData = res.datas;
         this.total = res.total;
+        this.loading = false;
+      } else if (res.code == 204) {
+        this.tableData = [];
         this.loading = false;
       } else {
         this.$message(res.message);
@@ -250,9 +274,24 @@ export default {
       this.mypageable.pageNum = 1;
       this.whiteSearchList.startCreateTime = this.form.datetime[0];
       this.whiteSearchList.endCreateTime = this.form.datetime[1];
+      this.whiteSearchList.url = this.form.url.trim(); // 使用最新的表单值
       this.techlist();
     },
+    chongzhi() {
+      // 清空 url 输入框
+      this.form.url = "";
 
+      this.form.auditStatus = null;
+      this.form.submitStatus = null;
+      // 恢复原来的时间区间
+      this.form.datetime = [
+        dayjs().subtract(1, "week").format("YYYY-MM-DD"),
+        dayjs(new Date()).format("YYYY-MM-DD"),
+      ];
+
+      // 重新加载数据
+      this.techlist();
+    },
     getIndex($index) {
       //$index为数据下标,对英序号要加一
       // console.log($index)
@@ -335,7 +374,7 @@ export default {
 .custom-button {
   font-size: 16px; /* 调整文字大小 */
   padding: 10px 20px; /* 调整按钮大小 */
-  margin-right: 200px;
+  margin-right: 10px;
 }
 
 .code-display {

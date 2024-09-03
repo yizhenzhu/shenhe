@@ -9,7 +9,11 @@
             </el-form-item>
             <el-form-item>
               <!-- <el-input v-model="form.task_type" placeholder="任务类型"></el-input> -->
-              <el-select v-model="form.task_type" placeholder="任务类型">
+              <el-select
+                v-model="form.task_type"
+                placeholder="任务类型"
+                clearable
+              >
                 <el-option
                   v-for="item in taskTypes"
                   :key="item.id"
@@ -20,7 +24,8 @@
             </el-form-item>
             <el-form-item>
               <!-- <el-input v-model="form.status" placeholder="任务状态"></el-input> -->
-              <el-select v-model="form.status" placeholder="任务状态">
+
+              <el-select v-model="form.status" placeholder="任务状态" clearable>
                 <el-option
                   v-for="item in taskStatuses"
                   :key="item.id"
@@ -55,6 +60,14 @@
               class="custom-button"
               >查询
             </el-button>
+            <el-button
+              size="mini"
+              type="warning"
+              plain
+              @click="chongzhi"
+              class="custom-button"
+              >重置</el-button
+            >
             <el-button
               size="mini"
               type="success"
@@ -247,6 +260,25 @@ export default {
   methods: {
     chaxun() {
       this.mypageable.pageNum = 1;
+      this.techlist();
+    },
+    chongzhi() {
+      // 清空 url 输入框
+      this.form.task_id = "";
+
+      // 清空 来源 下拉框
+      this.form.task_type = null;
+
+      // 清空 上传 下拉框
+      this.form.status = null;
+
+      // 恢复原来的时间区间
+      this.form.datetime = [
+        dayjs().subtract(1, "week").format("YYYY-MM-DD"),
+        dayjs(new Date()).format("YYYY-MM-DD"),
+      ];
+
+      // 重新加载数据
       this.techlist();
     },
 

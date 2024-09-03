@@ -69,6 +69,14 @@
             >
             <el-button
               size="mini"
+              type="warning"
+              plain
+              @click="chongzhi"
+              class="custom-button"
+              >重置</el-button
+            >
+            <el-button
+              size="mini"
               type="success"
               plain
               @click="showUploadDialog"
@@ -345,11 +353,34 @@ export default {
         // console.log('ooores',res.datas)
         this.total = res.total;
         this.loading = false;
+      } else if (res.code == 204) {
+        this.tableData = [];
+        this.loading = false;
       } else {
         this.$message(res.message);
         this.loading = false;
       }
     },
+    chongzhi() {
+      // 清空 url 输入框
+      this.form.url = "";
+
+      // 清空 来源 下拉框
+      this.form.laiyuan = null;
+
+      // 清空 上传 下拉框
+      this.form.schuan = null;
+
+      // 恢复原来的时间区间
+      this.form.datetime = [
+        dayjs().subtract(1, "week").format("YYYY-MM-DD"),
+        dayjs(new Date()).format("YYYY-MM-DD"),
+      ];
+
+      // 重新加载数据
+      this.techlist();
+    },
+
     mounted() {
       this.techlist(); // 组件挂载时获取初始数据
     },
@@ -550,10 +581,7 @@ export default {
 }
 .custom-button {
   font-size: 16px; /* 调整文字大小 */
-  padding: 10px 20px; /* 调整按钮大小 */
-}
-//接口上传样式
-.custom-button {
+  padding: 10px 10px; /* 调整按钮大小 */
   margin-right: 10px;
 }
 

@@ -225,7 +225,7 @@ export default {
           .map((box) => ({
             url: box.url,
             src_url: box.src_url,
-            res: box.judgement, // 判定值为“是”时
+            res: box.judgement === "是" ? 1 : 0, // 判定值为“是”时
           }));
         const { data: res } = await axios.post(
           "/dataaudit/audit/submit",

@@ -70,14 +70,19 @@
                   <div class="box-item" v-if="index === 0">
                     <!-- && box.source !== undefined -->
                     <span class="box-label">来源</span>
-                    <el-select v-model="box.source" placeholder="类型">
+                    <el-input
+                      v-model="box.source"
+                      placeholder="来源"
+                      :disabled="true"
+                    ></el-input>
+                    <!-- <el-select v-model="box.source" placeholder="类型">
                       <el-option
                         v-for="option in selectData.source"
                         :key="option"
                         :label="option"
                         :value="option"
                       ></el-option>
-                    </el-select>
+                    </el-select> -->
                   </div>
 
                   <div class="box-item images">
@@ -177,7 +182,7 @@ export default {
       totalPage: 1,
       /* 1.接口total_page存储， */
       selectData: {
-        source: [],
+        // source: [],
         label: [],
       },
       reviewStatus: "", // 默认选中状态
@@ -210,7 +215,7 @@ export default {
       // 加载来源和类型的选项数据
       try {
         const { data } = await axios.get("/audit/second"); // 替换为实际获取选项数据的API
-        this.selectData.source = data.sources;
+        // this.selectData.source = data.sources;
         this.selectData.label = data.labels;
       } catch (error) {
         console.error("Error loading select options:", error);
