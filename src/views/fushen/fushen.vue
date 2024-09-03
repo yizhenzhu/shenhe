@@ -2,7 +2,7 @@
   <div class="right_main_under">
     <el-form size="mini" label-width="80px" :inline="true">
       <el-row :gutter="24">
-        <el-col :span="18">
+        <!--  <el-col :span="18">
           <div class="grid-content bg-purple">
             <el-form-item>
               <el-select v-model="form.source" placeholder="来源" clearable>
@@ -39,7 +39,7 @@
               >查询
             </el-button>
           </div>
-        </el-col>
+        </el-col> -->
         <el-col :span="24">
           <div class="grid-content boxes-container">
             <el-row :gutter="20">
@@ -377,8 +377,8 @@ export default {
 }
 /* 盒子上传格式 */
 .box {
-  width: 262px;
-  height: 262px;
+  width: 290px;
+  height: 290px;
   padding: 10px;
   background-color: #f9f9f9;
   border: 1px solid #ddd;

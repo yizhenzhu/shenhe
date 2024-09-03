@@ -352,6 +352,7 @@ export default {
         } */
         if (res.code === 200) {
           this.$message.success("提交成功");
+
           // 清除当前表单数据
           // this.form.boxes = this.form.boxes.map(() => ({
           //   url: "",
@@ -372,6 +373,8 @@ export default {
           } */
           // 重新加载数据
           this.techlist();
+          // 取消批量操作选择
+          this.batchAction = null;
         } else {
           this.$message.error("提交失败");
         }

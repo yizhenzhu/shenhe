@@ -34,6 +34,15 @@
                       </div>
                     </el-image>
                   </div>
+                  <div class="box-item">
+                    <span class="box-label">标题</span>
+                    <el-input
+                      v-model="box.title"
+                      placeholder="title"
+                      :disabled="true"
+                    ></el-input>
+                  </div>
+
                   <!-- <div class="box-item">
                     <span class="box-label">判定</span>
                     <el-select v-model="box.judgement" placeholder="类型">
@@ -43,10 +52,19 @@
                   </div> -->
                   <div class="box-item">
                     <span class="box-label">判定</span>
-                    <el-radio-group v-model="box.judgement">
+                    <el-radio-group
+                      v-model="box.judgement"
+                      style="display: flex; align-items: center"
+                    >
                       <el-radio label="是">是</el-radio>
                       <el-radio label="否">否</el-radio>
                     </el-radio-group>
+                    <el-input
+                      v-model="box.new_title"
+                      placeholder="输入新标题"
+                      :disabled="box.judgement !== '是'"
+                      style="width: 135px; margin-left: 5px"
+                    ></el-input>
                   </div>
                 </div>
               </el-col>
@@ -71,6 +89,12 @@
               </el-pagination>
             </div>
             <div class="pagination-right">
+              <el-button
+                @click="setAllToYes"
+                type="batchAction"
+                class="jump-button"
+                >全部是</el-button
+              >
               <el-button
                 @click="setAllToNo"
                 type="batchAction"
@@ -134,6 +158,7 @@ export default {
             url: item.url,
             minio_url: item.minio_url,
             judgement: "",
+            title: item.title,
           }));
           this.total = res.total;
           // console.log("图片数据：", this.form.boxes); // 输出图片数据
@@ -155,7 +180,37 @@ export default {
       this.mypageable.pageNum = val;
       this.techlist();
     },
+    setAllToYes() {
+      this.isAllYes = !this.isAllYes; // 切换状态
+      this.isAllNo = false; // 点击“全部是”时，取消“全部否”状态
+      if (this.isAllYes) {
+        // 如果当前为“全部是”模式，设置所有项的判定为“是”
+        this.form.boxes.forEach((box) => {
+          box.judgement = "是";
+        });
+      } else {
+        // 否则，清空所有项的判定
+        this.form.boxes.forEach((box) => {
+          box.judgement = "";
+        });
+      }
+    },
     setAllToNo() {
+      this.isAllNo = !this.isAllNo; // 切换状态
+      this.isAllYes = false; // 点击“全部否”时，取消“全部是”状态
+      if (this.isAllNo) {
+        // 如果当前为“全部否”模式，设置所有项的判定为“否”
+        this.form.boxes.forEach((box) => {
+          box.judgement = "否";
+        });
+      } else {
+        // 否则，清空所有项的判定
+        this.form.boxes.forEach((box) => {
+          box.judgement = "";
+        });
+      }
+    },
+    /* setAllToNo() {
       // this.form.boxes.forEach((box) => {
       //   box.judgement = "否";
       // });
@@ -173,7 +228,7 @@ export default {
         });
       }
     },
-
+ */
     async submitResults() {
       /* try {
         const results = this.form.boxes.map((box) => ({
@@ -188,6 +243,8 @@ export default {
           .map((box) => ({
             url: box.url,
             res: box.judgement === "是" ? 1 : 0, // 判定值为“是”时，res为1，否则为0
+            title: box.title,
+            new_title: box.new_title,
           }));
         const { data: res } = await axios.post("/diaoyu/audit/submit", results);
         if (res.code === 200) {
@@ -241,8 +298,8 @@ export default {
 }
 /* 盒子上传格式 */
 .box {
-  width: 262px;
-  height: 262px;
+  width: 300px;
+  height: 320px;
   padding: 5px;
   background-color: #f9f9f9;
   border: 1px solid #ddd;
@@ -261,6 +318,7 @@ export default {
   width: 60px;
   text-align: right;
   // background-color: #000;
+  // padding: 5px 5px;
   margin-right: 10px;
 }
 

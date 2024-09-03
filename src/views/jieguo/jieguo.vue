@@ -190,7 +190,7 @@ export default {
   },
   methods: {
     async techlist() {
-      this.loading = false;
+      this.loading = true;
       console.log("---------", data);
       let list = {
         page: this.mypageable.pageNum,
@@ -207,7 +207,7 @@ export default {
       if (res.code == 200) {
         this.tableData = res.datas;
         this.total = res.total;
-        // this.totalPages = res.total_page;
+        this.loading = false;
       } else {
         this.$message(res.message);
         this.loading = false;
@@ -262,7 +262,7 @@ export default {
     },
     handleCurrentChange(val) {
       this.mypageable.pageNum = val;
-      // this.techlist();
+      this.techlist();
     },
     time(val) {
       if (val == null) {
