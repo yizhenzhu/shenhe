@@ -341,7 +341,7 @@ export default {
         start: this.form.datetime[0],
         end: this.form.datetime[1],
         source: this.form.laiyuan,
-        url: this.form.url,
+        url: this.form.url.trim(),
         machine_audit_status: this.form.machine_audit_status, // 机审状态
         first_audit_status: this.form.first_audit_status, // 初审状态
         second_audit_status: this.form.second_audit_status, // 复审状态

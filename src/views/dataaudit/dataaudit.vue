@@ -197,7 +197,7 @@ export default {
       let list = {
         start: this.form.datetime[0],
         end: this.form.datetime[1],
-        url: this.form.url,
+        url: this.form.url.trim(),
         page: this.mypageable.pageNum,
         page_size: this.mypageable.pageSize,
       };

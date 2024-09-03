@@ -327,7 +327,7 @@ export default {
       let list = {
         page: this.mypageable.pageNum,
         page_size: this.mypageable.pageSize,
-        url: this.form.url,
+        url: this.form.url.trim(),
         source: this.form.laiyuan,
         start: this.form.datetime[0],
         end: this.form.datetime[1],

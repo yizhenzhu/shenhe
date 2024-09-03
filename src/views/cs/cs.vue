@@ -33,7 +33,7 @@
         </el-col>
 
         <el-col :span="6">
-          <div class="grid-content bg-okk">
+          <div class="grid-content bg-okk" style="text-align: center">
             <!-- 流程记录页面头部模块——button -->
             <el-button
               size="mini"
@@ -454,15 +454,15 @@ export default {
 ::v-deep .el-input--mini .el-input__inner {
   width: 210px;
 }
-::v-deep .el-form-item:first-child {
-  .el-form-item__content {
-    width: 100%;
+// ::v-deep .el-form-item:first-child {
+//   .el-form-item__content {
+//     width: 100%;
 
-    .el-input__inner {
-      width: 100%;
-    }
-  }
-}
+//     .el-input__inner {
+//       width: 100%;
+//     }
+//   }
+// }
 .img1 {
   width: 120px; /* 设置图片最大宽度 */
   height: 120px; /* 设置图片最大高度 */
@@ -578,10 +578,6 @@ export default {
 .pagination-right {
   flex: 1;
   text-align: center;
-}
-
-.jump-input {
-  width: 80px;
 }
 
 .jump-button {

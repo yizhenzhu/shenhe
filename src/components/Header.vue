@@ -1,5 +1,5 @@
 <template>
-  <div class="header" >
+  <div class="header">
     <!-- 折叠按钮 -->
     <img src="@/assets/img/police.png" alt />
     <div class="logo">机审平台</div>
@@ -7,11 +7,14 @@
     <div class="header-right">
       <div class="header-user-con">
         <!-- 全屏 -->
-          <!-- 页面全屏 -->
-  <el-tooltip effect="dark" :content="isFullScreen ? '取消全屏' : '全屏浏览'" placement="bottom">
-    <i class="el-icon-rank" @click="handleFullScreen"></i>
-  </el-tooltip>
-
+        <!-- 页面全屏 -->
+        <el-tooltip
+          effect="dark"
+          :content="isFullScreen ? '取消全屏' : '全屏浏览'"
+          placement="bottom"
+        >
+          <i class="el-icon-rank" @click="handleFullScreen"></i>
+        </el-tooltip>
 
         <!-- 用户头像 -->
         <div class="user-avator">
@@ -49,7 +52,7 @@
         class="demo-form-inline search_select_form"
         size="mini"
       >
-       <!--  <el-form-item label="原密码">
+        <!--  <el-form-item label="原密码">
           <el-input v-model="newdomainSimpleVo.oldpwd"></el-input>
         </el-form-item> -->
         <el-form-item label="新密码">
@@ -71,12 +74,12 @@
 
 <script>
 // import { sendWebsocket, closeWebsocket } from "@/utils/websocket.js";
-import qs from 'qs'
+import qs from "qs";
 export default {
   // inject: ["reload"],
   data() {
     return {
-          isFullScreen: false,
+      isFullScreen: false,
       newdomainSimpleVo: {
         oldpwd: "",
         xinpwd: "",
@@ -116,32 +119,38 @@ export default {
         this.$message('请输入原密码！')
         return false
       } */
-      if(this.newdomainSimpleVo.xinpwd==""||this.newdomainSimpleVo.xinpwd2==""){
-        this.$message('请同时输入新密码和确认密码！')
-        return false
+      if (
+        this.newdomainSimpleVo.xinpwd == "" ||
+        this.newdomainSimpleVo.xinpwd2 == ""
+      ) {
+        this.$message("请同时输入新密码和确认密码！");
+        return false;
       }
-      if(this.newdomainSimpleVo.xinpwd!=this.newdomainSimpleVo.xinpwd2){
-        this.$message('新密码输入有误，请重试！')
-        return false
+      if (this.newdomainSimpleVo.xinpwd != this.newdomainSimpleVo.xinpwd2) {
+        this.$message("新密码输入有误，请重试！");
+        return false;
       }
-      if(this.newdomainSimpleVo.xinpwd.length<6||this.newdomainSimpleVo.xinpwd.length>20){
-        this.$message('密码长度必须在6-20个字符之间！')
-        return false
+      if (
+        this.newdomainSimpleVo.xinpwd.length < 6 ||
+        this.newdomainSimpleVo.xinpwd.length > 20
+      ) {
+        this.$message("密码长度必须在6-20个字符之间！");
+        return false;
       }
-      if(this.newdomainSimpleVo.oldpwd==this.newdomainSimpleVo.xinpwd){
-        this.$message('原密码和新密码相同，请重试！')
-        return false
+      if (this.newdomainSimpleVo.oldpwd == this.newdomainSimpleVo.xinpwd) {
+        this.$message("原密码和新密码相同，请重试！");
+        return false;
       }
-      
+
       let list = {
         // oldPwd: this.newdomainSimpleVo.oldpwd,
-        
+
         password1: this.newdomainSimpleVo.xinpwd,
         password2: this.newdomainSimpleVo.xinpwd2,
         // newPassword1: this.newdomainSimpleVo.xinpwd2,
       };
       // const url = "/user/modifyPwd?"+qs.stringify(list)
-      const { data: res } = await this.$http.post("/user/change",list);
+      const { data: res } = await this.$http.post("/user/change", list);
       if (res.code == 200) {
         this.dialog = false;
         this.$message(res.message);
@@ -157,17 +166,20 @@ export default {
       if (command == "loginout") {
         // localStorage.removeItem("ms_username");
         const { data: res } = await this.$http.get("/user/logout");
-        if(res.code==200){
+        if (res.code == 200) {
           window.sessionStorage.clear();
           this.$router.push("/user/login");
           //显示登录成功信息
-          this.$message(res.message)
-          console.log(res.message)
-        }else{
-           //显示登录失败信息
-          this.$message(res.message)
+          // this.$message(res.message)
+          this.$message({
+            message: "退出登录成功",
+            type: "success",
+          });
+          console.log(res.message);
+        } else {
+          //显示登录失败信息
+          this.$message(res.message);
         }
-        
       } else if (command == "upload") {
         // 显示修改密码对话框
         this.dialog = true;
@@ -183,35 +195,35 @@ export default {
       this.$store.commit("hadndleCollapse", !this.collapse);
     },
     // ________________________________________全屏
-        handleFullScreen() {
+    handleFullScreen() {
       if (this.isFullScreen) {
-        const doc = document
+        const doc = document;
         const exitFullScreen =
           doc.exitFullscreen ||
           doc.webkitCancelFullScreen ||
           doc.mozCancelFullScreen ||
-          doc.msExitFullscreen
+          doc.msExitFullscreen;
         if (exitFullScreen) {
-          exitFullScreen.call(doc)
+          exitFullScreen.call(doc);
         }
       } else {
-        const htmlDOM = document.documentElement
+        const htmlDOM = document.documentElement;
         const enterFullScreen =
           htmlDOM.requestFullscreen ||
           htmlDOM.webkitRequestFullScreen ||
           htmlDOM.mozRequestFullScreen ||
-          htmlDOM.msRequestFullscreen
+          htmlDOM.msRequestFullscreen;
         if (enterFullScreen) {
-          enterFullScreen.call(htmlDOM)
+          enterFullScreen.call(htmlDOM);
         } else {
           this.$message({
-            type: 'warning',
-            message: '您的浏览器不支持全屏浏览，请升级或更换浏览器！'
-          })
+            type: "warning",
+            message: "您的浏览器不支持全屏浏览，请升级或更换浏览器！",
+          });
         }
       }
-      this.isFullScreen = !this.isFullScreen
-    }
+      this.isFullScreen = !this.isFullScreen;
+    },
   },
   mounted() {
     if (document.body.clientWidth < 1500) {
@@ -296,7 +308,6 @@ img {
   margin-left: 10px;
 }
 .user-avator {
-  
   margin-left: 20px;
 }
 .user-avator img {
