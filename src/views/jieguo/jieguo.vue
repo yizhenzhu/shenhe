@@ -4,6 +4,9 @@
       <el-row :gutter="20">
         <el-col :span="18">
           <div class="grid-content bg-purple">
+            <el-form-item>
+              <el-input v-model="form.url" placeholder="url"></el-input>
+            </el-form-item>
             <!-- 时间 -->
             <el-form-item>
               <el-date-picker
@@ -18,9 +21,7 @@
               >
               </el-date-picker>
             </el-form-item>
-            <el-form-item>
-              <el-input v-model="form.url" placeholder="url"></el-input>
-            </el-form-item>
+
             <el-form-item>
               <el-select
                 v-model="form.auditStatus"

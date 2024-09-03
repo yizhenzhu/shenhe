@@ -374,8 +374,8 @@ export default {
             task_id: this.form.task_id,
             task_type: this.form.task_type,
             status: this.form.status,
-            start_time: this.form.start_time,
-            end_time: this.form.end_time,
+            start_time: this.form.datetime[0],
+            end_time: this.form.datetime[1],
             page_size: this.mypageable.pageSize,
             page: this.mypageable.pageNum,
           },
@@ -477,52 +477,6 @@ export default {
         this.loadingbut = false;
       }
     },
-
-    // async downloadResult(taskId) {
-    //   try {
-    //     const response = await axios.get("/urls/task/result", {
-    //       params: { task_id: taskId },
-    //       responseType: "blob", // 确保以Blob类型接收响应
-    //     });
-
-    //     const blob = new Blob([response.data], {
-    //       type: response.headers["content-type"],
-    //     });
-    //     const url = window.URL.createObjectURL(blob);
-    //     const link = document.createElement("a");
-    //     link.href = url;
-    //     link.setAttribute("download", `task_result_${taskId}.xlsx`);
-    //     document.body.appendChild(link);
-    //     link.click();
-
-    //     // 预览文件内容（例如在控制台中显示）
-    //     const reader = new FileReader();
-    //     reader.onload = function (e) {
-    //       console.log(e.target.result); // 在控制台中显示文件内容
-    //     };
-    //     reader.readAsText(blob);
-    //   } catch (error) {
-    //     console.error("Error downloading result", error);
-    //     this.$message.error("下载结果失败");
-    //   }
-    // },
-
-    // async downloadResult(taskId) {
-    //   try {
-    //     const response = await axios.get("/urls/task/result", {
-    //       params: { task_id: taskId },
-    //     });
-    //     const url = window.URL.createObjectURL(new Blob([response.data]));
-    //     const link = document.createElement("a");
-    //     link.href = url;
-    //     link.setAttribute("download", `task_result_${taskId}.xlsx`);
-    //     document.body.appendChild(link);
-    //     link.click();
-    //   } catch (error) {
-    //     console.error("Error downloading result", error);
-    //     this.$message.error("下载结果失败");
-    //   }
-    // },
   },
 };
 </script>
