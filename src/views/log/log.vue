@@ -117,7 +117,6 @@
       border
       ref="multipleTable"
       :data="tableData"
-      style="width: 100%"
       max-height="550px"
       size="mini"
       class="tableStyle"
@@ -127,97 +126,141 @@
       <el-table-column
         prop="url"
         label="URL"
+        width="130px"
         show-overflow-tooltip
-        min-width="10%"
       >
       </el-table-column>
       <el-table-column
         prop="source"
         label="来源"
-        min-width="5%"
+        width="50px"
+        show-overflow-tooltip
       ></el-table-column>
 
       <el-table-column
         prop="label"
         label="类型"
-        min-width="6%"
+        width="70px"
+        show-overflow-tooltip
       ></el-table-column>
       <el-table-column
         prop="create_time"
         label="创建时间"
-        min-width="6%"
+        sortable
+        show-overflow-tooltip
+        width="100px"
       ></el-table-column>
       <el-table-column
         prop="machine_audit_status"
         label="机审状态"
-        min-width="5%"
+        show-overflow-tooltip
+        width="90px"
       ></el-table-column>
 
       <el-table-column
         prop="machine_audit_time"
         label="机审时间"
-        min-width="6%"
+        show-overflow-tooltip
+        width="90px"
       >
       </el-table-column>
       <el-table-column
         prop="machine_audit_reason"
         label="机审未通过原因"
-        min-width="5%"
+        show-overflow-tooltip
+        width="110px"
       >
       </el-table-column>
       <el-table-column
         prop="machine_audit_label"
         label="模型命中类型"
-        min-width="5%"
+        show-overflow-tooltip
+        width="100px"
       >
       </el-table-column>
       <el-table-column
         prop="machine_audit_num"
         label="模型命中编号"
-        min-width="5%"
+        show-overflow-tooltip
+        width="100px"
       ></el-table-column>
 
       <el-table-column
         prop="first_audit_status"
         label="初审状态"
-        min-width="5%"
+        show-overflow-tooltip
+        width="70px"
       ></el-table-column>
 
-      <el-table-column prop="first_audit_person" label="初审人" min-width="5%">
+      <el-table-column
+        prop="first_audit_person"
+        label="初审人"
+        show-overflow-tooltip
+        width="70px"
+      >
       </el-table-column>
-      <el-table-column prop="first_audit_time" label="初审时间" min-width="5%">
+      <el-table-column
+        prop="first_audit_time"
+        label="初审时间"
+        show-overflow-tooltip
+        width="70px"
+      >
       </el-table-column>
-      <el-table-column prop="first_audit_label" label="初审类型" min-width="5%">
+      <el-table-column
+        prop="first_audit_label"
+        label="初审类型"
+        show-overflow-tooltip
+        width="70px"
+      >
       </el-table-column>
-      <el-table-column prop="first_audit_num" label="初审编号" min-width="5%">
+      <el-table-column
+        prop="first_audit_num"
+        label="初审编号"
+        show-overflow-tooltip
+        width="70px"
+      >
       </el-table-column>
       <el-table-column
         prop="first_audit_reason"
         label="初审未通过编号"
-        min-width="5%"
+        show-overflow-tooltip
+        width="110px"
       >
       </el-table-column>
       <el-table-column
         prop="second_audit_status"
         label="复审状态"
-        min-width="5%"
+        show-overflow-tooltip
+        width="70px"
       ></el-table-column>
 
       <el-table-column
         prop="second_audit_person"
         label="复审人"
-        min-width="5%"
+        show-overflow-tooltip
+        width="70px"
       ></el-table-column>
 
-      <el-table-column prop="second_audit_time" label="复审时间" min-width="5%">
+      <el-table-column
+        prop="second_audit_time"
+        label="复审时间"
+        show-overflow-tooltip
+        width="70px"
+      >
       </el-table-column>
       <el-table-column
         prop="second_audit_label"
         label="复审类型"
-        min-width="5%"
+        show-overflow-tooltip
+        width="70px"
       >
       </el-table-column>
-      <el-table-column prop="second_audit_num" label="复审编号" min-width="5%">
+      <el-table-column
+        prop="second_audit_num"
+        label="复审编号"
+        show-overflow-tooltip
+        width="70px"
+      >
       </el-table-column>
     </el-table>
 

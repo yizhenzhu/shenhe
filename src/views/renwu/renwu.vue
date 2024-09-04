@@ -116,9 +116,14 @@
         min-width="8%"
       ></el-table-column>
 
-      <el-table-column prop="start_time" label="开始时间" min-width="8%">
+      <el-table-column
+        prop="start_time"
+        label="开始时间"
+        sortable
+        min-width="8%"
+      >
       </el-table-column>
-      <el-table-column prop="end_time" label="结束时间" min-width="8%">
+      <el-table-column prop="end_time" label="结束时间" sortable min-width="8%">
       </el-table-column>
       <el-table-column label="任务结果" min-width="8%">
         <!-- 1.a标签 2.query.selector   @click事件  DOM元素-->

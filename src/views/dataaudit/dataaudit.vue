@@ -104,6 +104,7 @@
       <el-table-column
         prop="reg_url"
         label="规范化URL"
+        show-overflow-tooltip
         min-width="8%"
       ></el-table-column>
 
@@ -119,7 +120,12 @@
         </template>
       </el-table-column>
 
-      <el-table-column prop="upload_time" label="上传时间" min-width="8%">
+      <el-table-column
+        prop="upload_time"
+        label="上传时间"
+        sortable
+        min-width="8%"
+      >
       </el-table-column>
     </el-table>
 

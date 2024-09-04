@@ -62,56 +62,108 @@
         prop="src_url"
         label="原始URL"
         show-overflow-tooltip
-        min-width="8%"
+        width="120px"
       >
       </el-table-column>
       <el-table-column
         prop="reg_url"
         label="规范化URL"
         show-overflow-tooltip
-        min-width="8%"
+        width="120px"
       ></el-table-column>
 
       <el-table-column
         prop="src_audit_status"
         label="原始URL审核状态"
-        min-width="5%"
+        show-overflow-tooltip
+        width="120px"
       ></el-table-column>
 
       <el-table-column
         prop="src_audit_reason"
         label="原始URL未通过原因"
-        min-width="5%"
+        show-overflow-tooltip
+        width="130px"
       ></el-table-column>
 
-      <el-table-column prop="redirect" label="是否有跳转" min-width="5%">
+      <el-table-column
+        prop="redirect"
+        label="是否有跳转"
+        show-overflow-tooltip
+        width="110px"
+      >
       </el-table-column>
-      <el-table-column prop="redirect_method" label="跳转方式" min-width="5%">
+      <el-table-column
+        prop="redirect_method"
+        label="跳转方式"
+        show-overflow-tooltip
+        width="90px"
+      >
       </el-table-column>
 
       <el-table-column
         prop="redirect_url"
         label="跳转URL"
         show-overflow-tooltip
-        min-width="8%"
+        width="120px"
       >
       </el-table-column>
-      <el-table-column prop="wild" label="是否是泛域名" min-width="5%">
+      <el-table-column
+        prop="wild"
+        label="是否是泛域名"
+        show-overflow-tooltip
+        width="120px"
+      >
       </el-table-column>
-      <el-table-column prop="domain" label="域名" min-width="5%">
+      <el-table-column
+        prop="domain"
+        label="域名"
+        show-overflow-tooltip
+        width="80px"
+      >
       </el-table-column>
-      <el-table-column prop="audit_status" label="审核状态" min-width="5%">
+      <el-table-column
+        prop="audit_status"
+        label="审核状态"
+        show-overflow-tooltip
+        width="100px"
+      >
       </el-table-column>
-      <el-table-column prop="audit_reason" label="未通过原因" min-width="5%">
+      <el-table-column
+        prop="audit_reason"
+        label="未通过原因"
+        show-overflow-tooltip
+        width="120px"
+      >
       </el-table-column>
-      <el-table-column prop="block_method" label="处置方式" min-width="5%">
+      <el-table-column
+        prop="block_method"
+        label="处置方式"
+        show-overflow-tooltip
+        width="100px"
+      >
       </el-table-column>
-      <el-table-column prop="block_url" label="处置URL" min-width="5%">
+      <el-table-column
+        prop="block_url"
+        label="处置URL"
+        show-overflow-tooltip
+        width="100px"
+      >
       </el-table-column>
-      <el-table-column prop="block_res" label="未处置原因" min-width="5%">
+      <el-table-column
+        prop="block_res"
+        label="未处置原因"
+        show-overflow-tooltip
+        width="120px"
+      >
       </el-table-column>
 
-      <el-table-column prop="unblock_reason" label="未处置原因" min-width="5%">
+      <el-table-column
+        prop="unblock_reason"
+        label="未处置原因"
+        show-overflow-tooltip
+        width="120px"
+      >
       </el-table-column>
     </el-table>
 

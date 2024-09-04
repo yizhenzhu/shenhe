@@ -159,6 +159,9 @@ export default {
           }));
           this.total = res.total;
           // console.log("图片数据：", this.form.boxes); // 输出图片数据
+        } else if (res.code === 204) {
+          this.form.boxes = [];
+          this.loading = false;
         }
       } catch (error) {
         console.error("Error fetching data:", error);

@@ -98,30 +98,61 @@
       <el-table-column
         prop="title"
         label="标题"
+        show-overflow-tooltip
         min-width="5%"
       ></el-table-column>
 
       <el-table-column
         prop="category"
         label="分类"
+        show-overflow-tooltip
         min-width="5%"
       ></el-table-column>
 
       <el-table-column
         prop="audit_status"
         label="审核状态"
+        show-overflow-tooltip
         min-width="8%"
       ></el-table-column>
 
-      <el-table-column prop="audit_person" label="审核人" min-width="8%">
+      <el-table-column
+        prop="audit_person"
+        label="审核人"
+        show-overflow-tooltip
+        min-width="8%"
+      >
       </el-table-column>
-      <el-table-column prop="audit_time" label="审核时间" min-width="8%">
+      <el-table-column
+        prop="audit_time"
+        label="审核时间"
+        show-overflow-tooltip
+        sortable
+        min-width="8%"
+      >
       </el-table-column>
-      <el-table-column prop="submit_status" label="提交状态" min-width="5%">
+      <el-table-column
+        prop="submit_status"
+        label="提交状态"
+        show-overflow-tooltip
+        min-width="5%"
+      >
       </el-table-column>
-      <el-table-column prop="submit_time" label="提交时间" min-width="10%">
+
+      <el-table-column
+        prop="submit_time"
+        label="提交时间"
+        sortable
+        show-overflow-tooltip
+        min-width="10%"
+      >
       </el-table-column>
-      <el-table-column prop="submit_reason" label="未提交原因" min-width="5%">
+      <el-table-column
+        prop="submit_reason"
+        label="未提交原因"
+        show-overflow-tooltip
+        min-width="5%"
+      >
       </el-table-column>
     </el-table>
 

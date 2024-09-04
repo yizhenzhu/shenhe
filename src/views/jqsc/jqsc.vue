@@ -201,7 +201,12 @@
 
       <el-table-column prop="create_method" label="上传方式" min-width="8%">
       </el-table-column>
-      <el-table-column prop="create_time" label="上传时间" min-width="8%">
+      <el-table-column
+        prop="create_time"
+        label="上传时间"
+        sortable
+        min-width="8%"
+      >
       </el-table-column>
       <el-table-column prop="remark" label="备注" min-width="5%">
       </el-table-column>
