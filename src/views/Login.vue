@@ -71,9 +71,6 @@ export default {
   },
   methods: {
     submitForm(param) {
-      // this.$router.push("/welcome"); // 跳转主页welcome
-      // submit(param) {
-      // console.log(1);
       this.loading = true; //当前登陆界面--圆圈
       const token = uuidv4();
       this.$refs[param].validate(async (valid) => {
@@ -129,7 +126,6 @@ export default {
 
 <style scoped>
 .login-wrap {
-  /* position: relative; */
   position: fixed;
   width: 100%;
   height: 100%;
@@ -140,29 +136,26 @@ export default {
 }
 .ms-title {
   width: 100%;
-  line-height: 50px;
   text-align: center;
-  font-size: 30px;
-  color: #fff;
-  /* border-bottom: 1px solid #ddd; */
-  margin-bottom: 20px;
+  font-size: 28px;
+  color: rgb(69, 113, 155);
+  /* color: rgb(64, 158, 255); */
+  font-weight: bold; /* 加粗字体 */
+  margin-top: 20px;
 }
 .ms-kuang {
-  background: #fff;
   width: 400px; /* 设置宽度为100px */
-  height: 300px; /* 设置高度为100px */
+  height: 270px; /* 设置高度为100px */
   border-radius: 10px;
 }
 .ms-login {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 400px;
+  /* width: 400px; */
   transform: translate(-50%, -70%);
-  /* margin: -190px 0 0 -175px; */
-  /* margin: -190px 0 0 -140px; */
   border-radius: 5%;
-  /* background: rgba(255, 255, 255, 0.2); */
+  background: rgba(255, 255, 255, 0.6);
   overflow: hidden;
   /* box-shadow: 2px 2px 1px #000; */
 }

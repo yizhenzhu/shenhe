@@ -299,7 +299,7 @@ export default {
 /* 盒子上传格式 */
 .box {
   width: 300px;
-  height: 320px;
+  height: 300px;
   padding: 5px;
   background-color: #f9f9f9;
   border: 1px solid #ddd;

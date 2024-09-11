@@ -7,13 +7,20 @@
       default-expand-all
       :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
     >
-      <el-table-column prop="date" label="菜单名字" show-overflow-tooltip> </el-table-column>
-      <el-table-column prop="name" label="路由" show-overflow-tooltip> </el-table-column>
-      <el-table-column prop="address" label="创建时间" show-overflow-tooltip> </el-table-column>
-      <el-table-column prop="address" label="修改时间" show-overflow-tooltip> </el-table-column>
-      <el-table-column prop="address" label="删除标记" show-overflow-tooltip> </el-table-column>
-      <el-table-column prop="address" label="类型" show-overflow-tooltip> </el-table-column>
-      <el-table-column prop="address" label="排序" show-overflow-tooltip> </el-table-column>
+      <el-table-column prop="date" label="菜单名字" show-overflow-tooltip>
+      </el-table-column>
+      <el-table-column prop="name" label="路由" show-overflow-tooltip>
+      </el-table-column>
+      <el-table-column prop="address" label="创建时间" show-overflow-tooltip>
+      </el-table-column>
+      <el-table-column prop="address" label="修改时间" show-overflow-tooltip>
+      </el-table-column>
+      <el-table-column prop="address" label="删除标记" show-overflow-tooltip>
+      </el-table-column>
+      <el-table-column prop="address" label="类型" show-overflow-tooltip>
+      </el-table-column>
+      <el-table-column prop="address" label="排序" show-overflow-tooltip>
+      </el-table-column>
       <el-table-column label="操作">
         <el-button type="text" size="mini" @click="upload()">修改</el-button>
         <el-button size="mini" type="text">删除</el-button>
@@ -151,8 +158,6 @@ export default {
 </script>
 
 <style>
-.right_main_under{
- /* margin: 20px 0 0 20px; */
- /* box-sizing: border-box; */
-}
+/* .right_main_under {
+} */
 </style>

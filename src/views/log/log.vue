@@ -160,8 +160,9 @@
       <el-table-column
         prop="machine_audit_time"
         label="机审时间"
+        sortable
         show-overflow-tooltip
-        width="90px"
+        width="100px"
       >
       </el-table-column>
       <el-table-column
@@ -202,8 +203,9 @@
       <el-table-column
         prop="first_audit_time"
         label="初审时间"
+        sortable
         show-overflow-tooltip
-        width="70px"
+        width="100px"
       >
       </el-table-column>
       <el-table-column
@@ -244,6 +246,7 @@
       <el-table-column
         prop="second_audit_time"
         label="复审时间"
+        sortable
         show-overflow-tooltip
         width="70px"
       >

@@ -10,17 +10,16 @@
             :clearable="false"
             placeholder="选择日期"
             type="date"
-            
           >
           </el-date-picker>
         </el-form-item>
         <el-form-item prop="address">
           <el-select
-           class="timerq"
+            class="timerq"
             v-model="selectedGuishudi"
-            placeholder="城市"        
+            placeholder="城市"
             @clear="fushen_clearFun(selectedGuishudi)"
-            @visible-change = 'visibleSelect'
+            @visible-change="visibleSelect"
             :loading="selectLoading"
           >
             <el-option
@@ -29,18 +28,20 @@
               :value="item.id"
               :key="index"
             >
-            <span style="float:left">{{ item.name }}</span>
-            <span style="float:right; color: #8492a6; font-size: 13px">{{ item.cnt }}</span>
+              <span style="float: left">{{ item.name }}</span>
+              <span style="float: right; color: #8492a6; font-size: 13px">{{
+                item.cnt
+              }}</span>
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item >
-        <el-select
-           class="timerq"
-           collapse-tags
+        <el-form-item>
+          <el-select
+            class="timerq"
+            collapse-tags
             v-model="newdomainSimpleVo.shezhaType"
             multiple
-            placeholder="涉诈类型"        
+            placeholder="涉诈类型"
             @clear="fushen_clearFun(newdomainSimpleVo.shezhaType)"
           >
             <el-option
@@ -78,107 +79,104 @@
 
     <div class="bottomlist">
       <div class="datalist">
-        <!-- 审核列表 -->       
-        <el-tabs
-          v-model="activeName"          
-          v-if="listloadingurl"
-          v-loading="loading"
-        >
-        <!-- @tab-click="handleClick" -->
+        <!-- 审核列表 -->
+        <el-tabs v-model="activeName" v-if="listloadingurl" v-loading="loading">
+          <!-- @tab-click="handleClick" -->
           <el-tab-pane label="待审核" name="0">
             <!-- style="height:520px;overflow-y: auto;" -->
-            <div style="max-height: 65vh;max-width: 100%;overflow-y: auto;">
+            <div style="max-height: 65vh; max-width: 100%; overflow-y: auto">
               <!--待审列表- 一页数据-->
-            <div class="leftlist" >
-              <!-- 每个块 -->
-              <div
-                class="listurl"
-                v-for="(item, index) in tableDatalist"
-                :key="index"
-              >
-                <!-- 文字input -->
-                <el-form size="mini" label-width="80px">
-                  <el-row>
-                    <el-col :span="24">
-                      <div class="grid-content bg-purple-dark">
-                        <el-form-item label="域名：" class="inner">
-                          <el-tooltip
-                            :disabled="disabledTooltip"
-                            effect="dark"
-                            :content="item.url"
-                            placement="top"
-                          >
-                            <!-- 加一个span防止input提示条不显示 -->
-                            <span>
-                              <el-input
-                                ref="url"
-                                type="textarea"
-                                v-model="item.url"
-                                disabled
-                                @mouseover.native="showTooltip"
-                              ></el-input>
-                            </span>
-                          </el-tooltip>
-                        </el-form-item>
+              <div class="leftlist">
+                <!-- 每个块 -->
+                <div
+                  class="listurl"
+                  v-for="(item, index) in tableDatalist"
+                  :key="index"
+                >
+                  <!-- 文字input -->
+                  <el-form size="mini" label-width="80px">
+                    <el-row>
+                      <el-col :span="24">
+                        <div class="grid-content bg-purple-dark">
+                          <el-form-item label="域名：" class="inner">
+                            <el-tooltip
+                              :disabled="disabledTooltip"
+                              effect="dark"
+                              :content="item.url"
+                              placement="top"
+                            >
+                              <!-- 加一个span防止input提示条不显示 -->
+                              <span>
+                                <el-input
+                                  ref="url"
+                                  type="textarea"
+                                  v-model="item.url"
+                                  disabled
+                                  @mouseover.native="showTooltip"
+                                ></el-input>
+                              </span>
+                            </el-tooltip>
+                          </el-form-item>
+                        </div>
+                      </el-col>
+                      <el-col :span="24"
+                        ><div class="grid-content bg-purple-light">
+                          <el-form-item label="类型：" class="inner">
+                            <el-input v-model="item.fraudType" disabled>
+                            </el-input>
+                          </el-form-item></div
+                      ></el-col>
+                      <el-col :span="24"
+                        ><div class="grid-content bg-purple-light">
+                          <el-form-item label="访问量：" class="inner">
+                            <el-input v-model="item.visits" disabled>
+                            </el-input>
+                          </el-form-item></div
+                      ></el-col>
+                    </el-row>
+                  </el-form>
+                  <!--初审模块- 图片 -->
+                  <div class="images">
+                    <el-image
+                      :src="item.littleRemoteFile"
+                      :preview-src-list="[item.remoteFile]"
+                      class="img1"
+                      title="移动端"
+                    >
+                      <div slot="error" class="image-slot">
+                        <i class="el-icon-picture-outline" style="margin: 40%"
+                          >无图片</i
+                        >
                       </div>
-                    </el-col>
-                    <el-col :span="24"
-                      ><div class="grid-content bg-purple-light">
-                        <el-form-item label="类型：" class="inner">
-                          <el-input v-model="item.fraudType" disabled>
-                          </el-input>
-                        </el-form-item></div
-                    ></el-col>
-                    <el-col :span="24"
-                      ><div class="grid-content bg-purple-light">
-                        <el-form-item label="访问量：" class="inner">
-                          <el-input v-model="item.visits" disabled> </el-input>
-                        </el-form-item></div
-                    ></el-col>
-                  </el-row>
-                </el-form>
-                <!--初审模块- 图片 -->
-                <div class="images">
-                  <el-image
-                    :src="item.littleRemoteFile"
-                    :preview-src-list="[item.remoteFile]"
-                    class="img1"
-                    title="移动端"
-                  >
-                    <div slot="error" class="image-slot">
-                      <i class="el-icon-picture-outline" style="margin: 40%"
-                        >无图片</i
+                    </el-image>
+                  </div>
+                  <!--初审模块- radio -->
+                  <div class="botcheck">
+                    <el-radio-group v-model="formradio[index]">
+                      <el-radio
+                        class="mg_r_10"
+                        :label="1"
+                        @change="handleRadioChanges(item)"
+                        >是</el-radio
                       >
-                    </div>
-                  </el-image>
-                </div>
-                <!--初审模块- radio -->
-                <div class="botcheck">
-                  <el-radio-group v-model="formradio[index]">
-                    <el-radio
-                      class="mg_r_10"
-                      :label="1"
-                      @change="handleRadioChanges(item)"
-                      >是</el-radio
-                    >
-                    <el-radio
-                      class="mg_r_10"
-                      :label="2"
-                      @change="handleRadioChanges(item)"
-                      >否</el-radio
-                    >
-                    <el-radio
-                      class="mg_r_10"
-                      :label="3"
-                      @change="handleRadioChanges(item)"
-                      >不确定</el-radio
-                    >
-                  </el-radio-group>
+                      <el-radio
+                        class="mg_r_10"
+                        :label="2"
+                        @change="handleRadioChanges(item)"
+                        >否</el-radio
+                      >
+                      <el-radio
+                        class="mg_r_10"
+                        :label="3"
+                        @change="handleRadioChanges(item)"
+                        >不确定</el-radio
+                      >
+                    </el-radio-group>
+                  </div>
                 </div>
               </div>
             </div>
-            </div>
-            
+
             <!-- 页码 -->
             <div class="bottom1">
               <el-pagination
@@ -230,7 +228,9 @@
         </p>
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button type="primary" plain @click="determine" :disabled="disab">确 定</el-button>
+        <el-button type="primary" plain @click="determine" :disabled="disab"
+          >确 定</el-button
+        >
         <el-button type="primary" plain @click="dialogtijiao = false"
           >取 消</el-button
         >
@@ -247,14 +247,14 @@ export default {
   name: "chushen",
   data() {
     return {
-      selectLoading:false,
-      disab:false,
+      selectLoading: false,
+      disab: false,
       selectData: {
         guishud: [],
-        shezha:[]
+        shezha: [],
       },
-      loading:false,
-      selectedGuishudi:null,
+      loading: false,
+      selectedGuishudi: null,
       disabledTooltip: true,
       tableDatalist: [],
       gushudi: "",
@@ -270,9 +270,9 @@ export default {
       newdomainSimpleVo: {
         dateValue_find: dayjs(new Date()).format("YYYY-MM-DD"), //时间
         guishud: {
-          id:null
+          id: null,
         },
-        shezhaType:[]
+        shezhaType: [],
       },
       whiteSearchList: {
         startCreateTime: "",
@@ -375,73 +375,76 @@ export default {
           id: 3,
         },
       ],
-      tempGuishudi:null
+      tempGuishudi: null,
     };
   },
   created() {
     // this.listtime();
-    
+
     this.suoshudi();
   },
   // mounted() {
   //   this.xq();
   // },
   methods: {
-    async visibleSelect(){
+    async visibleSelect() {
       // console.log(this.selectData.guishud);
-      
-          this.selectLoading = true
-          this.$nextTick(async()=>{
-            const list = {
-              discoverDate:dayjs(this.newdomainSimpleVo.dateValue_find).format("YYYY-MM-DD"),
-              stage:'first'
-            } 
-            const {data:res} = await this.$http.get("/dictionary/first/datasourceTaskCnt",{params:list});
-            if(res.code == 200){
-              if(!res.data.length){
-                this.selectData.guishud.map((item)=>{
-                  item.cnt = 0
-                })
+
+      this.selectLoading = true;
+      this.$nextTick(async () => {
+        const list = {
+          discoverDate: dayjs(this.newdomainSimpleVo.dateValue_find).format(
+            "YYYY-MM-DD"
+          ),
+          stage: "first",
+        };
+        const { data: res } = await this.$http.get(
+          "/dictionary/first/datasourceTaskCnt",
+          { params: list }
+        );
+        if (res.code == 200) {
+          if (!res.data.length) {
+            this.selectData.guishud.map((item) => {
+              item.cnt = 0;
+            });
+          }
+          // console.log(this.selectData.guishud);
+
+          for (let i = 0; i < this.selectData.guishud.length; i++) {
+            for (let j = 0; j < res.data.length; j++) {
+              if (this.selectData.guishud[i].id == res.data[j].id) {
+                this.selectData.guishud[i].cnt = res.data[j].cnt;
+                // console.log(this.selectData.guishud[i].id,'走到map更新cnt',this.selectData.guishud[i].cnt);
+                break;
+              } else {
+                this.selectData.guishud[i].cnt = 0;
+                // console.log(this.selectData.guishud[i].id,'走到map更新cnt 0');
               }
-              // console.log(this.selectData.guishud);
-              
-                for(let i=0;i<this.selectData.guishud.length;i++){
-                  for(let j=0;j<res.data.length;j++){
-                    if(this.selectData.guishud[i].id == res.data[j].id){
-                      this.selectData.guishud[i].cnt = res.data[j].cnt
-                      // console.log(this.selectData.guishud[i].id,'走到map更新cnt',this.selectData.guishud[i].cnt);  
-                      break
-                    }else{
-                      this.selectData.guishud[i].cnt = 0
-                      // console.log(this.selectData.guishud[i].id,'走到map更新cnt 0');  
-                    }
-                  }
-                }
-              // res.data.forEach((item)=>{
-                
-                // console.log(item);
-                // this.selectData.guishud.map((item2)=>{
-                //   // console.log(item2.id);
-                //   if(item2.id==item.id){           
-                     
-                //     item2.cnt = item.cnt
-                //     console.log(item2.id,'走到map更新cnt',item2.cnt);   
-                //   }else{
-                    
-                //     item2.cnt = 0
-                //     console.log(item2.id,'走到map更新cnt为0');
-                //   }
-                // })
-              // })
-             this.$forceUpdate()
-             this.selectLoading = false
-            }else{
-              this.$message(res.message)
-              this.selectLoading = false
             }
-          })
-          
-        
+          }
+          // res.data.forEach((item)=>{
+
+          // console.log(item);
+          // this.selectData.guishud.map((item2)=>{
+          //   // console.log(item2.id);
+          //   if(item2.id==item.id){
+
+          //     item2.cnt = item.cnt
+          //     console.log(item2.id,'走到map更新cnt',item2.cnt);
+          //   }else{
+
+          //     item2.cnt = 0
+          //     console.log(item2.id,'走到map更新cnt为0');
+          //   }
+          // })
+          // })
+          this.$forceUpdate();
+          this.selectLoading = false;
+        } else {
+          this.$message(res.message);
+          this.selectLoading = false;
+        }
+      });
     },
     //鼠标移上去时显示input的所有内容
     showTooltip() {
@@ -496,18 +499,17 @@ export default {
     },
     //点击提交按钮
     submit() {
-        // console.log(this.tableDatalist);
-        if(this.tableDatalist.length === 0){
-          this.$message("提交错误，无数据！");
-          return false
-        }
+      // console.log(this.tableDatalist);
+      if (this.tableDatalist.length === 0) {
+        this.$message("提交错误，无数据！");
+        return false;
+      }
       for (var i = 0; i < this.formradio.length; i++) {
         this.newtableDatalist = this.tableDatalist.map((items, index) => {
           return {
             auditResult: this.chooseType(this.formradio[index]),
             id: items.id,
             did: items.did,
-            
           };
         });
       }
@@ -533,12 +535,6 @@ export default {
     },
     // “提交” 弹窗确定
     determine() {
-      // console.log("点完提交");
-      // console.log(this.newtableDatalist);
-      // if(this.newtableDatalist.length!==this.tableDatalist.length||this.tableDatalist.length === 0||this.newtableDatalist.length ===0){
-      //   this.$message("有未勾选项");
-      //   return 
-      // }
       let flag = true;
       for (var j = 0; j < this.newtableDatalist.length; j++) {
         // 判断当前是否有未选择项
@@ -550,20 +546,16 @@ export default {
       }
       // 当前flag为true  代表全部选则，直接走接口
       if (flag == true) {
-             this.disab=true
+        this.disab = true;
         this.checkresult();
       }
     },
     //弹窗页面的提交接口
     async checkresult() {
-      
       let list = {
-        auditList:this.newtableDatalist
-      }
-      const { data: res } = await this.$http.post(
-        "/audit/first/audit",
-        list
-      );
+        auditList: this.newtableDatalist,
+      };
+      const { data: res } = await this.$http.post("/audit/first/audit", list);
       if (res.code == 200) {
         // 弹窗关闭
         this.$message(res.message);
@@ -577,8 +569,8 @@ export default {
         }
         // console.log(totalPage);
         // console.log(this.mypageableurl.pageNumurl);
-        if(this.mypageableurl.pageNumurl == totalPage){
-          --this.mypageableurl.pageNumurl
+        if (this.mypageableurl.pageNumurl == totalPage) {
+          --this.mypageableurl.pageNumurl;
         }
         this.formradio = [
           // 先置空所有按钮
@@ -593,23 +585,22 @@ export default {
           { radioArray8: "" },
           { radioArray9: "" },
           { radioArray10: "" },
-        { radioArray11: "" },
-        { radioArray12: "" },
-        { radioArray13: "" },
-        { radioArray14: "" },
-        { radioArray15: "" },
-        { radioArray16: "" },
-        { radioArray17: "" },
-        { radioArray18: "" },
-        { radioArray19: "" },
+          { radioArray11: "" },
+          { radioArray12: "" },
+          { radioArray13: "" },
+          { radioArray14: "" },
+          { radioArray15: "" },
+          { radioArray16: "" },
+          { radioArray17: "" },
+          { radioArray18: "" },
+          { radioArray19: "" },
         ];
-        this.disab=false
+        this.disab = false;
         this.xq(); //再请求下一页数据
       }
     },
     // _________________________
-    handleRadioChanges(val, item) {
-    },
+    handleRadioChanges(val, item) {},
     //点击查询按钮
     chaxun() {
       this.mypageableurl.pageNumurl = 1;
@@ -617,14 +608,14 @@ export default {
     },
     //点击重置按钮
     chongzhi() {
-      this.selectedGuishudi = this.tempGuishudi
+      this.selectedGuishudi = this.tempGuishudi;
       this.mypageableurl.pageNumurl = 1;
-      this.newdomainSimpleVo.shezhaType = null
+      this.newdomainSimpleVo.shezhaType = null;
       this.newdomainSimpleVo.dateValue_find = dayjs(new Date()).format(
         "YYYY-MM-DD"
       );
       // this.newdomainSimpleVo.guishud = null;
-      this.suoshudi()      
+      this.suoshudi();
     },
     handleClick(tab, event) {
       // console.log('待审核');
@@ -641,7 +632,9 @@ export default {
     },
     getIndex($index) {
       return (
-        (this.mypageableurl.pageNumurl - 1) * this.mypageable.pageSize + $index + 1
+        (this.mypageableurl.pageNumurl - 1) * this.mypageable.pageSize +
+        $index +
+        1
       );
     },
     //自动请求待审核列表：未用
@@ -651,7 +644,7 @@ export default {
       this.listloadingurl = true;
       this.searchurl = val;
       this.activeName = "0";
-      this.daichuzhilist();  // 未用
+      this.daichuzhilist(); // 未用
       this.xq();
     },
     // 查询操作————异步请求
@@ -660,52 +653,38 @@ export default {
       this.newnum = [];
       // console.log(this.newdomainSimpleVo.shezhaType);
 
-      let bigFraudTypesStr
-      if(this.newdomainSimpleVo.shezhaType){
-        bigFraudTypesStr = this.newdomainSimpleVo.shezhaType.join(',')
+      let bigFraudTypesStr;
+      if (this.newdomainSimpleVo.shezhaType) {
+        bigFraudTypesStr = this.newdomainSimpleVo.shezhaType.join(",");
         // 字符串为空的情况下，请求体会带此字段。 将其转为其他类型，请求体默认不带此字段
-        if(bigFraudTypesStr.length==0){
-          bigFraudTypesStr = []
+        if (bigFraudTypesStr.length == 0) {
+          bigFraudTypesStr = [];
         }
       }
-      if(this.newdomainSimpleVo.dateValue_find==null){
-        this.$message.error('请选择时间！')
-        return false
+      if (this.newdomainSimpleVo.dateValue_find == null) {
+        this.$message.error("请选择时间！");
+        return false;
       }
-      this.loading = true
+      this.loading = true;
       // 新的请求list
       let list = {
         // checkTime: this.searchurl,
-        day: dayjs(this.newdomainSimpleVo.dateValue_find).format(
-          "YYYY-MM-DD"
-        ),
+        day: dayjs(this.newdomainSimpleVo.dateValue_find).format("YYYY-MM-DD"),
         source: this.selectedGuishudi,
         bigFraudTypes: bigFraudTypesStr,
         page: this.mypageableurl.pageNumurl,
         pageSize: this.mypageableurl.pageSizeurl,
-
       };
-      const { data: res } = await this.$http.get(
-        "/audit/first/list",
-        {params:list}
-      );
+      const { data: res } = await this.$http.get("/audit/first/list", {
+        params: list,
+      });
       if (res.code == 200) {
-        // console.log(res);
-        this.tableDatalist = res.dataList // 每条数据
-        this.totalurl = res.totalSum      // 总条数
-        // radioqx()
-        // for (var i = 0; i < this.tableDatalist.length; i++) {
-        //   // console.log(res.data.list[i]);
-        //   this.num.push(this.tableDatalist.list[i].id);
-        // }
-        // this.newnum = this.num;
-        // this.totalurl = res.data.total;
-        // this.chakanxiangq(this.newnum);
-        this.loading = false
+        this.tableDatalist = res.dataList; // 每条数据
+        this.totalurl = res.totalSum; // 总条数
+        this.loading = false;
       } else if (res.code == 500) {
         this.$message(res.message);
-        // this.fanhui();
-        this.loading = false
+        this.loading = false;
       }
     },
     //获取每个url详情，包括：url、类型、图片地址
@@ -723,37 +702,35 @@ export default {
     },
     // 所属地和涉诈类型
     async suoshudi() {
-      this.loading = true
-      const promise1 =  this.$http.get("/dictionary/datasource");
-      const promise2 =  this.$http.get("dictionary/fraudType",{params:{isBig:true}})
-      const [data1,data2] = await Promise.all([promise1,promise2])
-      if(data1.data.code === 200 && data2.data.code === 200){
-        this.selectData.guishud = data1.data.data
-        this.selectData.shezha = data2.data.data
-        for(let i in data1.data.data){
-          if(data1.data.data[i].name==="上海"){
-            this.selectedGuishudi = data1.data.data[i].id
-            this.tempGuishudi = data1.data.data[i].id
-            break
-          }else{
-            if(data1.data.data[0]){
-              this.selectedGuishudi = data1.data.data[0].id
-              this.tempGuishudi = data1.data.data[0].id
+      this.loading = true;
+      const promise1 = this.$http.get("/dictionary/datasource");
+      const promise2 = this.$http.get("dictionary/fraudType", {
+        params: { isBig: true },
+      });
+      const [data1, data2] = await Promise.all([promise1, promise2]);
+      if (data1.data.code === 200 && data2.data.code === 200) {
+        this.selectData.guishud = data1.data.data;
+        this.selectData.shezha = data2.data.data;
+        for (let i in data1.data.data) {
+          if (data1.data.data[i].name === "上海") {
+            this.selectedGuishudi = data1.data.data[i].id;
+            this.tempGuishudi = data1.data.data[i].id;
+            break;
+          } else {
+            if (data1.data.data[0]) {
+              this.selectedGuishudi = data1.data.data[0].id;
+              this.tempGuishudi = data1.data.data[0].id;
             }
-
           }
         }
         // if(data2.data.data.length !== 0){
         //   this.newdomainSimpleVo.shezhaType = data2.data.data[0]
         // }
         // console.log(this.newdomainSimpleVo.guishud);
-        
       }
-      this.xq()
+      this.xq();
     },
-    handleClose() {
-    
-    },
+    handleClose() {},
     // 点击刷新按钮
     fanhui() {
       // this.listloading = true;
@@ -824,7 +801,7 @@ export default {
       ];
       this.xq();
     },
-    chooseType(val){
+    chooseType(val) {
       if (val == 1) {
         return "YES";
       } else if (val == 2) {
@@ -987,9 +964,9 @@ a {
 .listurl {
   height: 93%;
   width: 230px;
-  margin: 0 9px 30px 9px; 
+  margin: 0 9px 30px 9px;
   // margin: 0 8px 30px 8px;
- box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.5);
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.5);
   padding: 10px 0;
 }
 .leftbtoom {
@@ -1076,7 +1053,7 @@ a {
 }
 .optbtn {
   position: sticky;
-  bottom:0px;
+  bottom: 0px;
   text-align: right;
   padding: 5px 10px;
 }
@@ -1094,7 +1071,7 @@ a {
   padding: 5px;
   font-family: none;
 }
-.timerq{
+.timerq {
   width: 250px;
 }
 </style>

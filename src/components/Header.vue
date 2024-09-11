@@ -73,10 +73,8 @@
 </template>
 
 <script>
-// import { sendWebsocket, closeWebsocket } from "@/utils/websocket.js";
 import qs from "qs";
 export default {
-  // inject: ["reload"],
   data() {
     return {
       isFullScreen: false,
@@ -95,10 +93,6 @@ export default {
       old: "",
     };
   },
-  // created(){
-  //     this.use=JSON.parse(window.sessionStorage.getItem('one'))
-  //    console.log(whi.use);
-  // },
   computed: {
     username() {
       let username = JSON.parse(window.sessionStorage.getItem("one"));
@@ -115,10 +109,6 @@ export default {
 
   methods: {
     async up() {
-      /* if(this.newdomainSimpleVo.oldpwd==""){
-        this.$message('请输入原密码！')
-        return false
-      } */
       if (
         this.newdomainSimpleVo.xinpwd == "" ||
         this.newdomainSimpleVo.xinpwd2 == ""
@@ -143,13 +133,9 @@ export default {
       }
 
       let list = {
-        // oldPwd: this.newdomainSimpleVo.oldpwd,
-
         password1: this.newdomainSimpleVo.xinpwd,
         password2: this.newdomainSimpleVo.xinpwd2,
-        // newPassword1: this.newdomainSimpleVo.xinpwd2,
       };
-      // const url = "/user/modifyPwd?"+qs.stringify(list)
       const { data: res } = await this.$http.post("/user/change", list);
       if (res.code == 200) {
         this.dialog = false;

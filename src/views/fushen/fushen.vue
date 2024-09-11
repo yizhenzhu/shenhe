@@ -390,7 +390,9 @@ export default {
   box-sizing: border-box;
   margin-top: 10px; /* 设置盒子之间的上边距 */
 }
-
+.box-blue {
+  background-color: rgb(168, 197, 227);
+}
 .box-item {
   display: flex;
   align-items: center;

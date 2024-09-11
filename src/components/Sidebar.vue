@@ -156,7 +156,7 @@ export default {
               //menuType:0
             },
             {
-              menuName: "结果",
+              menuName: "处置库",
               menuUrl: "/result",
               name: "result",
               menuType: 1,
@@ -164,133 +164,17 @@ export default {
             },
           ],
         },
-        /*  {
-          menuName: "审核",
-          menuUrl: "/shenhe",
-          name: "shenhe",
-          menuType: 0,
-          children:[
-          {
-            menuName: "初审",
-            menuUrl: "/chushen",
-            name: "chushen",
-            menuType: 1,
-          },
-          {
-            menuName: "复审",
-            menuUrl: "/fushen",//选中跳转！！！！了解
-            name: "fushen",
-            menuType: 1,
-          },
-          {
-            menuName: "审核日志",
-            menuUrl: "/technologicalprocess",
-            name: "technologicalprocess",
-            menuType: 1,
-          },
-          ]
-        },
-        {
-          menuName: "用户管理",
-          menuUrl: "/user",
-          name: "user",
-          menuType: 1,
-        }, */
-        /* {
-          menuName: "复审",
-          menuUrl: "/reviewcase",//选中跳转！！！！了解
-          name: "reviewcase",
-          menuType: 1,
-        },
-        {
-          menuName: "终审",
-          menuUrl: "/finaljudgment",
-          name: "finaljudgment",
-          menuType: 1,
-        },
-        {
-          menuName: "审核结果列表",
-          menuUrl: "/reslist",
-          name: "reslist",
-          menuType: 1,
-        },
-        {
-          menuName: "审核日志",
-          menuUrl: "/technologicalprocess",
-          name: "technologicalprocess",
-          menuType: 1,
-        },
-        {
-          menuName: "系统管理",
-          menuUrl: "/xitong",
-          name: "xitong",
-          menuType: 0,
-          children: [
-             {
-              menuName: "用户管理",
-              menuUrl: "/user",
-              name: "user",
-              menuType: 1,
-            },
-            {
-              menuName: "角色管理",
-              menuUrl: "/Role",
-              name: "Role",
-              menuType: 1,
-            },
-              {
-              menuName: "菜单管理",
-              menuUrl: "/menu",
-              name: "menu",
-              menuType: 1,
-            },
-            {
-              menuName: "人数配置页面",
-              menuUrl: "/Numberallocation",
-              name: "Numberallocation",
-              menuType: 1,
-            },
-            
-          ],
-        },
-        {
-          menuName: "域名判定查询",
-          menuUrl: "/domain_decide",
-          name: "domain_decide",
-          menuType: 1,
-        }, */
       ],
     };
   },
   components: {
     NavItem,
   },
-  mounted() {
-    // let href = window.location.href;
-    // this.defaultUrl = href.split("/#")[1];
-    // this.qx();
-    // this.scheduleCheck();
-  },
+  mounted() {},
   watch: {
     $route: "getPath",
   },
   methods: {
-    /* async scheduleCheck() {
-      // const { data: res } = await this.$http.get("/user/getInfo");
-      const { data: res } = await this.$http.get("/cases");
-      if(res.data.role === 'THIRD'){
-        console.log('true');
-        setInterval(() => {
-          const now = dayjs();
-          const isAfternoonFour = now.hour() === 16 && now.minute() === 0;
-
-          if (isAfternoonFour) {
-            this.showPopup = true;
-          }
-        }, 60000); // 每分钟检查一次
-      }
-      
-    }, */
     closePopup() {
       this.showPopup = false;
     },
@@ -298,160 +182,6 @@ export default {
       this.defaultUrl = this.$route.path;
     },
 
-    // async qx() {
-    //   const that = this;
-    //   // const { data: res } = await this.$http.get("/user/getInfo");
-    //   const { data: res } = await this.$http.get("/cases");
-    //   // console.log(res);
-    //   if (res.code == 200) {
-    //     if(res.data.role === 'ADMIN'){
-    //       this.items.push(
-    //         /* {
-    //           menuName:"首页",
-    //           name:"welcome",
-    //           menuType: 1,
-    //         }, */
-    //     {
-    //       menuName: "初审",
-    //       name: "Preliminaryexamination",
-    //       menuType: 1,
-    //     },
-    //     {
-    //       menuName: "复审",
-    //       name: "reviewcase",
-    //       menuType: 1,
-    //     },
-    //     {
-    //       menuName: "终审",
-    //       name: "finaljudgment",
-    //       menuType: 1,
-    //     },{
-    //       menuName: "审核结果列表",
-    //       name: "reslist",
-    //       menuType: 1,
-    //     },
-    //     {
-    //       menuName: "审核日志",
-    //       name: "technologicalprocess",
-    //       menuType: 1,
-    //     },
-    //     {
-    //       menuName: "处置库",
-    //       name: "treatment",
-    //       menuType: 1,
-    //     },
-    //     {
-    //       menuName:"域名判定查询",
-    //       name:"domain_decide",
-    //       menuType: 1,
-    //     },
-    //     {
-    //       menuName:"数据推送",
-    //       name:"data_push",
-    //       menuType: 1,
-    //     },
-    //     {
-    //       menuName: "系统管理",
-    //       name: "xitong",
-    //       menuType: 0,
-    //       id:5,
-    //       // pid:-1,
-    //       children: [
-    //          {
-    //           menuName: "用户管理",
-    //           name: "user",
-    //           menuType: 1,
-    //         },
-    //       ],
-    //     },
-
-    //     )
-    //     }else if(res.data.role === 'FIRST'){
-    //       this.items.push({
-    //           menuName:"首页",
-    //           name:"welcome"
-    //         },
-    //     {
-    //       menuName: "初审",
-    //       name: "Preliminaryexamination",
-    //       menuType: 1,
-    //     },{
-    //       menuName: "审核日志",
-    //       name: "technologicalprocess",
-    //       menuType: 1,
-    //     },)
-    //     }else if(res.data.role === 'SECOND'){
-    //       this.items.push({
-    //           menuName:"首页",
-    //           name:"welcome"
-    //         },
-    //         {
-    //       menuName: "复审",
-    //       name: "reviewcase",
-    //       menuType: 1,
-    //     },{
-    //       menuName: "审核日志",
-    //       name: "technologicalprocess",
-    //       menuType: 1,
-    //     },)
-    //     }else if(res.data.role === 'THIRD'){
-    //       this.items.push({
-    //           menuName:"首页",
-    //           name:"welcome"
-    //         },
-    //         {
-    //       menuName: "终审",
-    //       name: "finaljudgment",
-    //       menuType: 1,
-    //     },{
-    //       menuName: "审核结果列表",
-    //       name: "reslist",
-    //       menuType: 1,
-    //     },
-    //     {
-    //       menuName: "审核日志",
-    //       name: "technologicalprocess",
-    //       menuType: 1,
-    //     },
-    //     {
-    //       menuName: "处置库",
-    //       name: "treatment",
-    //       menuType: 1,
-    //     },
-    //     {
-    //       menuName:"域名判定查询",
-    //       name:"domain_decide",
-    //       menuType: 1,
-    //     },
-    //     // {
-    //     //   menuName:"数据推送",
-    //     //   name:"data_push",
-    //     //   menuType: 1,
-    //     // }
-    //     )
-    //     }
-
-    //     // this.items = res.data;
-    //     // =========================
-    //     this.items.forEach((item) => {
-    //       that.menuFir(item);
-    //     });
-    //     this.pid = this.getSetArr(this.pid);
-    //     //   if (!window.sessionStorage.getItem("btn")) {
-    //     //   window.sessionStorage.setItem("btn", this.Newname1);
-    //     // }
-    //     // console.log(this.pid);
-    //     this.items.forEach((item) => {
-    //       that.menuSec(item);
-    //     });
-    //     // console.log(res.data);
-    //   }else if(res.code == 403){
-    //     this.$router.push("/")
-    //   }
-
-    //   // console.log(res.data);
-    //   // this.items = res.data;
-    // },
     getSetArr(arr) {
       return [...new Set(arr)];
     },
@@ -494,14 +224,7 @@ export default {
       }
     },
   },
-  computed: {
-    // onRoutes() {
-    //   return this.$route.path.replace("/", "");
-    // },
-    // collapse() {
-    //   return this.$store.state.collapse;
-    // },
-  },
+  computed: {},
 };
 </script>
 
