@@ -347,7 +347,7 @@
         </el-pagination>
       </div>
 
-      <button type="button" class="weiding" @click="putyijianqingkong">清空</button>
+      <button type="button" class="" @click="putyijianqingkong">清空</button>
     </div>
   </div>
 </template>

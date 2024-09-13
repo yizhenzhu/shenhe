@@ -563,6 +563,7 @@ export default {
 .grid-content {
   border-radius: 4px;
   min-height: 24px;
+  margin-right: 10px;
 }
 ::v-deep .el-input--mini .el-input__inner {
   width: 210px;

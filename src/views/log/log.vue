@@ -126,7 +126,7 @@
       <el-table-column
         prop="url"
         label="URL"
-        width="130px"
+        width="150px"
         show-overflow-tooltip
       >
       </el-table-column>
@@ -140,7 +140,7 @@
       <el-table-column
         prop="label"
         label="类型"
-        width="70px"
+        width="100px"
         show-overflow-tooltip
       ></el-table-column>
       <el-table-column
@@ -148,7 +148,7 @@
         label="创建时间"
         sortable
         show-overflow-tooltip
-        width="100px"
+        width="135px"
       ></el-table-column>
       <el-table-column
         prop="machine_audit_status"
@@ -162,7 +162,7 @@
         label="机审时间"
         sortable
         show-overflow-tooltip
-        width="100px"
+        width="135px"
       >
       </el-table-column>
       <el-table-column

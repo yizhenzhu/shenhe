@@ -31,19 +31,12 @@ import dayjs from "dayjs";
 export default {
   data() {
     return {
-      // defaultUrl: "/reviewed",
       showPopup: false,
       pid: [],
       Newname: [],
       Newname1: [],
       items: [],
       items2: [
-        /* {
-          menuName: "首页",
-          menuUrl: "/welcome",
-          name: "welcome",
-          menuType: 1,
-        }, */
         {
           menuName: "警情",
           menuUrl: "/jingqing",
@@ -57,18 +50,6 @@ export default {
               menuType: 1,
               //menuType:0
             },
-            /* {
-              menuName: "警情审核",
-              menuUrl: "/jqsh",
-              name: "jqsh",
-              menuType: 1,
-            },
-            {
-              menuName: "警情处置",
-              menuUrl: "/jqcz",
-              name: "jqcz",
-              menuType: 1,
-            }, */
           ],
         },
         {
@@ -127,7 +108,7 @@ export default {
               //menuType:0
             },
             {
-              menuName: "结果",
+              menuName: "审核日志",
               menuUrl: "/jieguo",
               name: "jieguo",
               menuType: 1,
@@ -156,11 +137,16 @@ export default {
               //menuType:0
             },
             {
+              menuName: "审核日志",
+              menuUrl: "/repository",
+              name: "repository",
+              menuType: 1,
+            },
+            {
               menuName: "处置库",
               menuUrl: "/result",
               name: "result",
               menuType: 1,
-              //menuType:0
             },
           ],
         },

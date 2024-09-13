@@ -78,7 +78,7 @@ const routes = [
         path: '/jieguo',
         name: 'jieguo',
         meta: {
-          title: '结果'
+          title: '审核日志'
         },
         component: () => import("../views/jieguo/jieguo")
       },
@@ -100,10 +100,18 @@ const routes = [
       },
 
       {
+        path: '/repository',
+        name: 'repository',
+        meta: {
+          title: '审核日志'
+        },
+        component: () => import("../views/repository/repository")
+      },
+      {
         path: '/result',
         name: 'result',
         meta: {
-          title: '结果'
+          title: '处置库'
         },
         component: () => import("../views/result/result")
       },

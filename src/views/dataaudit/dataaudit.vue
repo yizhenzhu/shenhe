@@ -51,31 +51,48 @@
             >
           </div>
           <!-- 文件上传弹出框 -->
-          <el-dialog :visible.sync="uploadDialogVisible" title="文件上传">
+          <el-dialog
+            :visible.sync="uploadDialogVisible"
+            title="文件上传"
+            width="500px"
+          >
             <div class="button-group-vertical">
+              <el-form-item label="类型">
+                <el-select
+                  v-model="form.source"
+                  placeholder="请选择类型"
+                  @change="handleSourceChange"
+                  clearable
+                >
+                  <el-option
+                    v-for="item in sourceList"
+                    :key="item.id"
+                    :label="item.content"
+                    :value="item.id"
+                  >
+                  </el-option>
+                </el-select>
+              </el-form-item>
               <el-upload
                 ref="upload"
                 class="upload-demo"
                 accept=".xlsx,.csv,.text"
-                action="/dataaudit/upload/file"
+                action="/upload-placeholder"
+                :http-request="dummyRequest"
                 :before-remove="beforeRemove"
-                :on-success="successSendFile"
                 :on-exceed="handleExceed"
                 multiple
                 :limit="3"
               >
-                <!-- datas.upload_method -->
                 <el-button size="mini" type="primary">点击上传</el-button>
                 <div slot="tip" class="el-upload__tip">上传文件</div>
               </el-upload>
             </div>
             <span slot="footer" class="dialog-footer">
-              <el-button
-                type="primary"
-                @click="uploadDialogVisible = false"
-                size="mini"
-                >取 消</el-button
+              <el-button type="primary" @click="confirmUpload" size="mini"
+                >确 定</el-button
               >
+              <el-button @click="cancelUpload" size="mini">取 消</el-button>
             </span>
           </el-dialog>
           <!-- 接口上传弹出框 -->
@@ -165,7 +182,7 @@ export default {
           dayjs().subtract(1, "week").format("YYYY-MM-DD"),
           dayjs(new Date()).format("YYYY-MM-DD"),
         ],
-        // username: null,
+        source: null, // 添加来源类型
       },
       whiteSearchList: {
         startCreateTime: dayjs().subtract(1, "week").format("YYYY-MM-DD"),
@@ -178,6 +195,7 @@ export default {
       },
       total: 0, //总条目数
       //文件上传
+      sourceList: [], // 保存类型查询的数据
       uploadDialogVisible: false,
       loadingbut: false,
     };
@@ -186,11 +204,10 @@ export default {
     this.techlist(); // 确保组件挂载后获取数据
   },
  */
+
   created() {
-    /* this.suoshudi();
-    this.suoshudi2(); */
     this.techlist();
-    console.log("jqsc");
+    this.fetchSourceList(); // 获取类型查询的下拉数据
   },
   computed: {
     totalPages() {
@@ -222,6 +239,66 @@ export default {
         this.loading = false;
       }
     },
+    dummyRequest() {
+      // 空函数，阻止自动上传
+    },
+    // 获取类型查询下拉框数据
+    async fetchSourceList() {
+      try {
+        const { data: res } = await axios.get("/dataaudit/source/list");
+        if (res.code === 200) {
+          this.sourceList = res.datas;
+        }
+      } catch (error) {
+        console.error("获取类型列表失败", error);
+      }
+    },
+    // 确定按钮上传
+    async confirmUpload() {
+      const uploadFiles = this.$refs.upload.uploadFiles; // 获取上传的文件
+      if (uploadFiles.length === 0 || !this.form.source) {
+        this.$message.warning("请选择文件和来源类型");
+        return;
+      }
+      const formData = new FormData();
+      uploadFiles.forEach((file) => {
+        formData.append("file", file.raw); // 添加文件到formData
+      });
+      formData.append("source", this.form.source); // 添加来源类型
+
+      try {
+        const { data: res } = await axios.post(
+          "/dataaudit/upload/file",
+          formData
+        );
+        if (res.code === 200) {
+          this.$message.success("上传成功");
+          this.clearUploadData(); // 清空内容
+          this.uploadDialogVisible = false; // 关闭弹窗
+        } else {
+          this.$message.error(res.message);
+        }
+      } catch (error) {
+        console.error("上传失败", error);
+      }
+    },
+    // 取消按钮逻辑
+    cancelUpload() {
+      this.clearUploadData(); // 清空内容
+      this.uploadDialogVisible = false; // 关闭弹窗
+    },
+
+    // 清空上传文件和选择的来源
+    clearUploadData() {
+      this.$refs.upload.clearFiles(); // 清空上传文件
+      this.form.source = null; // 清空选择的来源
+    },
+
+    // 处理来源类型变化
+    handleSourceChange(value) {
+      this.form.source = value;
+    },
+
     mounted() {
       this.techlist(); // 组件挂载时获取初始数据
     },
@@ -256,19 +333,6 @@ export default {
     //删除
     beforeRemove(file, fileList) {
       return this.$confirm(`确定移除 ${file.name}？`);
-    },
-    // 文件上传
-    successSendFile(res) {
-      // this.loading=true
-      if (res.code == 200) {
-        // setTimeout(() => {
-        this.$message.success("上传成功");
-        this.getTabData();
-        this.$refs.upload.clearFiles();
-        // }, 1000)
-      } else {
-        this.$message(res.message);
-      }
     },
     //上传
     handleExceed(files, fileList) {
@@ -387,9 +451,19 @@ export default {
   word-wrap: break-word;
 }
 //模板下载和点击上传
+.button-group-vertical .el-form-item {
+  height: 45px;
+  margin-bottom: 20px;
+  display: flex;
+}
 .button-group-vertical {
-  // display: flex;
+  display: flex;
   flex-direction: column;
+  margin-left: 30px;
+}
+.upload-demo {
+  align-items: center;
+  margin-left: 35px;
 }
 </style>
 <!-- 两个按钮上下布局距离调整 -->

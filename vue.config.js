@@ -4,8 +4,6 @@ module.exports = {
   devServer: {
     proxy: {
       '': {
-        // target:'http://172.19.19.50:8000',
-        // target: 'http://10.8.0.120:8000',//测试地址
         // target:'http://10.8.0.249:8805',//线上地址newnew
         target:'http://172.19.19.41:8000',//服务器地址newnew
         ws: true,
