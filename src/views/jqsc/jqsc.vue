@@ -244,13 +244,13 @@ export default {
         schuan: null,
         selectURL: null,
         datetime: [
-          dayjs().subtract(1, "week").format("YYYY-MM-DD"),
+          dayjs().subtract(6, "day").format("YYYY-MM-DD"),
           dayjs(new Date()).format("YYYY-MM-DD"),
         ],
         // username: null,
       },
       whiteSearchList: {
-        startCreateTime: dayjs().subtract(1, "week").format("YYYY-MM-DD"),
+        startCreateTime: dayjs().subtract(6, "day").format("YYYY-MM-DD"),
         endCreateTime: dayjs(new Date()).format("YYYY-MM-DD"),
       },
       tableData: [],
@@ -300,15 +300,6 @@ export default {
       }
       this.techlist();
     },
-    //来源下拉框
-    /*  async suoshudi2() {
-      this.loading = true;
-      const { data: res } = await promise1;
-      if (res.code === 200) {
-        this.selectData.laiyuan = res.data;
-      }
-      this.techlist();
-    }, */
     async suoshudi2() {
       this.loading = true;
       try {
@@ -378,7 +369,7 @@ export default {
 
       // 恢复原来的时间区间
       this.form.datetime = [
-        dayjs().subtract(1, "week").format("YYYY-MM-DD"),
+        dayjs().subtract(6, "day").format("YYYY-MM-DD"),
         dayjs(new Date()).format("YYYY-MM-DD"),
       ];
 

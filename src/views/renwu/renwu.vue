@@ -225,12 +225,12 @@ export default {
         task_type: "",
         status: "",
         datetime: [
-          dayjs().subtract(1, "week").format("YYYY-MM-DD"),
+          dayjs().subtract(6, "day").format("YYYY-MM-DD"),
           dayjs(new Date()).format("YYYY-MM-DD"),
         ],
       },
       whiteSearchList: {
-        startCreateTime: dayjs().subtract(1, "week").format("YYYY-MM-DD"),
+        startCreateTime: dayjs().subtract(6, "day").format("YYYY-MM-DD"),
         endCreateTime: dayjs(new Date()).format("YYYY-MM-DD"),
       },
       tableData: [],
@@ -279,7 +279,7 @@ export default {
 
       // 恢复原来的时间区间
       this.form.datetime = [
-        dayjs().subtract(1, "week").format("YYYY-MM-DD"),
+        dayjs().subtract(6, "day").format("YYYY-MM-DD"),
         dayjs(new Date()).format("YYYY-MM-DD"),
       ];
 

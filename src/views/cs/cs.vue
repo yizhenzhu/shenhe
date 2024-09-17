@@ -180,7 +180,7 @@ export default {
       form: {
         laiyuan: null, // laiyuan
         datetime: [
-          dayjs().subtract(1, "week").format("YYYY-MM-DD"),
+          dayjs().subtract(6, "day").format("YYYY-MM-DD"),
           dayjs(new Date()).format("YYYY-MM-DD"),
         ],
         boxes: Array(30)
@@ -196,7 +196,7 @@ export default {
       },
       batchAction: null, // 新增属性，用于批量操作
       whiteSearchList: {
-        startCreateTime: dayjs().subtract(1, "week").format("YYYY-MM-DD"),
+        startCreateTime: dayjs().subtract(6, "day").format("YYYY-MM-DD"),
         endCreateTime: dayjs(new Date()).format("YYYY-MM-DD"),
       },
       tableData: [],
@@ -321,7 +321,7 @@ export default {
       this.form.laiyuan = null;
       // 恢复原来的时间区间
       this.form.datetime = [
-        dayjs().subtract(1, "week").format("YYYY-MM-DD"),
+        dayjs().subtract(6, "day").format("YYYY-MM-DD"),
         dayjs(new Date()).format("YYYY-MM-DD"),
       ];
       // 重新加载数据

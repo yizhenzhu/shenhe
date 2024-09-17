@@ -179,13 +179,13 @@ export default {
         url: "", // url
         selectURL: null,
         datetime: [
-          dayjs().subtract(1, "week").format("YYYY-MM-DD"),
+          dayjs().subtract(6, "day").format("YYYY-MM-DD"),
           dayjs(new Date()).format("YYYY-MM-DD"),
         ],
         source: null, // 添加来源类型
       },
       whiteSearchList: {
-        startCreateTime: dayjs().subtract(1, "week").format("YYYY-MM-DD"),
+        startCreateTime: dayjs().subtract(6, "day").format("YYYY-MM-DD"),
         endCreateTime: dayjs(new Date()).format("YYYY-MM-DD"),
       },
       tableData: [],
@@ -313,7 +313,7 @@ export default {
 
       // 恢复原来的时间区间
       this.form.datetime = [
-        dayjs().subtract(1, "week").format("YYYY-MM-DD"),
+        dayjs().subtract(6, "day").format("YYYY-MM-DD"),
         dayjs(new Date()).format("YYYY-MM-DD"),
       ];
 

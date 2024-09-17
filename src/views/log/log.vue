@@ -298,13 +298,13 @@ export default {
         url: "", // url
         laiyuan: null, // laiyuan
         datetime: [
-          dayjs().subtract(1, "week").format("YYYY-MM-DD"),
+          dayjs().subtract(6, "day").format("YYYY-MM-DD"),
           dayjs(new Date()).format("YYYY-MM-DD"),
         ],
         // username: null,
       },
       whiteSearchList: {
-        startCreateTime: dayjs().subtract(1, "week").format("YYYY-MM-DD"),
+        startCreateTime: dayjs().subtract(6, "day").format("YYYY-MM-DD"),
         endCreateTime: dayjs(new Date()).format("YYYY-MM-DD"),
       },
       tableData: [],
@@ -423,15 +423,15 @@ export default {
 
       // 恢复原来的时间区间
       this.form.datetime = [
-        dayjs().subtract(1, "week").format("YYYY-MM-DD"),
+        dayjs().subtract(6, "day").format("YYYY-MM-DD"),
         dayjs(new Date()).format("YYYY-MM-DD"),
       ];
 
-      this.form.machine_audit_status = null;
-      (this.form.first_audit_status = null),
-        (this.form.second_audit_status = null);
-      // 重新加载数据
-      this.techlist();
+      (this.form.machine_audit_status = null),
+        (this.form.first_audit_status = null),
+        (this.form.second_audit_status = null),
+        // 重新加载数据
+        this.techlist();
     },
     getIndex($index) {
       //$index为数据下标,对英序号要加一
