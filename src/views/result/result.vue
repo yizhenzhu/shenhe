@@ -1,10 +1,74 @@
 <template>
   <div class="right_main_under">
-    <div class="button-container">
-      <el-button type="primary" @click="getData">查询</el-button>
-      <el-button class="blue" @click="exportCurrentPage">一键导出</el-button>
-      <el-button class="weiding" @click="clearup">清空</el-button>
-    </div>
+    <el-form size="mini" label-width="80px" :inline="true">
+      <el-row :gutter="20">
+        <el-col :span="18">
+          <div class="grid-content bg-purple">
+            <el-form-item>
+              <el-select
+                v-model="form.laiyuan"
+                placeholder="来源"
+                clearable
+                @clear="chushen_clearFun(form.laiyuan)"
+              >
+                <el-option
+                  v-for="item in selectData.laiyuan"
+                  :key="item.value"
+                  :label="item.content"
+                  :value="item.id"
+                >
+                </el-option>
+              </el-select>
+            </el-form-item>
+
+            <el-form-item>
+              <el-select
+                v-model="form.audit_method"
+                placeholder="处置方式"
+                clearable
+              >
+                <el-option
+                  v-for="item in selectData.audit_method"
+                  :key="item.value"
+                  :label="item.content"
+                  :value="item.id"
+                >
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item>
+              <el-date-picker
+                v-model="form.datetime"
+                type="daterange"
+                :change="dataCreate_change"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                value-format="yyyy-MM-dd"
+                :clearable="false"
+              >
+              </el-date-picker>
+            </el-form-item></div
+        ></el-col>
+        <el-col :span="6"
+          ><div class="grid-content bg-purple" style="float: right">
+            <el-button
+              size="mini"
+              type="primary"
+              class="custom-button"
+              @click="chaxun"
+              >查询</el-button
+            >
+            <el-button size="mini" class="blue" @click="exportCurrentPage"
+              >一键导出</el-button
+            >
+            <el-button size="mini" class="weiding" @click="clearup"
+              >清空</el-button
+            >
+          </div>
+        </el-col>
+      </el-row>
+    </el-form>
     <!-- 列表 -->
     <el-table
       border
@@ -52,17 +116,10 @@
         min-width="8%"
       >
       </el-table-column>
-      <el-table-column
-        prop="ip"
-        label="IP"
-        show-overflow-tooltip
-        min-width="8%"
-      >
-      </el-table-column>
 
       <el-table-column
-        prop="rank"
-        label="排名"
+        prop="block_time"
+        label="处置时间"
         show-overflow-tooltip
         min-width="8%"
       >
@@ -104,12 +161,27 @@ export default {
     return {
       loading: false,
       tableData: [],
+      form: {
+        laiyuan: null, // laiyuan
+        audit_method: null,
+        datetime: [
+          dayjs().subtract(6, "day").format("YYYY-MM-DD"),
+          dayjs().format("YYYY-MM-DD"),
+        ],
+      },
+      whiteSearchList: {
+        startCreateTime: dayjs().subtract(6, "day").format("YYYY-MM-DD"),
+        endCreateTime: dayjs().format("YYYY-MM-DD"),
+      },
       mypageable: {
         pageSize: 50,
         pageNum: 1,
       },
       total: 0,
-      // totalPages: 1,
+      selectData: {
+        laiyuan: [], // 初始化为空数组
+        audit_method: [], // 初始化为空数组
+      },
     };
   },
   computed: {
@@ -117,37 +189,77 @@ export default {
       return Math.ceil(this.total / this.mypageable.pageSize);
     },
   },
+  created() {
+    this.techlist();
+    this.fetchSourceData();
+    this.fetchAuditMethodData();
+  },
   methods: {
-    getData() {
+    async techlist() {
       this.loading = true;
-      axios
-        .get("/dataaudit/res/list", {
-          params: {
-            page: this.mypageable.pageNum,
-            per_page: this.mypageable.pageSize,
-          },
-        })
-        .then((response) => {
-          const res = response.data;
-          // this.tableData = res.datas;
-          // this.total = res.total;
-          // this.totalPages = res.total_page;
-          // this.loading = false;
-          if (res.code === 200) {
-            // 显示数据
-            this.tableData = res.datas;
-            this.total = res.total;
-            this.loading = false;
-          } else if (res.code === 204) {
-            // 数据为 0 页 0 条
-            this.tableData = [];
-            this.total = 0;
-            this.loading = false;
-          }
-        })
-        .catch(() => {
-          this.loading = false;
-        });
+      let list = {
+        start: this.form.datetime[0],
+        end: this.form.datetime[1],
+        // source: this.form.laiyuan,
+        // method: this.form.audit_method,
+        page: this.mypageable.pageNum,
+        page_size: this.mypageable.pageSize,
+      };
+      console.log(this.form);
+      console.log(this.selectData);
+      const { data: res } = await this.$http.get("/dataaudit/res/list", {
+        params: list,
+      });
+      if (res.code == 200) {
+        this.total = res.total;
+        this.tableData = res.datas;
+        this.loading = false;
+      } else if (res.code === 204) {
+        this.selectData = [];
+        this.loading = false;
+      } else {
+        this.$message(res.message);
+        this.loading = false;
+      }
+    },
+    async fetchSourceData() {
+      try {
+        const response = await axios.get("/dataaudit/source/list");
+        if (response.data.code === 200) {
+          console.log(data, "okk");
+
+          this.selectData.laiyuan = response.data.datas.map((item) => ({
+            value: item.id,
+            label: item.content,
+          }));
+        }
+      } catch (error) {
+        console.error("获取来源数据失败:", error);
+      }
+    },
+    // 获取处置方式数据
+    async fetchAuditMethodData() {
+      try {
+        const { data: res } = await axios.get("/dataaudit/res/method");
+        if (res.code === 200) {
+          this.selectData.audit_method = res.datas.map((item) => ({
+            value: item.id,
+            label: item.content,
+          }));
+        }
+      } catch (error) {
+        console.error("获取处置方式数据失败:", error);
+      }
+    },
+    dataCreate_change(val) {
+      if (val && val.length === 2) {
+        this.form.datetime = val;
+        this.techlist(); // 调用获取数据的方法
+      }
+    },
+    chaxun() {
+      this.mypageable.pageNum = 1;
+      this.techlist();
     },
     exportCurrentPage() {
       axios
@@ -170,12 +282,9 @@ export default {
     },
     handleCurrentChange(newPage) {
       this.mypageable.pageNum = newPage;
-      this.getData();
+      this.techlist();
     },
   },
-  /* mounted() {
-    this.getData();
-  }, */
 };
 </script>
 
@@ -183,19 +292,29 @@ export default {
 .right_main_under {
   margin: 15px 0 10px 0;
   box-sizing: border-box;
-  position: relative;
+  // position: relative;
 }
-/* 按钮容器 */
-.button-container {
-  display: flex;
-  gap: 10px;
-  justify-content: flex-end; /* 按钮居右对齐 */
-  margin-right: 20px; /* 与表单右边的距离 */
-  margin-bottom: 10px;
+.grid-content {
+  border-radius: 4px;
+  min-height: 24px;
+  margin-right: 10px;
 }
-// .el-col {
-//   border-radius: 4px;
-// }
+::v-deep .el-input--mini .el-input__inner {
+  width: 210px;
+}
+::v-deep .el-form-item:first-child {
+  .el-form-item__content {
+    width: 100%;
+
+    .el-input__inner {
+      width: 100%;
+    }
+  }
+}
+.custom-button {
+  font-size: 14px;
+  padding: 10px 20px;
+}
 /* 一键导出按钮 */
 .blue {
   width: 100px;
@@ -217,7 +336,7 @@ export default {
   color: #fff;
   height: 36px;
   border-radius: 5px;
-  cursor: pointer;
+  // cursor: pointer;
   text-align: center;
 }
 
