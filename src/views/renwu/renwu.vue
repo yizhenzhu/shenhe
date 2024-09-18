@@ -304,8 +304,6 @@ export default {
     },
     //上传
     handleFileUpload(params) {
-      // this.taskForm.fileList = [params.file];
-      // console.log("file type:", params.file.type); // 打印文件类型
       // 将文件添加到 fileList 中
       this.taskForm.fileList.push(params.file);
       console.log("文件类型:", params.file.type); // 打印文件类型

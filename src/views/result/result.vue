@@ -12,8 +12,8 @@
                 @clear="chushen_clearFun(form.laiyuan)"
               >
                 <el-option
-                  v-for="item in selectData.laiyuan"
-                  :key="item.value"
+                  v-for="item in laiyuan"
+                  :key="item.id"
                   :label="item.content"
                   :value="item.id"
                 >
@@ -28,8 +28,8 @@
                 clearable
               >
                 <el-option
-                  v-for="item in selectData.audit_method"
-                  :key="item.value"
+                  v-for="item in audit_method"
+                  :key="item.id"
                   :label="item.content"
                   :value="item.id"
                 >
@@ -178,10 +178,8 @@ export default {
         pageNum: 1,
       },
       total: 0,
-      selectData: {
-        laiyuan: [], // 初始化为空数组
-        audit_method: [], // 初始化为空数组
-      },
+      laiyuan: [], // 初始化为空数组
+      audit_method: [], // 初始化为空数组
     };
   },
   computed: {
@@ -190,9 +188,9 @@ export default {
     },
   },
   created() {
-    this.techlist();
     this.fetchSourceData();
     this.fetchAuditMethodData();
+    this.techlist();
   },
   methods: {
     async techlist() {
@@ -200,13 +198,10 @@ export default {
       let list = {
         start: this.form.datetime[0],
         end: this.form.datetime[1],
-        // source: this.form.laiyuan,
-        // method: this.form.audit_method,
         page: this.mypageable.pageNum,
         page_size: this.mypageable.pageSize,
       };
       console.log(this.form);
-      console.log(this.selectData);
       const { data: res } = await this.$http.get("/dataaudit/res/list", {
         params: list,
       });
@@ -215,7 +210,7 @@ export default {
         this.tableData = res.datas;
         this.loading = false;
       } else if (res.code === 204) {
-        this.selectData = [];
+        this.tableData = [];
         this.loading = false;
       } else {
         this.$message(res.message);
@@ -224,14 +219,15 @@ export default {
     },
     async fetchSourceData() {
       try {
-        const response = await axios.get("/dataaudit/source/list");
-        if (response.data.code === 200) {
-          console.log(data, "okk");
+        const { data: res } = await axios.get("/dataaudit/source/list");
+        if (res.code === 200) {
+          console.log("list data res:", res.data); // 调试来源数据
 
-          this.selectData.laiyuan = response.data.datas.map((item) => ({
-            value: item.id,
-            label: item.content,
+          this.laiyuan = res.datas.map((item) => ({
+            id: item.id,
+            content: item.content,
           }));
+          console.log("list处理结果:", this.laiyuan); // 调试处理后的来源数据
         }
       } catch (error) {
         console.error("获取来源数据失败:", error);
@@ -242,10 +238,11 @@ export default {
       try {
         const { data: res } = await axios.get("/dataaudit/res/method");
         if (res.code === 200) {
-          this.selectData.audit_method = res.datas.map((item) => ({
-            value: item.id,
-            label: item.content,
+          this.audit_method = res.datas.map((item) => ({
+            id: item.id,
+            content: item.content,
           }));
+          console.log("method处理结果", this.audit_method); // 调试处理后的处置方式数据
         }
       } catch (error) {
         console.error("获取处置方式数据失败:", error);
