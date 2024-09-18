@@ -223,7 +223,7 @@ export default {
   bottom: 0;
 
   // height: 100%;
-  // overflow-y: scroll;
+  overflow-y: scroll;
   // ---垂直方向上的滚动条（控制元素在垂直方向上的溢出内容的显示方式）
 }
 .sidebar::-webkit-scrollbar {
