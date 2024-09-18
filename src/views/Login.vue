@@ -70,7 +70,7 @@ export default {
     // this.$store.commit("clearTags");
   },
   methods: {
-    submitForm(param) {
+    async submitForm(param) {
       this.loading = true; //当前登陆界面--圆圈
       const token = uuidv4();
       this.$refs[param].validate(async (valid) => {
@@ -102,6 +102,28 @@ export default {
               );
               window.sessionStorage.setItem("token", JSON.stringify(token));
               // window.sessionStorage.setItem("isLogin", "true");
+
+              /*  // 根据角色和权限控制页面跳转
+              if (role === "SuperAdmin") {
+                this.$router.push("/cases"); // 超管有所有权限
+              } else if (role === "Admin") {
+                this.$router.push("/cases"); // 管理员跳转，但不能看到系统管理页面
+              } else if (role === "User") {
+                // 普通用户根据 permissions 控制展示的模块
+                if (permissions.includes("CASE")) {
+                  this.$router.push("/case-module");
+                } else if (permissions.includes("CASEAUDIT")) {
+                  this.$router.push("/audit-module");
+                } else if (permissions.includes("URLTASK")) {
+                  this.$router.push("/url-task-module");
+                } else if (permissions.includes("DIAOYU")) {
+                  this.$router.push("/phishing-module");
+                } else if (permissions.includes("DATAAUDIT")) {
+                  this.$router.push("/data-audit-module");
+                } else {
+                  this.$message.error("没有可访问的权限");
+                }
+              } */
 
               this.loading = false;
               this.$router.push("/cases");

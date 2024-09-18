@@ -150,6 +150,12 @@ export default {
             },
           ],
         },
+        {
+          menuName: "系统管理",
+          menuUrl: "/management",
+          name: "management",
+          menuType: 0,
+        },
       ],
     };
   },
