@@ -188,9 +188,7 @@ export default {
       loading: false,
       form: {
         datetime: [
-          /* dayjs().format("YYYY-MM-DD"), // 默认起始日期为今天
-          dayjs().format("YYYY-MM-DD"), // 默认结束日期为今天 */
-          dayjs().subtract(6, "day").format("YYYY-MM-DD"),
+          dayjs().subtract(1, "month").format("YYYY-MM-DD"),
           dayjs(new Date()).format("YYYY-MM-DD"),
         ],
         url: "",
@@ -199,12 +197,6 @@ export default {
       },
       auditStatusOptions: [],
       submitStatusOptions: [],
-      whiteSearchList: {
-        /* startCreateTime: dayjs().format("YYYY-MM-DD"),
-        endCreateTime: dayjs().format("YYYY-MM-DD"), */
-        startCreateTime: dayjs().subtract(6, "day").format("YYYY-MM-DD"),
-        endCreateTime: dayjs(new Date()).format("YYYY-MM-DD"),
-      },
       tableData: [],
       mypageable: {
         pageNum: 1, //当前页码
@@ -228,11 +220,6 @@ export default {
       return Math.ceil(this.total / this.mypageable.pageSize);
     },
   },
-  /*   watch: {
-    "form.url"(newValue) {
-      console.log("URL changed to:", newValue);
-    },
-  }, */
 
   methods: {
     async techlist() {
@@ -317,7 +304,7 @@ export default {
       this.form.submitStatus = null;
       // 恢复原来的时间区间
       this.form.datetime = [
-        dayjs().subtract(6, "day").format("YYYY-MM-DD"),
+        dayjs().subtract(1, "month").format("YYYY-MM-DD"),
         dayjs(new Date()).format("YYYY-MM-DD"),
       ];
 

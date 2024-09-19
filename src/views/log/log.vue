@@ -303,10 +303,6 @@ export default {
         ],
         // username: null,
       },
-      whiteSearchList: {
-        startCreateTime: dayjs().subtract(6, "day").format("YYYY-MM-DD"),
-        endCreateTime: dayjs(new Date()).format("YYYY-MM-DD"),
-      },
       tableData: [],
       mypageable: {
         pageNum: 1, //当前页码

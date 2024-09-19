@@ -200,13 +200,9 @@ export default {
       form: {
         url: "",
         datetime: [
-          dayjs().format("YYYY-MM-DD"), // 默认起始日期为今天
-          dayjs().format("YYYY-MM-DD"), // 默认结束日期为今天
+          dayjs().subtract(1, "month").format("YYYY-MM-DD"),
+          dayjs(new Date()).format("YYYY-MM-DD"),
         ],
-      },
-      whiteSearchList: {
-        startCreateTime: dayjs().format("YYYY-MM-DD"),
-        endCreateTime: dayjs().format("YYYY-MM-DD"),
       },
       tableData: [],
       mypageable: {
@@ -269,8 +265,10 @@ export default {
     },
     chongzhi() {
       this.form.url = "";
-      const today = dayjs().format("YYYY-MM-DD");
-      this.form.datetime = [today, today];
+      this.form.datetime = [
+        dayjs().subtract(1, "month").format("YYYY-MM-DD"),
+        dayjs(new Date()).format("YYYY-MM-DD"),
+      ];
 
       this.whiteSearchList.startCreateTime = today;
       this.whiteSearchList.endCreateTime = today;
