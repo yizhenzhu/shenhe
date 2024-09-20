@@ -155,6 +155,15 @@ export default {
           menuUrl: "/management",
           name: "management",
           menuType: 0,
+          children: [
+            {
+              menuName: "用户管理",
+              menuUrl: "/user",
+              name: "user",
+              menuType: 1,
+              //menuType:0
+            },
+          ],
         },
       ],
     };

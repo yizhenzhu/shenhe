@@ -115,6 +115,14 @@ const routes = [
         },
         component: () => import("../views/result/result")
       },
+      {
+      path: '/user',
+      name: 'user',
+      meta: {
+        title: '用户管理'
+      },
+      component: () => import("../views/user/user")
+    },
     ],
     component: Home
   },

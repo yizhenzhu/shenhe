@@ -147,8 +147,6 @@
     >
       <el-form :model="taskForm" ref="taskForm" label-width="100px">
         <el-form-item label="任务类型">
-          <!-- <el-select v-model="taskForm.taskType" placeholder="查询境外" class="small-select">
-          </el-select> -->
           <el-select
             v-model="taskForm.taskType"
             placeholder="选择任务类型"
