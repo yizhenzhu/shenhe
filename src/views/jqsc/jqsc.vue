@@ -93,31 +93,67 @@
             >
           </div>
           <!-- 文件上传弹出框 -->
-          <el-dialog :visible.sync="uploadDialogVisible" title="文件上传">
-            <div class="button-group-vertical">
+          <el-dialog
+            :visible.sync="uploadDialogVisible"
+            title="文件上传"
+            width="500px"
+          >
+            <el-form label-width="80px" :inline="true">
+              <el-form-item label="来源" style="margin-right: 50px">
+                <el-select
+                  v-model="form.laiyuan"
+                  placeholder="请选择来源"
+                  clearable
+                  class="small-select"
+                >
+                  <el-option
+                    v-for="item in selectData.laiyuan"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id"
+                  >
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-form>
+            <el-button
+              size="mini"
+              type="primary"
+              @click="downloadTemplate"
+              style="font-size: 14px; margin: 10px 40px"
+              >模板下载</el-button
+            >
+            <el-upload
+              ref="upload"
+              class="upload-demo"
+              accept=".xlsx,.csv,.text"
+              :before-remove="beforeRemove"
+              action="#"
+              :on-success="successSendFile"
+              :on-exceed="handleExceed"
+              :on-change="handleFileChange"
+              :before-upload="() => false"
+              multiple
+              :limit="3"
+            >
               <el-button
                 size="mini"
                 type="primary"
-                @click="downloadTemplate"
-                class="bottom-margin"
-                >模板下载</el-button
+                style="font-size: 14px; margin: 10px 40px"
+                >点击上传</el-button
               >
-              <el-upload
-                ref="upload"
-                class="upload-demo"
-                accept=".xlsx,.csv,.text"
-                action="/cases/upload"
-                :before-remove="beforeRemove"
-                :on-success="successSendFile"
-                :on-exceed="handleExceed"
-                multiple
-                :limit="3"
+              <div
+                slot="tip"
+                class="el-upload__tip"
+                style="font-size: 12px; margin: 10px 40px"
               >
-                <el-button size="mini" type="primary">点击上传</el-button>
-                <div slot="tip" class="el-upload__tip">上传文件</div>
-              </el-upload>
-            </div>
+                只能上传 .xlsx, .csv, .text 文件
+              </div>
+            </el-upload>
             <span slot="footer" class="dialog-footer">
+              <el-button type="primary" @click="confirmUpload" size="mini"
+                >确 定</el-button
+              >
               <el-button
                 type="primary"
                 @click="uploadDialogVisible = false"
@@ -316,6 +352,43 @@ export default {
       } finally {
         this.loading = false;
       }
+    },
+    handleFileChange(file, fileList) {
+      this.uploadedFiles = fileList; // 保留上传的文件
+    },
+    // 确认上传按钮方法
+    confirmUpload() {
+      if (!this.form.laiyuan) {
+        this.$message.error("来源不能为空");
+        return;
+      }
+      if (this.uploadedFiles.length === 0) {
+        this.$message.error("请上传文件");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("source", this.form.laiyuan);
+      this.uploadedFiles.forEach((file) => {
+        formData.append("file", file.raw);
+      });
+      axios
+        .post("/cases/upload", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((response) => {
+          if (response.data.code === 200) {
+            this.$message.success("上传成功");
+            this.uploadDialogVisible = false;
+            // 清空来源和上传文件内容
+            this.form.laiyuan = null;
+            this.uploadedFiles.clearFiles();
+          } else {
+            this.$message.error(response.data.message);
+          }
+        });
     },
 
     async techlist() {
@@ -571,6 +644,11 @@ export default {
     }
   }
 }
+.small-select {
+  width: 200px;
+  font-size: 10px;
+  padding-left: 40px;
+}
 .bottom {
   width: 100%;
   height: 3.75rem /* 60/16 */ /* 40/16 */;
@@ -595,15 +673,6 @@ export default {
   white-space: pre-wrap;
   word-break: break-all;
   word-wrap: break-word;
-}
-//模板下载和点击上传
-.button-group-vertical {
-  // display: flex;
-  flex-direction: column;
-}
-
-.bottom-margin {
-  margin-bottom: 10px; /* Adjust the margin as needed */
 }
 </style>
 <!-- 两个按钮上下布局距离调整 -->
