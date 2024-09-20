@@ -260,6 +260,7 @@ export default {
       }
     },
     chaxun() {
+      this.form.url = this.form.url.trim();
       this.mypageable.pageNum = 1;
       this.techlist();
     },

@@ -381,6 +381,8 @@ export default {
       this.techlist(); // 组件挂载时获取初始数据
     },
     chaxun() {
+      // 修剪输入框中的空格
+      this.form.url = this.form.url.trim();
       this.mypageable.pageNum = 1;
       this.techlist();
     },

@@ -290,10 +290,12 @@ export default {
       }
     },
     chaxun() {
+      this.form.url = this.form.url.trim();
+
       this.mypageable.pageNum = 1;
       this.whiteSearchList.startCreateTime = this.form.datetime[0];
       this.whiteSearchList.endCreateTime = this.form.datetime[1];
-      this.whiteSearchList.url = this.form.url.trim(); // 使用最新的表单值
+      this.whiteSearchList.url = this.form.url.trim();
       this.techlist();
     },
     chongzhi() {

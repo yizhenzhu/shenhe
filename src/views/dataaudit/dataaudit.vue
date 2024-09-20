@@ -303,6 +303,7 @@ export default {
       this.techlist(); // 组件挂载时获取初始数据
     },
     chaxun() {
+      this.form.url = this.form.url.trim();
       this.mypageable.pageNum = 1;
       this.techlist();
       // this.form.url = ""; // 查询结束后清空输入框内容

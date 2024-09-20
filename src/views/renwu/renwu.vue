@@ -262,6 +262,7 @@ export default {
   },
   methods: {
     chaxun() {
+      this.form.task_id = this.form.task_id.trim();
       this.mypageable.pageNum = 1;
       this.techlist();
     },
